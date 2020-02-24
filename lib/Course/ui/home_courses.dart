@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lineclass/User/ui/widgets/user_welcome.dart';
 import 'package:lineclass/widgets/app_bar.dart';
 
 class HomeCourses extends StatelessWidget {
@@ -9,7 +10,7 @@ class HomeCourses extends StatelessWidget {
   Widget build(BuildContext context) {
 
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    //double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Column(
@@ -17,7 +18,8 @@ class HomeCourses extends StatelessWidget {
           OwnAppBar(
             width: screenWidth,
             height: appBarHeight,
-          )
+          ),
+          UserWelcome()
         ],
       ),
     );

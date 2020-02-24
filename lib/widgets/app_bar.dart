@@ -18,10 +18,11 @@ class OwnAppBar extends StatelessWidget {
     double widthBanner = (this.width*63)/100; // Ancho del banner dentro del appbar. Es el 63 % del ancho de pantalla.
     double widthConfig = (this.width*37)/100; // Ancho restante del banner, que es el espacio para la configuración.
 
-    double heightBanner = height - 24;
+    double heightSafeArea = 24;
+    double heightBanner = height - heightSafeArea;
 
     Widget safeArea = Container(
-      height: 24,
+      height: heightSafeArea,
       width: width,
       color: Color(0xff36C186)
     );
@@ -40,19 +41,21 @@ class OwnAppBar extends StatelessWidget {
               height: heightBanner,
               width: heightBanner,
               child: Image(
-                  image: AssetImage("assets/images/logo.png")
+                  image: AssetImage("assets/logo.png")
               )
           ),
           Container(
             padding: EdgeInsets.only(
-              left: 13
+              left: 13,
+              top: 4
             ),
             child: Text(
               "Lineclass",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 26,
-                fontFamily: 'Comfortaa'
+                fontSize: 24,
+                fontFamily: 'Comfortaa',
+                fontWeight: FontWeight.w600
               ),
             ),
           )
