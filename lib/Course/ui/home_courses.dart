@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/widgets/user_welcome.dart';
 import 'package:lineclass/widgets/app_bar.dart';
 
 class HomeCourses extends StatelessWidget {
 
   double appBarHeight = 80; //Medida de altura de Material Design
+
+  User user = User(
+      name: "William",
+      photoUrl: "assets/avatar.png"
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +25,11 @@ class HomeCourses extends StatelessWidget {
             width: screenWidth,
             height: appBarHeight,
           ),
-          UserWelcome()
+          UserWelcome(
+            welcomeText: "Bienvenido,",
+            user: user,
+            screenWidth: screenWidth,
+          )
         ],
       ),
     );
