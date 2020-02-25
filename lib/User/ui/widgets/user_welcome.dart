@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lineclass/User/model/user.dart';
-import 'package:lineclass/User/ui/widgets/profileAvatar.dart';
+import 'package:lineclass/User/ui/widgets/avatar_picture.dart';
 
 class UserWelcome extends StatelessWidget {
 
@@ -19,9 +19,10 @@ class UserWelcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    double width = (this.screenWidth*75)/100;
-    double widthText = (width*75)/100;
-    double widthPhoto = (width*25)/100;
+    double usedWidth = (this.screenWidth*75)/100;
+    double unusedWidth = (this.screenWidth*25)/100;
+    double widthText = (usedWidth*72)/100;
+    double widthPhoto = usedWidth - widthText;
 
     Widget welcome = Container(
         padding: EdgeInsets.only(
@@ -57,24 +58,28 @@ class UserWelcome extends StatelessWidget {
       )
     );
 
-    return Container(
-      width: width,
+    Widget textAndPhoto = Container (
+      width: usedWidth,
       margin: EdgeInsets.only(
-        left: 45,
+        left: unusedWidth/2,
+        right: unusedWidth/2,
         top: 35,
-        right: 45,
-        bottom: 40
+        bottom: 35
       ),
       child: Row(
         children: <Widget>[
           welcomeAndName,
-          ProfileAvatar(
-            //user: user,
-            width: widthPhoto,
-            height: widthPhoto,
+          AvatarPicture(
+            side: widthPhoto,
+            user: user,
           )
         ],
       ),
+    );
+
+    return Container(
+      width: screenWidth,
+      child: textAndPhoto
     );
   }
 }
