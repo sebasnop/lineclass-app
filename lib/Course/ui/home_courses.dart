@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/widgets/user_welcome.dart';
 import 'package:lineclass/widgets/app_bar.dart';
+import 'package:lineclass/widgets/fab.dart';
 
 class HomeCourses extends StatelessWidget {
 
@@ -31,6 +33,11 @@ class HomeCourses extends StatelessWidget {
             screenWidth: screenWidth,
           )
         ],
+      ),
+      floatingActionButton: Fab(
+        onPressed: (){},
+        icon: Icons.add,
+        iconSize: 50,
       ),
     );
   }
