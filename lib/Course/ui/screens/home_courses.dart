@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lineclass/Course/ui/screens/add_course_screen.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/widgets/user_welcome.dart';
 import 'package:lineclass/widgets/app_bar.dart';
@@ -35,7 +36,11 @@ class HomeCourses extends StatelessWidget {
         ],
       ),
       floatingActionButton: Fab(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute (
+              builder: (BuildContext context) => AddCourseScreen()
+          ));
+        },
         icon: Icons.add,
         iconSize: 50,
       ),

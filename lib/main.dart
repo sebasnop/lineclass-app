@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lineclass/Course/ui/home_courses.dart';
+import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:lineclass/Course/ui/screens/home_courses.dart';
+
+import 'User/bloc/user_bloc.dart';
 
 
 Future main() async {
@@ -19,12 +22,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color(0xff36C186),
+    return BlocProvider(
+      bloc: UserBloc(),
+      child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: Color(0xff36C186),
+        ),
+        title: 'Lineclass',
+        initialRoute: "/",
+        routes: {
+          "/": (context) => HomeCourses()
+        },
       ),
-      title: 'Lineclass',
-      home: HomeCourses(),
     );
   }
 }

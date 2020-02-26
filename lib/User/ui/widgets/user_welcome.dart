@@ -78,8 +78,8 @@ class UserWelcome extends StatelessWidget {
     );
 
     return Container(
-      width: screenWidth,
-      child: textAndPhoto
-    );
+          width: screenWidth,
+          child: textAndPhoto
+      );
   }
 }
