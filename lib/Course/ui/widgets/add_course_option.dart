@@ -8,12 +8,15 @@ class AddCourseOption extends StatefulWidget {
   double screenWidth;
   double screenHeight;
 
+  Function goTo;
+
   AddCourseOption({
     Key key,
     @required this.optionText,
     @required this.optionImage,
     @required this.screenWidth,
-    @required this.screenHeight
+    @required this.screenHeight,
+    @required this.goTo
   });
 
   @override
@@ -25,7 +28,7 @@ class _AddCourseOptionState extends State<AddCourseOption> {
   Widget build(BuildContext context) {
 
     double containerWidth = widget.screenWidth*0.80;
-    double containerHeight = widget.screenHeight*0.48;
+    double containerHeight = widget.screenHeight*0.25;
 
     double sidePicture = containerHeight*0.50;
 
@@ -67,9 +70,7 @@ class _AddCourseOptionState extends State<AddCourseOption> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(30),
           child: InkWell(
-            onTap: () {
-
-            },
+            onTap: widget.goTo,
             child: Center(
               child: Column(
                 children: <Widget>[

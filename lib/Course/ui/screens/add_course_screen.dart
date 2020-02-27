@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lineclass/Course/ui/screens/create_course_screen.dart';
 import 'package:lineclass/Course/ui/widgets/add_course_option.dart';
 import 'package:lineclass/widgets/own_back_button.dart';
 
@@ -7,7 +8,7 @@ class AddCourseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     double screenWidth = MediaQuery.of(context).size.width;
-    double backButtonWidth = (screenWidth*20) / 100;
+    double backButtonWidth = screenWidth*0.20;
 
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -39,6 +40,18 @@ class AddCourseScreen extends StatelessWidget {
       ),
     );
 
+     Function createCourse =  (){
+      Navigator.push(context, MaterialPageRoute (
+          builder: (BuildContext context) => CreateCourseScreen()
+      ));
+    };
+
+    Function joinCourse =  (){
+      Navigator.push(context, MaterialPageRoute (
+          builder: (BuildContext context) => AddCourseScreen()
+      ));
+    };
+
     return Scaffold(
       backgroundColor: Color(0xffF3F3F3),
       body: Column(
@@ -47,9 +60,9 @@ class AddCourseScreen extends StatelessWidget {
           addCourseText,
           asText,
           AddCourseOption(optionText: "E S T U D I A N T E", optionImage: "assets/student.png",
-              screenWidth: screenWidth, screenHeight: screenWidth),
+              screenWidth: screenWidth, screenHeight: screenHeight, goTo: createCourse,),
           AddCourseOption(optionText: "P R O F E S O R", optionImage: "assets/teacher.png",
-            screenWidth: screenWidth, screenHeight: screenWidth,)
+            screenWidth: screenWidth, screenHeight: screenHeight, goTo: createCourse,)
         ],
       ),
     );
