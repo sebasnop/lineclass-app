@@ -2,6 +2,9 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:lineclass/Course/model/course.dart';
+import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/ui/widgets/blue_button.dart';
 import 'package:lineclass/widgets/own_back_button.dart';
 import 'package:toast/toast.dart';
@@ -18,6 +21,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    UserBloc userBloc = BlocProvider.of <UserBloc> (context);
 
     double screenWidth = MediaQuery.of(context).size.width;
     double backButtonWidth = screenWidth*0.20;
@@ -90,7 +95,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     boxShadow: <BoxShadow>[ BoxShadow(color: Colors.black12,blurRadius: 2)]
                 ),
                 child: FormBuilderTextField(
-                  attribute: "indicator",
+                  attribute: "identifier",
                   cursorColor: Color(0xff686868),
                   style: TextStyle(
                       fontFamily: "Comfortaa"
@@ -121,6 +126,15 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     if (internetConexion){
 
                       if (_fbKey.currentState.saveAndValidate()) {
+
+                        String courseName = _fbKey.currentState.value["name"];
+                        String courseIdentifier = _fbKey.currentState.value["identifier"];
+
+                        userBloc.updateCourseData(Course(
+                          name: "Química",
+                          identifier: 2,
+                          creationDate: DateTime.now()
+                        ));
 
                         print(_fbKey.currentState.value);
                       } else {
