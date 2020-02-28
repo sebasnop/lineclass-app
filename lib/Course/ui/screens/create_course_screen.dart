@@ -1,7 +1,10 @@
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:lineclass/User/ui/widgets/blue_button.dart';
 import 'package:lineclass/widgets/own_back_button.dart';
+import 'package:toast/toast.dart';
 
 class CreateCourseScreen extends StatefulWidget {
   @override
@@ -104,7 +107,31 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                   validators: [
                     FormBuilderValidators.numeric(),
+                    FormBuilderValidators.required(),
                   ],
+                ),
+              ),
+              Container(
+                child: BlueButton(
+                  buttonText: "¡ Crear !",
+                  onPressed: () async {
+
+                    bool internetConexion = await DataConnectionChecker().hasConnection;
+
+                    if (internetConexion){
+
+                      if (_fbKey.currentState.saveAndValidate()) {
+
+                        print(_fbKey.currentState.value);
+                      } else {
+                        Toast.show("Completa los campos requeridos", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.TOP);
+                      }
+
+                    } else if (!internetConexion){
+                      Toast.show("Verifica tu conexión a internet :)", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
+                    }
+
+                  },
                 ),
               )
             ],
@@ -115,7 +142,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
+      body: ListView(
         children: <Widget>[
           OwnBackButton(width: backButtonWidth, height: backButtonWidth, backText: "Volver"),
           createCourseText,
