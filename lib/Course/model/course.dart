@@ -5,7 +5,7 @@ class Course {
 
   String id;
   String name;
-  int identifier;
+  String identifier;
   DateTime creationDate;
   String code;
   //User user;
@@ -15,6 +15,6 @@ class Course {
     @required this.name,
     @required this.identifier,
     @required this.creationDate,
-    //@required this.code
+    @required this.code
   });
 }

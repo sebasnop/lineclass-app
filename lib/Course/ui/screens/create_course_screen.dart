@@ -127,14 +127,22 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                       if (_fbKey.currentState.saveAndValidate()) {
 
-                        String courseName = _fbKey.currentState.value["name"];
+                        String courseNameInitial = _fbKey.currentState.value["name"];
                         String courseIdentifier = _fbKey.currentState.value["identifier"];
 
+                        String courseName = courseNameInitial.trim();
+
+                        String code = "${courseName.toLowerCase()}${courseIdentifier.trim()}";
+
                         userBloc.updateCourseData(Course(
-                          name: "Química",
-                          identifier: 2,
+                          name: courseName,
+                          identifier: courseIdentifier,
+                          code: code,
                           creationDate: DateTime.now()
                         ));
+
+                        Toast.show("¡Curso Creado con éxito!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
+                        Navigator.pushNamed(context, "/");
 
                         print(_fbKey.currentState.value);
                       } else {
