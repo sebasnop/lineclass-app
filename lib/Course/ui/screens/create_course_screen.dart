@@ -5,7 +5,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
-import 'package:lineclass/User/ui/widgets/blue_button.dart';
+import 'package:lineclass/widgets/blue_button.dart';
+import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/own_back_button.dart';
 import 'package:toast/toast.dart';
 
@@ -127,11 +128,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                       if (_fbKey.currentState.saveAndValidate()) {
 
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (BuildContext context) => LoadingScreen(text: "AÑADIENDO TU \n CURSO...",)
+                        ));
+
                         String courseNameInitial = _fbKey.currentState.value["name"];
                         String courseIdentifier = _fbKey.currentState.value["identifier"];
 
                         String courseName = courseNameInitial.trim();
-
                         String code = "${courseName.toLowerCase()}${courseIdentifier.trim()}";
 
                         userBloc.updateCourseData(Course(
@@ -139,10 +143,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           identifier: courseIdentifier,
                           code: code,
                           creationDate: DateTime.now()
-                        ));
+                        )).whenComplete( () {
 
-                        Toast.show("¡Curso Creado con éxito!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
-                        Navigator.pushNamed(context, "/");
+                          Navigator.pushNamed(context, "/");
+                          Toast.show("¡Curso Creado con éxito!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+
+                        }
+
+                        );
 
                         print(_fbKey.currentState.value);
                       } else {
