@@ -113,7 +113,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                   validators: [
                     FormBuilderValidators.numeric(),
-                    FormBuilderValidators.required(),
                   ],
                 ),
               ),
@@ -132,11 +131,17 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                           builder: (BuildContext context) => LoadingScreen(text: "AÑADIENDO TU \n CURSO...",)
                         ));
 
+                        int now = DateTime.now().microsecond;
                         String courseNameInitial = _fbKey.currentState.value["name"];
-                        String courseIdentifier = _fbKey.currentState.value["identifier"];
+                        String courseIdentifier = _fbKey.currentState.value["identifier"] ?? "";
 
                         String courseName = courseNameInitial.trim();
-                        String code = "${courseName.toLowerCase()}${courseIdentifier.trim()}";
+
+                        String courseNameLower = courseName.toLowerCase();
+
+                        String courseNameNoSpaces = courseNameLower.replaceAll(RegExp(r" "), "");
+
+                        String code = "$courseNameNoSpaces$courseIdentifier$now";
 
                         userBloc.updateCourseData(Course(
                           name: courseName,
