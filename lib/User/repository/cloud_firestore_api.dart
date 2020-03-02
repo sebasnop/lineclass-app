@@ -3,11 +3,11 @@ import 'package:lineclass/Course/model/course.dart';
 
 class CloudFirestoreAPI {
 
-  final courses = "course";
+  final courses = "courses";
 
   final Firestore _db = Firestore.instance;
 
-  Future<void> updatePlaceData(Course course) async {
+  Future <void> updatePlaceData(Course course) async {
 
     CollectionReference refCourses = _db.collection(courses);
 
@@ -19,5 +19,16 @@ class CloudFirestoreAPI {
     });
 
   }
+
+
+  Future <List> allCourses () async {
+
+    CollectionReference refCourses = _db.collection(courses);
+
+    QuerySnapshot querySnapshot = await refCourses.getDocuments();
+    return querySnapshot.documents;
+
+  }
+
 
 }

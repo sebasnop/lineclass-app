@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
+import 'package:lineclass/Course/ui/screens/home_courses.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/widgets/blue_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
@@ -127,11 +128,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                       if (_fbKey.currentState.saveAndValidate()) {
 
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (BuildContext context) => LoadingScreen(text: "AÑADIENDO TU \n CURSO...",)
-                        ));
-
-                        int now = DateTime.now().microsecond;
+                        //int now = DateTime.now().microsecond;
                         String courseNameInitial = _fbKey.currentState.value["name"];
                         String courseIdentifier = _fbKey.currentState.value["identifier"] ?? "";
 
@@ -141,23 +138,56 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                         String courseNameNoSpaces = courseNameLower.replaceAll(RegExp(r" "), "");
 
-                        String code = "$courseNameNoSpaces$courseIdentifier$now";
+                        String code = "$courseNameNoSpaces$courseIdentifier";
 
-                        userBloc.updateCourseData(Course(
-                          name: courseName,
-                          identifier: courseIdentifier,
-                          code: code,
-                          creationDate: DateTime.now()
-                        )).whenComplete( () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (BuildContext context) => LoadingScreen(text: "AÑADIENDO TU \n CURSO...",)
+                        ));
 
-                          Navigator.pushNamed(context, "/");
-                          Toast.show("¡Curso Creado con éxito!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+                        userBloc.allCourses().then(
+                                (snapshot){
 
-                        }
+                                  List <Course> repeatedCourses = List <Course> ();
+                                  snapshot.forEach((f){
 
-                        );
+                                    if (f.data["code"] == code){
+                                      Course course = Course (code: f.data["code"],creationDate: DateTime.now(),identifier: f.data["identifier"],name: f.data["name"]);
+                                      repeatedCourses.add(course);
 
-                        print(_fbKey.currentState.value);
+                                    }
+
+                                  });
+
+                                  if (repeatedCourses.isNotEmpty) {
+
+                                    Navigator.pop(context);
+                                    Toast.show("Curso repetido :( \n Prueba con otro nombre o identificador", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
+
+                                  } else {
+                                    print ("Curso no repetido");
+                                    print(repeatedCourses.length);
+
+                                    userBloc.updateCourseData(Course(
+                                        name: courseName,
+                                        identifier: courseIdentifier,
+                                        code: code,
+                                        creationDate: DateTime.now()
+                                    )).whenComplete( () {
+
+                                      Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
+
+                                      Toast.show("¡Curso Creado con éxito!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+
+                                    }
+
+                                    );
+
+                                  }
+
+                                });
+
+
+                        //print(_fbKey.currentState.value);
                       } else {
                         Toast.show("Completa los campos requeridos", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.TOP);
                       }

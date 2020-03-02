@@ -12,12 +12,8 @@ class UserBloc implements Bloc {
     // Crear o actualizar curso
   Future <void> updateCourseData (Course course) => _cloudFirestoreRepository.updateCourseData(course);
 
-    // Buscar Cursos repetidos
-  Stream<QuerySnapshot> coursesListStream(String code) {
-    Firestore.instance.collection(CloudFirestoreAPI().courses)
-        .where("code", isEqualTo: code)
-        .snapshots();
-  }
+    // Traer todos los cursos
+  Future <List> allCourses () => _cloudFirestoreRepository.allCourses();
 
   @override
   void dispose() {
