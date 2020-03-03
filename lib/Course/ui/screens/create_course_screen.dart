@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
+import 'package:lineclass/Course/ui/screens/add_course_screen.dart';
 import 'package:lineclass/Course/ui/screens/home_courses.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/widgets/blue_button.dart';
