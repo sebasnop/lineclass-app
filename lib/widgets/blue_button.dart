@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 
 class BlueButton extends StatelessWidget {
 
-
-
   final String buttonText;
   final VoidCallback onPressed;
+
+  double topMargin;
+  double bottomMargin;
 
   BlueButton({
     Key key,
     @required this.buttonText,
-    @required this.onPressed
+    @required this.onPressed,
+    @required this.topMargin,
+    @required this.bottomMargin,
   });
 
   @override
@@ -24,8 +27,8 @@ class BlueButton extends StatelessWidget {
     return Container(
       height: 50,
         margin: EdgeInsets.only(
-          top: screenHeight*0.28,
-          bottom: 50
+          top: topMargin,
+          bottom: bottomMargin
         ),
       child: InkWell(
         onTap: onPressed,
@@ -47,7 +50,7 @@ class BlueButton extends StatelessWidget {
             child: Text(
               buttonText,
               style: TextStyle(
-                  fontSize: 23.0,
+                  fontSize: 22,
                   fontFamily: "Comfortaa",
                   color: Colors.white,
                 fontWeight: FontWeight.bold

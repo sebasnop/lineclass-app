@@ -29,6 +29,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
     UserBloc userBloc = BlocProvider.of <UserBloc> (context);
 
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     double backButtonWidth = screenWidth*0.20;
 
     double paddingField = screenWidth*0.10;
@@ -121,6 +122,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
               ),
               Container(
                 child: BlueButton(
+                  bottomMargin: 50,
+                  topMargin: screenHeight*0.28,
                   buttonText: "¡ Crear !",
                   onPressed: () async {
 
