@@ -69,14 +69,14 @@ class OwnAppBar extends StatelessWidget {
       padding: EdgeInsets.only(
         right: 16
       ),
-      child: Icon(CupertinoIcons.gear_big, color: Colors.black54, size: 24,),
+      child: Icon(CupertinoIcons.gear_big, color: Colors.white, size: 24,),
     );
 
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: Color(0xffFAFAFA),
+          color: Color(0xff36C186),
           boxShadow: <BoxShadow>[
             BoxShadow (
                 color:  Colors.black38,

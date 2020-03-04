@@ -16,7 +16,7 @@ class CopycodeCourseScreen extends StatelessWidget {
 
     double screenHeight = MediaQuery.of(context).size.height;
 
-    Widget addCourseText = Container(
+    Widget copyCourseText = Container(
       margin: EdgeInsets.only(top: screenHeight*0.30, bottom: screenHeight*0.30),
         child: Text(
           "El código \ndel curso es",
@@ -32,7 +32,7 @@ class CopycodeCourseScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          addCourseText,
+          copyCourseText,
           OwnExitButton(height: backButtonWidth, width: backButtonWidth, exitText: "Salir")
         ],
       ),

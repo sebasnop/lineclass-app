@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lineclass/Course/ui/screens/add_course_screen.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/widgets/user_welcome.dart';
-import 'package:lineclass/widgets/app_bar.dart';
+import 'package:lineclass/widgets/own_app_bar.dart';
 import 'package:lineclass/widgets/fab.dart';
 
 class HomeCourses extends StatelessWidget {
@@ -29,7 +29,7 @@ class HomeCourses extends StatelessWidget {
             height: appBarHeight,
           ),
           UserWelcome(
-            welcomeText: "Bienvenido,",
+            welcomeText: "Bienvenido, ",
             user: user,
             screenWidth: screenWidth,
           )

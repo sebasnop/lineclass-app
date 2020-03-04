@@ -19,21 +19,18 @@ class UserWelcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    double usedWidth = (this.screenWidth*75)/100;
-    double unusedWidth = (this.screenWidth*25)/100;
-    double widthText = (usedWidth*72)/100;
+    double usedWidth = this.screenWidth*0.75;
+    double unusedWidth = this.screenWidth*0.25;
+    double widthText = usedWidth*0.85;
     double widthPhoto = usedWidth - widthText;
 
     Widget welcome = Container(
-        padding: EdgeInsets.only(
-            bottom: 8
-        ),
         child: Text(
           welcomeText,
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w100,
-            fontSize: 18,
+            fontSize: 20,
         ),
       )
     );
@@ -42,15 +39,15 @@ class UserWelcome extends StatelessWidget {
       user.name,
       style: TextStyle(
         color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 30,
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
       ),
     );
 
     Widget welcomeAndName = Container(
+        padding: EdgeInsets.only(left: 20),
         width: widthText,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: <Widget>[
             welcome,
             name
@@ -68,18 +65,18 @@ class UserWelcome extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          welcomeAndName,
           AvatarPicture(
             side: widthPhoto,
             user: user,
-          )
+          ),
+          welcomeAndName,
         ],
       ),
     );
 
     return Container(
-          width: screenWidth,
-          child: textAndPhoto
-      );
+            width: screenWidth,
+            child: textAndPhoto
+        );
   }
 }

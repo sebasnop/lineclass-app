@@ -26,7 +26,7 @@ class AvatarPicture extends StatelessWidget {
         )],
           border: Border.all(
               color: Colors.black,
-              width: 2.0,
+              width: 1,
               style: BorderStyle.solid
           ),
           shape: BoxShape.circle,
