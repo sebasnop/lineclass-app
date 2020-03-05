@@ -4,17 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
-import 'package:lineclass/Course/ui/screens/add_course_screen.dart';
 import 'package:lineclass/Course/ui/screens/copycode_course_screen.dart';
-import 'package:lineclass/Course/ui/screens/home_courses.dart';
 import 'package:lineclass/Course/ui/widgets/thematic_course_option.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
+import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/widgets/blue_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/own_back_button.dart';
 import 'package:toast/toast.dart';
 
 class CreateCourseScreen extends StatefulWidget {
+
+  User user;
+
+  CreateCourseScreen({Key key, @required this.user});
+
   @override
   _CreateCourseScreenState createState() => _CreateCourseScreenState();
 
@@ -231,7 +235,13 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                         String courseNameLower = courseName.toLowerCase();
 
-                        String courseNameNoSpaces = courseNameLower.replaceAll(RegExp(r" "), "");
+                        String courseA = courseNameLower.replaceAll(RegExp(r"á"), "a");
+                        String courseE = courseA.replaceAll(RegExp(r"é"), "e");
+                        String courseI = courseE.replaceAll(RegExp(r"í"), "i");
+                        String courseO = courseI.replaceAll(RegExp(r"ó"), "o");
+                        String courseU = courseO.replaceAll(RegExp(r"ú"), "u");
+
+                        String courseNameNoSpaces = courseU.replaceAll(RegExp(r" "), "");
 
                         String code = "$courseNameNoSpaces";
 
@@ -247,7 +257,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                                     if (f.data["code"] == code){
                                       Course course = Course (code: f.data["code"],creationDate: DateTime.now(),
-                                          thematic: f.data["thematic"],name: f.data["name"], institution: f.data["institution"]);
+                                          thematic: f.data["thematic"],name: f.data["name"], institution: f.data["institution"], courseOwner: f.data["userOwner"]);
                                       repeatedCourses.add(course);
 
                                     }
@@ -264,11 +274,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                     print(repeatedCourses.length);
 
                                     userBloc.updateCourseData(Course(
-                                        name: courseName,
-                                        institution: courseInstitution,
-                                        code: code,
-                                        thematic: courseThematic,
-                                        creationDate: DateTime.now()
+                                      name: courseName,
+                                      institution: courseInstitution,
+                                      code: code,
+                                      thematic: courseThematic,
+                                      creationDate: DateTime.now(),
+                                      courseOwner: widget.user.name
                                     )).whenComplete( () {
 
                                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>

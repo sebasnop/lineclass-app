@@ -9,7 +9,7 @@ class Course {
   String institution;
   DateTime creationDate;
   String code;
-  //User userOwner;
+  String courseOwner;
 
   Course({
     Key key,
@@ -18,6 +18,6 @@ class Course {
     @required this.creationDate,
     @required this.institution,
     @required this.code,
-    //@required this.userOwner
+    @required this.courseOwner
   });
 }

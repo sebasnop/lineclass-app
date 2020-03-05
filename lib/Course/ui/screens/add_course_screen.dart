@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/ui/screens/create_course_screen.dart';
 import 'package:lineclass/Course/ui/widgets/add_course_option.dart';
+import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/own_back_button.dart';
 
 class AddCourseScreen extends StatelessWidget {
+
+  User user;
+
+  AddCourseScreen({Key key, @required this.user});
+
   @override
   Widget build(BuildContext context) {
 
@@ -43,7 +49,7 @@ class AddCourseScreen extends StatelessWidget {
 
      Function createCourse =  (){
       Navigator.push(context, MaterialPageRoute (
-          builder: (BuildContext context) => CreateCourseScreen()
+          builder: (BuildContext context) => CreateCourseScreen(user: user)
       ));
     };
 

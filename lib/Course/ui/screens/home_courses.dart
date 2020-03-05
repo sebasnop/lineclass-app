@@ -11,7 +11,8 @@ class HomeCourses extends StatelessWidget {
   double appBarHeight = 80; //Medida de altura de Material Design
 
   User user = User(
-      name: "William",
+      firstName: "William",
+      name: "William Perez",
       photoUrl: "assets/avatar.png"
   );
 
@@ -38,7 +39,7 @@ class HomeCourses extends StatelessWidget {
       floatingActionButton: Fab(
         onPressed: (){
           Navigator.push(context, MaterialPageRoute (
-              builder: (BuildContext context) => AddCourseScreen()
+              builder: (BuildContext context) => AddCourseScreen(user: user)
           ));
         },
         icon: Icons.add,
