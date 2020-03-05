@@ -13,8 +13,9 @@ class CloudFirestoreAPI {
 
     await refCourses.add({
       'name' : course.name,
-      'identifier': course.identifier,
+      'institution': course.institution,
       'creationDate': course.creationDate,
+      'thematic': course.thematic,
       'code': course.code
     });
 

@@ -7,6 +7,7 @@ import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/screens/add_course_screen.dart';
 import 'package:lineclass/Course/ui/screens/copycode_course_screen.dart';
 import 'package:lineclass/Course/ui/screens/home_courses.dart';
+import 'package:lineclass/Course/ui/widgets/thematic_course_option.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/widgets/blue_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
@@ -59,7 +60,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 margin: EdgeInsets.only(
                     left: paddingField,
                     right: paddingField,
-                    bottom: paddingField*1.25
+                    bottom: paddingField*0.8
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -73,7 +74,14 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     fontFamily: "Comfortaa"
                   ),
                   decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.beenhere),
+                      alignLabelWithHint: true,
+                      hintText: "",
                       labelText: "Nombre",
+                      helperText: "2 a 28 dígitos",
+                      helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
+                      labelStyle: TextStyle(color:Colors.black38),
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.black38)),
                       errorStyle: TextStyle(
                           fontFamily: "Comfortaa"
                       ),
@@ -83,16 +91,17 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     )
                   ),
                   validators: [
-                    FormBuilderValidators.required(),
-                    FormBuilderValidators.minLength(2),
-                    FormBuilderValidators.maxLength(28),
+                    FormBuilderValidators.required(errorText: "Escribe un nombre"),
+                    FormBuilderValidators.minLength(2, errorText: "Debe contener más letras"),
+                    FormBuilderValidators.maxLength(28, errorText: "Debe contener menos letras"),
                   ],
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(
                     left: paddingField,
-                    right: paddingField
+                    right: paddingField,
+                    bottom: paddingField*0.8
                 ),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -100,13 +109,19 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     boxShadow: <BoxShadow>[ BoxShadow(color: Colors.black12,blurRadius: 2)]
                 ),
                 child: FormBuilderTextField(
-                  attribute: "identifier",
+                  attribute: "institution",
                   cursorColor: Color(0xff686868),
                   style: TextStyle(
                       fontFamily: "Comfortaa"
                   ),
                   decoration: InputDecoration(
-                      labelText: "Indicador Numérico",
+                      suffixIcon: Icon(Icons.location_on),
+                      hintText: "",
+                      labelText: "Institución Educativa",
+                      helperText: "2 a 50 dígitos",
+                      helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
+                      labelStyle: TextStyle(color:Colors.black38),
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.black38)),
                       errorStyle: TextStyle(
                           fontFamily: "Comfortaa"
                       ),
@@ -116,14 +131,85 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       )
                   ),
                   validators: [
-                    FormBuilderValidators.numeric(),
+                    FormBuilderValidators.maxLength(50),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                    left: paddingField,
+                    right: paddingField,
+                    bottom: paddingField*1
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: <BoxShadow>[ BoxShadow(color: Colors.black12,blurRadius: 2)]
+                ),
+                child: FormBuilderDropdown(
+                  attribute: "thematic",
+                  style: TextStyle(
+                      fontFamily: "Comfortaa"
+                  ),
+                  initialValue: "Temática del curso",
+                  decoration: InputDecoration(
+                      errorStyle: TextStyle(
+                          fontFamily: "Comfortaa"
+                      ),
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.white)),
+                      contentPadding: EdgeInsets.only(
+                          left: paddingField/2,
+                          right: paddingField/2
+                      )
+                  ),
+                  items: <DropdownMenuItem>[
+                    DropdownMenuItem(
+                        value: "Temática del curso",
+                        child: Text("Temática del curso", style: TextStyle(color: Colors.black38, fontFamily: "Comfortaa",fontSize: 17),)
+                    ),
+                    DropdownMenuItem(
+                      value: "math",
+                      child: ThematicCourseOption(text: "Matemáticas", icon: Icons.equalizer,)
+                    ),
+                    DropdownMenuItem(
+                      value: "science",
+                      child: ThematicCourseOption(text: "Ciencia", icon: Icons.filter_hdr,)
+                    ),
+                    DropdownMenuItem(
+                      value: "tech",
+                      child: ThematicCourseOption(text: "Tecnología", icon: Icons.devices,)
+                    ),
+                    DropdownMenuItem(
+                      value: "languages",
+                      child: ThematicCourseOption(text: "Lenguaje", icon: Icons.forum,)
+                    ),
+                    DropdownMenuItem(
+                      value: "sports",
+                      child: ThematicCourseOption(text: "Deportes", icon: Icons.directions_run,)
+                    ),
+                    DropdownMenuItem(
+                        value: "society",
+                        child: ThematicCourseOption(text: "Sociedad", icon: Icons.account_balance,)
+                    ),
+                    DropdownMenuItem(
+                        value: "art",
+                        child: ThematicCourseOption(text: "Arte", icon: Icons.color_lens,)
+                    ),
+                    DropdownMenuItem(
+                        value: "other",
+                        child: ThematicCourseOption(text: "Otro", icon: Icons.all_inclusive,)
+                    ),
+                  ],
+                  validators: [
+                    FormBuilderValidators.required(errorText: ""),
+                    FormBuilderValidators.maxLength(15, errorText: "Escoge una temática")
                   ],
                 ),
               ),
               Container(
                 child: BlueButton(
                   bottomMargin: 50,
-                  topMargin: screenHeight*0.28,
+                  topMargin: screenHeight*0.08,
                   buttonText: "¡ Crear !",
                   onPressed: () async {
 
@@ -135,7 +221,11 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                         //int now = DateTime.now().microsecond;
                         String courseNameInitial = _fbKey.currentState.value["name"];
-                        String courseIdentifier = _fbKey.currentState.value["identifier"] ?? "";
+                        String courseInstitution = _fbKey.currentState.value["institution"] ?? "";
+
+                        String courseThematicInitial = _fbKey.currentState.value["thematic"];
+
+                        String courseThematic = courseThematicInitial.trim();
 
                         String courseName = courseNameInitial.trim();
 
@@ -143,7 +233,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                         String courseNameNoSpaces = courseNameLower.replaceAll(RegExp(r" "), "");
 
-                        String code = "$courseNameNoSpaces$courseIdentifier";
+                        String code = "$courseNameNoSpaces";
 
                         Navigator.push(context, MaterialPageRoute(
                             builder: (BuildContext context) => LoadingScreen(text: "AÑADIENDO TU \n CURSO...",)
@@ -156,7 +246,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                   snapshot.forEach((f){
 
                                     if (f.data["code"] == code){
-                                      Course course = Course (code: f.data["code"],creationDate: DateTime.now(),identifier: f.data["identifier"],name: f.data["name"]);
+                                      Course course = Course (code: f.data["code"],creationDate: DateTime.now(),
+                                          thematic: f.data["thematic"],name: f.data["name"], institution: f.data["institution"]);
                                       repeatedCourses.add(course);
 
                                     }
@@ -174,8 +265,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                                     userBloc.updateCourseData(Course(
                                         name: courseName,
-                                        identifier: courseIdentifier,
+                                        institution: courseInstitution,
                                         code: code,
+                                        thematic: courseThematic,
                                         creationDate: DateTime.now()
                                     )).whenComplete( () {
 

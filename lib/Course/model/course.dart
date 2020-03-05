@@ -5,16 +5,19 @@ class Course {
 
   String id;
   String name;
-  String identifier;
+  String thematic;
+  String institution;
   DateTime creationDate;
   String code;
-  //User user;
+  //User userOwner;
 
   Course({
     Key key,
     @required this.name,
-    @required this.identifier,
+    @required this.thematic,
     @required this.creationDate,
-    @required this.code
+    @required this.institution,
+    @required this.code,
+    //@required this.userOwner
   });
 }
