@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -200,6 +201,10 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         child: ThematicCourseOption(text: "Arte", icon: Icons.color_lens,)
                     ),
                     DropdownMenuItem(
+                        value: "music",
+                        child: ThematicCourseOption(text: "Música", icon: Icons.audiotrack,)
+                    ),
+                    DropdownMenuItem(
                         value: "other",
                         child: ThematicCourseOption(text: "Otro", icon: Icons.all_inclusive,)
                     ),
@@ -252,33 +257,22 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                         userBloc.allCourses().then(
                                 (snapshot){
 
-                                  List <Course> repeatedCourses = List <Course> ();
-                                  snapshot.forEach((f){
-
-                                    if (f.data["code"] == code){
-                                      Course course = Course (code: f.data["code"],creationDate: DateTime.now(),
-                                          thematic: f.data["thematic"],name: f.data["name"], institution: f.data["institution"], courseOwner: f.data["userOwner"]);
-                                      repeatedCourses.add(course);
-
-                                    }
-
-                                  });
+                                  List <Course> repeatedCourses = userBloc.repeatedListCourses(snapshot, code);
 
                                   if (repeatedCourses.isNotEmpty) {
 
                                     Navigator.pop(context);
-                                    Toast.show("Curso repetido :( \n Prueba con otro nombre o identificador", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
+                                    Toast.show("       Curso repetido :( \nPrueba con otro nombre", context,
+                                        duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
 
                                   } else {
-                                    print ("Curso no repetido");
-                                    print(repeatedCourses.length);
 
                                     userBloc.updateCourseData(Course(
                                       name: courseName,
                                       institution: courseInstitution,
                                       code: code,
                                       thematic: courseThematic,
-                                      creationDate: DateTime.now(),
+                                      creationDate: Timestamp.now(),
                                       courseOwner: widget.user.name
                                     )).whenComplete( () {
 
@@ -293,8 +287,6 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                                 });
 
-
-                        //print(_fbKey.currentState.value);
                       } else {
                         Toast.show("Completa los campos requeridos", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.TOP);
                       }
