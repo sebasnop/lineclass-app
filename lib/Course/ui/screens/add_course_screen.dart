@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/ui/screens/create_course_screen.dart';
+import 'package:lineclass/Course/ui/screens/join_course_screen.dart';
 import 'package:lineclass/Course/ui/widgets/add_course_option.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
@@ -55,7 +56,7 @@ class AddCourseScreen extends StatelessWidget {
 
     Function joinCourse =  (){
       Navigator.push(context, MaterialPageRoute (
-          builder: (BuildContext context) => LoadingScreen(text: "AÑADIENDO TU \n CURSO ...",)
+          builder: (BuildContext context) => JoinCourseScreen(user: user)
       ));
     };
 
@@ -66,10 +67,10 @@ class AddCourseScreen extends StatelessWidget {
           OwnBackButton(width: backButtonWidth, height: backButtonWidth, backText: "Volver"),
           addCourseText,
           asText,
-          AddCourseOption(optionText: "E S T U D I A N T E", optionImage: "assets/student.png",
-              screenWidth: screenWidth, screenHeight: screenHeight, goTo: joinCourse,),
-          AddCourseOption(optionText: "P R O F E S O R", optionImage: "assets/teacher.png",
-            screenWidth: screenWidth, screenHeight: screenHeight, goTo: createCourse,)
+          AddCourseOption(optionText: "PROFESOR", optionImage: "assets/teacher.png",
+            screenWidth: screenWidth, screenHeight: screenHeight, goTo: createCourse,),
+          AddCourseOption(optionText: "ESTUDIANTE", optionImage: "assets/student.png",
+            screenWidth: screenWidth, screenHeight: screenHeight, goTo: joinCourse,)
         ],
       ),
     );

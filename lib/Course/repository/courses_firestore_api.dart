@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
 
-class CloudFirestoreAPI {
+class CoursesFirestoreAPI {
 
   final courses = "courses";
   final Firestore _db = Firestore.instance;

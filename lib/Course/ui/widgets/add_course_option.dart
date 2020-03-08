@@ -50,7 +50,8 @@ class _AddCourseOptionState extends State<AddCourseOption> {
         widget.optionText,
         style: TextStyle(
           color: Colors.black,
-          fontSize: 20
+          fontSize: 20,
+          letterSpacing: 5
         ),
       ),
     );

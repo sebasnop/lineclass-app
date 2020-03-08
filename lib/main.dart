@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       bloc: UserBloc(),
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: Color(0xff36C186),
+          primaryColor: Colors.white,
         ),
         title: 'Lineclass',
         initialRoute: "/",

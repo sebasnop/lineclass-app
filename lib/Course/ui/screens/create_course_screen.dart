@@ -36,12 +36,13 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double backButtonWidth = screenWidth*0.20;
+    double backButtonWidth = screenWidth*0.2;
 
-    double paddingField = screenWidth*0.10;
+    double paddingField = screenWidth*0.1;
 
     Widget createCourseText = Container(
-      margin: EdgeInsets.only(top: 30, bottom:45),
+      width: screenWidth,
+      height: screenHeight*0.2,
       child: Center(
         child: Text(
           "Crear Curso",
@@ -65,7 +66,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 margin: EdgeInsets.only(
                     left: paddingField,
                     right: paddingField,
-                    bottom: paddingField*0.8
+                    bottom: paddingField*1,
+                    top: paddingField*0.6
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -73,7 +75,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   boxShadow: <BoxShadow>[ BoxShadow(color: Colors.black12,blurRadius: 2)]
                 ),
                 child: FormBuilderTextField(
+                  autofocus: true,
+                  /**onFieldSubmitted: (code){
+
+                  },**/
                   attribute: "name",
+                  //keyboardType: TextInputType.text,
                   cursorColor: Color(0xff686868),
                   style: TextStyle(
                     fontFamily: "Comfortaa"
@@ -83,10 +90,10 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       alignLabelWithHint: true,
                       hintText: "",
                       labelText: "Nombre",
-                      helperText: "2 a 28 dígitos",
                       helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
                       labelStyle: TextStyle(color:Colors.black38),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.black38)),
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
+                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
                       errorStyle: TextStyle(
                           fontFamily: "Comfortaa"
                       ),
@@ -106,7 +113,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 margin: EdgeInsets.only(
                     left: paddingField,
                     right: paddingField,
-                    bottom: paddingField*0.8
+                    bottom: paddingField*1
                 ),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -121,12 +128,13 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                   ),
                   decoration: InputDecoration(
                       suffixIcon: Icon(Icons.location_on),
+                      alignLabelWithHint: true,
                       hintText: "",
                       labelText: "Institución Educativa",
-                      helperText: "2 a 50 dígitos",
                       helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
                       labelStyle: TextStyle(color:Colors.black38),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.black38)),
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
+                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
                       errorStyle: TextStyle(
                           fontFamily: "Comfortaa"
                       ),
@@ -144,7 +152,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 margin: EdgeInsets.only(
                     left: paddingField,
                     right: paddingField,
-                    bottom: paddingField*1
+                    bottom: paddingField*0.7
                 ),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -161,7 +169,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       errorStyle: TextStyle(
                           fontFamily: "Comfortaa"
                       ),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.white)),
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
                       contentPadding: EdgeInsets.only(
                           left: paddingField/2,
                           right: paddingField/2
@@ -217,8 +225,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
               ),
               Container(
                 child: BlueButton(
-                  bottomMargin: 50,
-                  topMargin: screenHeight*0.08,
+                  bottomMargin: screenHeight*0.02,
+                  topMargin: screenHeight*0.1,
                   buttonText: "¡ Crear !",
                   onPressed: () async {
 
@@ -304,13 +312,19 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
       ],
     );
 
+    Widget finalForm = SizedBox (
+      height: screenHeight*0.7,
+      width: screenWidth,
+      child: form,
+    );
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: ListView(
+        padding: EdgeInsets.only(top:0, bottom: 0),
         children: <Widget>[
           OwnBackButton(width: backButtonWidth, height: backButtonWidth, backText: "Volver"),
           createCourseText,
-          form
+          finalForm
         ],
       ),
     );
