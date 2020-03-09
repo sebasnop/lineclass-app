@@ -11,14 +11,17 @@ class Course {
   Timestamp creationDate;
   String code;
   String courseOwner;
+  List members;
 
   Course({
     Key key,
-    @required this.name,
-    @required this.thematic,
-    @required this.creationDate,
-    @required this.institution,
-    @required this.code,
-    @required this.courseOwner
+    this.id,
+    this.name,
+    this.thematic,
+    this.creationDate,
+    this.institution,
+    this.code,
+    this.courseOwner,
+    this.members
   });
 }

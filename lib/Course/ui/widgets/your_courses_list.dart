@@ -16,7 +16,7 @@ class YourCoursesList extends StatelessWidget {
 
     return Container(
       child: StreamBuilder(
-          stream: userBloc.coursesStream,
+          stream: userBloc.coursesListStream,
           builder: (context, AsyncSnapshot snapshot){
             switch(snapshot.connectionState){
               case ConnectionState.waiting:

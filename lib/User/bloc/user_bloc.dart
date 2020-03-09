@@ -12,8 +12,11 @@ class UserBloc implements Bloc {
 
   /// INSTANCIA DE CURSOS
 
-    // Crear o actualizar curso
-  Future <void> updateCourseData (Course course) => _coursesFirestoreRepository.updateCourseData(course);
+    // Crear curso
+  Future <void> createCourse (Course course) => _coursesFirestoreRepository.createCourse(course);
+
+  // Actualizar miembros de un curso
+  void updateCourseMembers (Course course) => _coursesFirestoreRepository.updateCourseMembers(course);
 
     // Traer todos los cursos
   Future <List> allCourses () => _coursesFirestoreRepository.allCourses();
@@ -29,7 +32,6 @@ class UserBloc implements Bloc {
 
     // Traer los cursos en tiempo real como vista
   Stream<QuerySnapshot> coursesListStream = Firestore.instance.collection(CoursesFirestoreAPI().courses).snapshots();
-  Stream<QuerySnapshot> get coursesStream => coursesListStream;
 
   // Construir cada card de los cursos que sean
   List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot)

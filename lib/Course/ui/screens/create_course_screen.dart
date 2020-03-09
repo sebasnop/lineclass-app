@@ -76,7 +76,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                 ),
                 child: FormBuilderTextField(
                   autofocus: true,
-                  /**onFieldSubmitted: (code){
+                  /**onEditingComplete: (){
 
                   },**/
                   attribute: "name",
@@ -275,13 +275,17 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                                   } else {
 
-                                    userBloc.updateCourseData(Course(
+                                    List <String> guaco = [];
+
+                                    userBloc.createCourse(Course(
+                                      id: "",
                                       name: courseName,
                                       institution: courseInstitution,
                                       code: code,
                                       thematic: courseThematic,
                                       creationDate: Timestamp.now(),
-                                      courseOwner: widget.user.name
+                                      courseOwner: widget.user.name,
+                                      members: guaco
                                     )).whenComplete( () {
 
                                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>

@@ -8,7 +8,9 @@ class CoursesFirestoreRepository {
 
   final _coursesFirestoreAPI = CoursesFirestoreAPI();
 
-  Future <void> updateCourseData(Course course) => _coursesFirestoreAPI.updatePlaceData(course);
+  Future <void> createCourse(Course course) => _coursesFirestoreAPI.createCourse(course);
+
+  void updateCourseMembers (Course course) => _coursesFirestoreAPI.updateCourseMembers(course);
 
   Future <List> allCourses () => _coursesFirestoreAPI.allCourses();
 
