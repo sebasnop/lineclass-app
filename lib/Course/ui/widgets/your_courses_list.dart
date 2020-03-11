@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
@@ -31,7 +32,12 @@ class YourCoursesList extends StatelessWidget {
                 );
 
               case ConnectionState.none:
-                return OwnCircularProgress(height: 100, width: 100);
+                return Column (
+                  children: <Widget>[
+                    CourseCard(course: Course(thematic: "error", courseOwner: "Verifica tu conexión a internet", creationDate: Timestamp.now(),
+                        name: "No se pudo conectar :(", institution: "", code: "", id: "", members: List <String> ()) ),
+                  ],
+                );
               default:
                 return OwnCircularProgress(height: 100, width: 100);
             }

@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lineclass/Course/model/course.dart';
+import 'package:lineclass/Course/ui/widgets/course_card.dart';
 import 'package:lineclass/widgets/own_exit_button.dart';
 
 class JoinedCourseScreen extends StatelessWidget {
 
-  String courseName;
+  Course course;
 
-  JoinedCourseScreen({@required this.courseName});
+  JoinedCourseScreen({@required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -15,21 +18,36 @@ class JoinedCourseScreen extends StatelessWidget {
 
     double screenHeight = MediaQuery.of(context).size.height;
 
-    Widget copyCourseText = Container(
+    Widget greatText = Container(
       margin: EdgeInsets.only(bottom: screenHeight*0.08),
       child: Text(
-        "¡Enhorabuena! \nEntraste al curso",
+        "¡Enhorabuena!",
         textAlign: TextAlign.center,
         style: TextStyle(
-            fontSize: 40,
+            fontSize: 35,
+            fontWeight: FontWeight.w500,
             color: Color(0xff686868),
             fontFamily: "Comfortaa"
         ),
       ),
     );
 
-    Widget codeCourseBox = Container (
-      margin: EdgeInsets.only(bottom: screenHeight*0.03),
+    Widget courseOfText = Container(
+      margin: EdgeInsets.only(bottom: screenHeight*0.08),
+      child: Text(
+        "Entraste al \ncurso de...",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w100,
+            color: Color(0xff686868),
+            fontFamily: "Comfortaa"
+        ),
+      ),
+    );
+
+    /**Widget nameCourseBox = Container (
+      margin: EdgeInsets.only(bottom: screenHeight*0.1),
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
@@ -47,23 +65,27 @@ class JoinedCourseScreen extends StatelessWidget {
             ),
           ),
           Text(
-            courseName,
+            course.name,
             style: TextStyle(
-              color: Colors.black54,
+              color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w300,
             ),
           )
         ],
       ),
-    );
+    );**/
 
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          copyCourseText,
-          codeCourseBox,
+          greatText,
+          courseOfText,
+          CourseCard(course: Course(name: course.name, members: List<String>(), id: "", code: "", institution: "",
+              creationDate: Timestamp.now(), courseOwner: "¡Bienvenido! :D", thematic: course.thematic)),
+          Container(height: screenHeight*0.1,),
+          //nameCourseBox,
           OwnExitButton(height: backButtonWidth, width: backButtonWidth, exitText: "Salir")
         ],
       ),

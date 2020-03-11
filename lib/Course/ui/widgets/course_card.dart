@@ -37,6 +37,8 @@ class CourseCard extends StatelessWidget {
         break;
       case "empty" : temathicIcon = Icons.favorite;
         break;
+      case "error" : temathicIcon = Icons.error_outline;
+        break;
       default: temathicIcon = Icons.all_inclusive;
     }
 

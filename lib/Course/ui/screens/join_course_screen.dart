@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/screens/copycode_course_screen.dart';
+import 'package:lineclass/Course/ui/screens/joined_course_screen.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/widgets/blue_button.dart';
@@ -160,7 +161,7 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
                             userBloc.updateCourseMembers(course);
 
                             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                CopycodeCourseScreen(code: code)), (Route<dynamic> route) => false);
+                                JoinedCourseScreen(course: course)), (Route<dynamic> route) => false);
 
                             Toast.show("¡Curso Añadido con éxito!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
 
