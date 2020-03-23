@@ -1,16 +1,44 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
 import 'package:lineclass/Course/repository/courses_firestore_api.dart';
 import 'package:lineclass/Course/repository/courses_firestore_repository.dart';
+import 'package:lineclass/User/repository/firebase_auth_repository.dart';
 
 class UserBloc implements Bloc {
 
-  // Casos de uso de Firestore de Cursos:
+
+
+  /// CASOS DE USO DE FIREBASE AUTH
+
+  final _firebaseAuthRepository = FirebaseAuthRepository();
+
+    /// Iniciar Sesión con Google
+
+  Future<FirebaseUser> signIn () => _firebaseAuthRepository.signIn();
+
+    /// Cerrar Sesión de Google
+
+  signOut() => _firebaseAuthRepository.signOut();
+
+    /// Obtener información de cambios en la sesión
+
+  Stream <FirebaseUser> streamFirebase = FirebaseAuth.instance.onAuthStateChanged;
+  Stream <FirebaseUser> get authStatus => streamFirebase;
+
+    /// Obtener información del usuario actual
+
+  Future <FirebaseUser> get currentUser => FirebaseAuth.instance.currentUser();
+
+
+
+  /// CASOS DE USO DE FIRESTORE DE CURSOS
+
   final _coursesFirestoreRepository = CoursesFirestoreRepository();
 
-  /// INSTANCIA DE CURSOS
+    /// Instancia de cursos
 
     // Crear curso
   Future <void> createCourse (Course course) => _coursesFirestoreRepository.createCourse(course);
@@ -28,7 +56,7 @@ class UserBloc implements Bloc {
               ///List <Course> listCourses (List<DocumentSnapshot> coursesListSnapshot)
               ///=> _cloudFirestoreRepository.listCourses(coursesListSnapshot);
 
-  /// VISTA CURSOS
+    /// Vista de cursos
 
     // Traer los cursos en tiempo real como vista
   Stream<QuerySnapshot> coursesListStream = Firestore.instance.collection(CoursesFirestoreAPI().courses).snapshots();
