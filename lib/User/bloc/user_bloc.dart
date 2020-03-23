@@ -5,7 +5,9 @@ import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
 import 'package:lineclass/Course/repository/courses_firestore_api.dart';
 import 'package:lineclass/Course/repository/courses_firestore_repository.dart';
+import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/repository/firebase_auth_repository.dart';
+import 'package:lineclass/User/repository/users_firestore_repository.dart';
 
 class UserBloc implements Bloc {
 
@@ -34,7 +36,14 @@ class UserBloc implements Bloc {
 
 
 
-  /// CASOS DE USO DE FIRESTORE DE CURSOS
+  /// CASOS DE USO DE FIRESTORE USUARIOS
+
+  final _usersFirestoreRepository = UsersFirestoreRepository();
+
+  void updateUserData (User user) => _usersFirestoreRepository.updateUserData(user);
+
+
+  /// CASOS DE USO DE FIRESTORE CURSOS
 
   final _coursesFirestoreRepository = CoursesFirestoreRepository();
 

@@ -3,6 +3,7 @@ import"package:flutter/material.dart";
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/ui/screens/home_courses.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
+import 'package:lineclass/widgets/google_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 
 class StartScreen extends StatefulWidget {
@@ -105,6 +106,7 @@ class _StartScreenState extends State<StartScreen> {
           logoBox,
           title,
           subtitle,
+          GoogleButton(bottomMargin: 0, topMargin: 40, buttonText: "Entra con Google",),
           already,
           version
         ],
