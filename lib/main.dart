@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/ui/screens/home_courses.dart';
+import 'package:lineclass/User/ui/screens/start_screen.dart';
 
 import 'User/bloc/user_bloc.dart';
 
@@ -29,9 +30,10 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.white,
         ),
         title: 'Lineclass',
-        initialRoute: "/",
+        initialRoute: "start",
         routes: {
-          "/": (context) => HomeCourses()
+          "/": (context) => HomeCourses(),
+          "start": (context) => StartScreen(),
         },
       ),
     );
