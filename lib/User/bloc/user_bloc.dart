@@ -19,7 +19,7 @@ class UserBloc implements Bloc {
 
     /// Iniciar Sesión con Google
 
-  Future<FirebaseUser> signIn () => _firebaseAuthRepository.signIn();
+  Future<FirebaseUser> signIn() => _firebaseAuthRepository.signIn();
 
     /// Cerrar Sesión de Google
 

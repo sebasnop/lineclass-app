@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
 
@@ -11,11 +12,14 @@ class GoogleButton extends StatefulWidget {
   double topMargin;
   double bottomMargin;
 
+  VoidCallback onTap;
+
   GoogleButton({
     Key key,
     @required this.buttonText,
     @required this.topMargin,
     @required this.bottomMargin,
+    @required this.onTap,
   });
 
   @override
@@ -24,14 +28,15 @@ class GoogleButton extends StatefulWidget {
 
 class _GoogleButtonState extends State<GoogleButton> {
 
+  UserBloc userBloc;
+
   @override
   Widget build(BuildContext context) {
 
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double buttonWidth = screenWidth*0.85;
+    userBloc = BlocProvider.of(context);
 
-    UserBloc userBloc;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double buttonWidth = screenWidth*0.80;
 
     return Container(
       height: 50,
@@ -41,27 +46,13 @@ class _GoogleButtonState extends State<GoogleButton> {
           bottom: widget.bottomMargin
       ),
       child: InkWell(
-        onTap: (){
-
-          /**userBloc.signIn().then((FirebaseUser user){
-
-            userBloc.updateUserData(
-                User(
-                id: user.uid,
-                name: user.displayName,
-                email: user.email,
-                photoUrl: user.photoUrl,
-                firstName: user.displayName
-            ));
-
-          });**/
-
-        },
+        onTap: widget.onTap,
         child: Container(
           height: 50.0,
           width: buttonWidth,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.black12, width: 0.5),
             color: Colors.white,
             boxShadow: <BoxShadow>[
               BoxShadow(
@@ -109,5 +100,3 @@ class _GoogleButtonState extends State<GoogleButton> {
   }
 
 }
-
-
