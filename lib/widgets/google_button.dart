@@ -62,7 +62,14 @@ class _GoogleButtonState extends State<GoogleButton> {
           width: buttonWidth,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: Colors.white
+            color: Colors.white,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 2,
+                  offset: Offset(2, 2)
+              )
+            ]
           ),
 
           child: Center(
@@ -70,10 +77,17 @@ class _GoogleButtonState extends State<GoogleButton> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  color: Colors.black,
                   width: 35,
                   height: 35,
                   margin: EdgeInsets.only(right: 20),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage("assets/google.png")
+                      )
+                  ),
                 ),
                 Text(
                   widget.buttonText,

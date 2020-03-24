@@ -45,10 +45,16 @@ class _StartScreenState extends State<StartScreen> {
   Widget startUI(double screenWidth, double screenHeight) {
 
     Widget logoBox = Container(
-      width: screenWidth*0.33,
-      height: screenWidth*0.33,
+      width: screenWidth*0.4,
+      height: screenWidth*0.4,
       margin: EdgeInsets.only(top: screenHeight*0.13, bottom: 30),
-      color: Colors.black,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage("assets/logoa.png")
+          )
+      ),
     );
 
     Widget title = Container (
@@ -78,10 +84,23 @@ class _StartScreenState extends State<StartScreen> {
       alignment: Alignment.center,
       margin: EdgeInsets.only(bottom: 42, top:42),
       child: Text(
-        "¿Ya tienes una cuenta? Inicia Sesión",
+        "¿Ya tienes una cuenta? ",
         style: TextStyle(
             fontFamily: "Comfortaa",
             fontSize: 12,
+        ),
+      ),
+    );
+
+    Widget signIn = Container (
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(bottom: 42, top:42),
+      child: Text(
+        "Inicia Sesión",
+        style: TextStyle(
+          color: Color(0xFF158A8C),
+          fontFamily: "Comfortaa",
+          fontSize: 12,
         ),
       ),
     );
@@ -100,6 +119,7 @@ class _StartScreenState extends State<StartScreen> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -107,7 +127,13 @@ class _StartScreenState extends State<StartScreen> {
           title,
           subtitle,
           GoogleButton(bottomMargin: 0, topMargin: 40, buttonText: "Entra con Google",),
-          already,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              already,
+              signIn
+            ],
+          ),
           version
         ],
       ),
