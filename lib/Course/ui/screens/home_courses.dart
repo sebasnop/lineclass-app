@@ -83,9 +83,9 @@ class HomeCourses extends StatelessWidget {
 
         switch (snapshot.connectionState){
           case ConnectionState.waiting:
-            return LoadingScreen(text: "Cargando tus cursos3");
+            return LoadingScreen(text: "Cargando tus cursos ${snapshot.connectionState}");
           case ConnectionState.none:
-            return LoadingScreen(text: "Cargando tus cursos1");
+            return LoadingScreen(text: "No hay conexión");
 
           case ConnectionState.active:
             return showProfileData(snapshot);
@@ -93,7 +93,7 @@ class HomeCourses extends StatelessWidget {
             return showProfileData(snapshot);
 
           default:
-            return LoadingScreen(text: "Cargando tus cursos");
+            return LoadingScreen(text: "Esperando");
         }
       },
     );

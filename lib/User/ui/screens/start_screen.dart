@@ -140,12 +140,10 @@ class _StartScreenState extends State<StartScreen> {
           title,
           subtitle,
           GreenButton(bottomMargin: 0, topMargin: 0, buttonText: "Crear cuenta",),
-          GoogleButton(bottomMargin: 0, topMargin: space4, buttonText: "Entra con Google", onTap:
-              (){
+          GoogleButton(bottomMargin: 0, topMargin: space4, buttonText: "Entra con Google",
+            onTap: (){
 
             userBloc.signIn().then((FirebaseUser user){
-
-              String firstName = user.displayName;
 
               userBloc.updateUserData(
                   User(
@@ -157,7 +155,11 @@ class _StartScreenState extends State<StartScreen> {
                     lastSignIn: Timestamp.now()
                   ));
 
-            });
+            }
+
+            );
+
+            print("Usuario obtenido");
 
           }
             ,),
