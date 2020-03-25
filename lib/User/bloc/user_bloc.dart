@@ -12,7 +12,6 @@ import 'package:lineclass/User/repository/users_firestore_repository.dart';
 class UserBloc implements Bloc {
 
 
-
   /// CASOS DE USO DE FIREBASE AUTH
 
   final _firebaseAuthRepository = FirebaseAuthRepository();

@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/ui/screens/add_course_screen.dart';
+import 'package:lineclass/Course/ui/widgets/search_course.dart';
 import 'package:lineclass/Course/ui/widgets/your_courses.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
+import 'package:lineclass/User/ui/widgets/home_header.dart';
 import 'package:lineclass/User/ui/widgets/user_welcome.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/own_app_bar.dart';
@@ -28,38 +30,11 @@ class HomeCourses extends StatelessWidget {
     Widget showProfileData (AsyncSnapshot snapshot) {
 
       if(!snapshot.hasData || snapshot.hasError){
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: Column(
-            children: <Widget>[
-              OwnAppBar(
-                width: screenWidth,
-                height: appBarHeight,
-              ),
-              SizedBox(
-                width: screenWidth,
-                height: screenHeight-80,
-                child: ListView(
-                  padding: EdgeInsets.all(0),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  children: <Widget>[
 
-                  ],
-                ),
-              ),
-            ],
-          ),
-          floatingActionButton: Fab(
-            onPressed: (){
-
-            },
-            icon: Icons.add,
-            iconSize: 50,
-          ),
-        );
+        return LoadingScreen(text: "Se ha presentado un error");
 
       } else {
+
         var user = User(
             id: snapshot.data.uid,
             name: snapshot.data.displayName,
@@ -71,23 +46,16 @@ class HomeCourses extends StatelessWidget {
           backgroundColor: Colors.white,
           body: Column(
             children: <Widget>[
-              OwnAppBar(
-                width: screenWidth,
-                height: appBarHeight,
-              ),
+              HomeHeader(user: user),
+              SearchCourse(),
               SizedBox(
                 width: screenWidth,
-                height: screenHeight - 80,
+                height: screenHeight - 224 - 50,
                 child: ListView(
                   padding: EdgeInsets.all(0),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   children: <Widget>[
-                    UserWelcome(
-                      welcomeText: "¡Hola ",
-                      user: user,
-                      screenWidth: screenWidth,
-                    ),
                     YourCourses(),
                   ],
                 ),
@@ -115,9 +83,9 @@ class HomeCourses extends StatelessWidget {
 
         switch (snapshot.connectionState){
           case ConnectionState.waiting:
-            return LoadingScreen(text: "Cargando tus cursos");
+            return LoadingScreen(text: "Cargando tus cursos3");
           case ConnectionState.none:
-            return LoadingScreen(text: "Cargando tus cursos");
+            return LoadingScreen(text: "Cargando tus cursos1");
 
           case ConnectionState.active:
             return showProfileData(snapshot);

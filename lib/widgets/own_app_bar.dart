@@ -1,82 +1,75 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lineclass/widgets/own_back_button.dart';
 
 class OwnAppBar extends StatelessWidget {
 
-  double width; // Recibiremos el ancho de la pantalla para construir el appbar.
-  double height;
+  String title;
 
   OwnAppBar({
     Key key,
-    @required this.width,
-    @required this.height,
+    @required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
 
-    double widthBanner = (this.width*63)/100; // Ancho del banner dentro del appbar. Es el 63 % del ancho de pantalla.
-    double widthConfig = (this.width*37)/100; // Ancho restante del banner, que es el espacio para la configuración.
+    double screenWidth = MediaQuery.of(context).size.width;
 
     double heightSafeArea = 24;
-    double heightBanner = height - heightSafeArea;
+    double heightBar = 80 - heightSafeArea;
 
     Widget safeArea = Container(
       height: heightSafeArea,
-      width: width,
-      color: Color(0xff36C186)
+      width: screenWidth,
+      color: Colors.white
     );
 
-    Widget banner = Container(
-      width: widthBanner,
-      height: heightBanner,
-      color: Color(0xff36C186),
-      alignment: Alignment(0, 1),
-      padding: EdgeInsets.only(
-        left: 13
+    Widget backButton = Container(
+      padding: EdgeInsets.only(left: 5),
+      child: SizedBox(
+        height: heightBar,
+        width: heightBar,
+        child: IconButton(
+            icon: Icon(CupertinoIcons.left_chevron, color: Color(0xff686868), size: 40,),
+            onPressed: () {
+              Navigator.pop(context);
+            }
+        ),
       ),
-      child: Row(
+    );
+
+    Widget titleText = Container (
+      height: heightBar,
+      width: screenWidth,
+      alignment: Alignment.center,
+      child: Text (
+      title,
+        style: TextStyle(
+          fontFamily: "Comfortaa",
+          fontSize: 20,
+          color: Color(0xFF686868),
+        ),
+      ),
+    );
+
+    Widget bar = Container(
+      height: heightBar,
+      color: Colors.white,
+      width: screenWidth,
+      child: Stack(
         children: <Widget>[
-          Container(
-              height: heightBanner,
-              width: heightBanner,
-              child: Image(
-                  image: AssetImage("assets/logo.png")
-              )
-          ),
-          Container(
-            padding: EdgeInsets.only(
-              left: 13,
-              top: 4
-            ),
-            child: Text(
-              "Lineclass",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontFamily: 'Comfortaa',
-                fontWeight: FontWeight.w600
-              ),
-            ),
-          )
+          titleText,
+          backButton,
         ],
       ),
     );
 
-    Widget config = Container(
-      width: widthConfig,
-      alignment: Alignment.centerRight,
-      padding: EdgeInsets.only(
-        right: 16
-      ),
-      child: Icon(CupertinoIcons.gear_big, color: Colors.white, size: 24,),
-    );
-
     return Container(
-      width: width,
-      height: height,
+      width: screenWidth,
+      height: 80,
       decoration: BoxDecoration(
-          color: Color(0xff36C186),
+          color: Colors.white,
           boxShadow: <BoxShadow>[
             BoxShadow (
                 color:  Colors.black38,
@@ -87,14 +80,9 @@ class OwnAppBar extends StatelessWidget {
       child: Column(
         children: <Widget>[
           safeArea,
-          Row(
-            children: <Widget>[
-              banner,
-              config
-            ],
-          )
+          bar
         ],
-      ),
+      )
     );
   }
 }

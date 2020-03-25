@@ -21,15 +21,15 @@ class UserWelcome extends StatelessWidget {
 
     double usedWidth = this.screenWidth*0.75;
     double unusedWidth = this.screenWidth*0.25;
-    double widthText = usedWidth*0.85;
+    double widthText = usedWidth*0.74;
     double widthPhoto = usedWidth - widthText;
 
     Widget welcome = Container(
         child: Text(
           welcomeText,
           style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w100,
+            color: Colors.white,
+            fontWeight: FontWeight.w300,
             fontSize: 20,
         ),
       )
@@ -38,7 +38,7 @@ class UserWelcome extends StatelessWidget {
     Widget name = Text(
       "Sebastian!",
       style: TextStyle(
-        color: Colors.black,
+        color: Colors.white,
         fontWeight: FontWeight.w500,
         fontSize: 20,
       ),
@@ -60,8 +60,7 @@ class UserWelcome extends StatelessWidget {
       margin: EdgeInsets.only(
         left: unusedWidth/2,
         right: unusedWidth/2,
-        top: 35,
-        bottom: 35
+        top: 25
       ),
       child: Row(
         children: <Widget>[
@@ -75,8 +74,8 @@ class UserWelcome extends StatelessWidget {
     );
 
     return Container(
-            width: screenWidth,
-            child: textAndPhoto
+          width: screenWidth,
+          child: textAndPhoto
         );
   }
 }
