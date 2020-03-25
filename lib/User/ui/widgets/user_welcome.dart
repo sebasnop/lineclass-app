@@ -36,7 +36,7 @@ class UserWelcome extends StatelessWidget {
     );
 
     Widget name = Text(
-      user.firstName,
+      "Sebastian!",
       style: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.w500,

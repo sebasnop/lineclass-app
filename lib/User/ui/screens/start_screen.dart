@@ -145,6 +145,8 @@ class _StartScreenState extends State<StartScreen> {
 
             userBloc.signIn().then((FirebaseUser user){
 
+              String firstName = user.displayName;
+
               userBloc.updateUserData(
                   User(
                       id: user.uid,

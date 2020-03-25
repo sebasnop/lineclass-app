@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/User/model/user.dart';
 
@@ -18,21 +19,21 @@ class AvatarPicture extends StatelessWidget {
       width: side,
       height: side,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white,/**
         boxShadow: <BoxShadow> [BoxShadow(
           color: Colors.black26,
           blurRadius: 2,
           offset: Offset(1, 1)
-        )],
+        )],**/
           border: Border.all(
-              color: Colors.black,
+              color: Colors.white,
               width: 1,
               style: BorderStyle.solid
           ),
           shape: BoxShape.circle,
           image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage(user.photoUrl)
+              image: NetworkImage(user.photoUrl)
           )
       ),
     );
