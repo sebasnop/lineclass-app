@@ -37,11 +37,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.white,
         ),
         title: 'Lineclass',
-        initialRoute: "start",
-        routes: {
-          "/": (context) => HomeCourses(),
-          "start": (context) => StartScreen(),
-        },
+        home: StartScreen(),
       ),
     );
   }

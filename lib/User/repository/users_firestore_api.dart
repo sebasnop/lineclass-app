@@ -15,7 +15,7 @@ class UsersFirestoreAPI {
     return await ref.setData({
       "uid": user.id,
       "name": user.name,
-      "firstName": user.firstName,
+      "firstName": user.name,
       "email": user.email,
       "photoUrl": user.photoUrl,
       "lastSignIn": Timestamp.now(),

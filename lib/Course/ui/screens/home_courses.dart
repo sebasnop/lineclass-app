@@ -19,6 +19,12 @@ class HomeCourses extends StatelessWidget {
 
   UserBloc userBloc;
 
+  ConnectionState guaco;
+
+  AsyncSnapshot guaco1;
+
+  HomeCourses({Key key,  @required this.guaco,  @required this.guaco1});
+
   @override
   Widget build(BuildContext context) {
 
@@ -81,18 +87,19 @@ class HomeCourses extends StatelessWidget {
       stream: userBloc.authStatus,
       builder: (BuildContext context, AsyncSnapshot snapshot){
 
-        switch (snapshot.connectionState){
+        switch (guaco){
           case ConnectionState.waiting:
             return LoadingScreen(text: "Cargando tus cursos ${snapshot.connectionState}");
           case ConnectionState.none:
             return LoadingScreen(text: "No hay conexión");
 
           case ConnectionState.active:
-            return showProfileData(snapshot);
+            return showProfileData(guaco1);
           case ConnectionState.done:
-            return showProfileData(snapshot);
+            return showProfileData(guaco1);
 
           default:
+            print("$guaco");
             return LoadingScreen(text: "Esperando");
         }
       },

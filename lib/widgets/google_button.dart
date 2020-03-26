@@ -5,30 +5,20 @@ import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
 
-class GoogleButton extends StatefulWidget {
+class GoogleButton extends StatelessWidget {
 
+  UserBloc userBloc;
   final String buttonText;
 
-  double topMargin;
-  double bottomMargin;
-
-  VoidCallback onTap;
+  final double topMargin;
+  final double bottomMargin;
 
   GoogleButton({
     Key key,
     @required this.buttonText,
     @required this.topMargin,
     @required this.bottomMargin,
-    @required this.onTap,
   });
-
-  @override
-  _GoogleButtonState createState() => _GoogleButtonState();
-}
-
-class _GoogleButtonState extends State<GoogleButton> {
-
-  UserBloc userBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -42,25 +32,39 @@ class _GoogleButtonState extends State<GoogleButton> {
       height: 50,
       width: buttonWidth,
       margin: EdgeInsets.only(
-          top: widget.topMargin,
-          bottom: widget.bottomMargin
+          top: topMargin,
+          bottom: bottomMargin
       ),
       child: InkWell(
-        onTap: widget.onTap,
+        onTap: (){
+
+          userBloc.signIn().then((FirebaseUser user){
+
+            userBloc.updateUserData(
+                User(
+                    id: user.uid,
+                    name: user.displayName,
+                    email: user.email,
+                    photoUrl: user.photoUrl,
+                ));
+
+          });
+
+        },
         child: Container(
           height: 50.0,
           width: buttonWidth,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.black12, width: 0.5),
-            color: Colors.white,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 2,
-                  offset: Offset(2, 2)
-              )
-            ]
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.black12, width: 0.5),
+              color: Colors.white,
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 2,
+                    offset: Offset(2, 2)
+                )
+              ]
           ),
 
           child: Center(
@@ -81,7 +85,7 @@ class _GoogleButtonState extends State<GoogleButton> {
                   ),
                 ),
                 Text(
-                  widget.buttonText,
+                  buttonText,
                   style: TextStyle(
                       fontSize: 18,
                       fontFamily: "Comfortaa",
@@ -98,5 +102,4 @@ class _GoogleButtonState extends State<GoogleButton> {
       ),
     );
   }
-
 }

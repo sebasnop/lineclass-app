@@ -3,9 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import"package:flutter/material.dart";
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:lineclass/Course/ui/screens/add_course_screen.dart';
 import 'package:lineclass/Course/ui/screens/home_courses.dart';
+import 'package:lineclass/Course/ui/widgets/search_course.dart';
+import 'package:lineclass/Course/ui/widgets/your_courses.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
+import 'package:lineclass/User/ui/widgets/home_header.dart';
+import 'package:lineclass/widgets/fab.dart';
 import 'package:lineclass/widgets/google_button.dart';
 import 'package:lineclass/widgets/green_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
@@ -35,7 +40,8 @@ class _StartScreenState extends State<StartScreen> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
 
         if(snapshot.hasData && !snapshot.hasError) {
-          return HomeCourses();
+          print("${snapshot.connectionState}");
+          return home(userBloc, snapshot.connectionState, snapshot);
         } else if(snapshot.connectionState != ConnectionState.waiting) {
           return startUI(screenWidth, screenHeight);
         } else {
@@ -140,29 +146,7 @@ class _StartScreenState extends State<StartScreen> {
           title,
           subtitle,
           GreenButton(bottomMargin: 0, topMargin: 0, buttonText: "Crear cuenta",),
-          GoogleButton(bottomMargin: 0, topMargin: space4, buttonText: "Entra con Google",
-            onTap: (){
-
-            userBloc.signIn().then((FirebaseUser user){
-
-              userBloc.updateUserData(
-                  User(
-                      id: user.uid,
-                      name: user.displayName,
-                      email: user.email,
-                      photoUrl: user.photoUrl,
-                      firstName: user.displayName,
-                    lastSignIn: Timestamp.now()
-                  ));
-
-            }
-
-            );
-
-            print("Usuario obtenido");
-
-          }
-            ,),
+          GoogleButton(bottomMargin: 0, topMargin: space4, buttonText: "Entra con Google"),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -174,6 +158,60 @@ class _StartScreenState extends State<StartScreen> {
         ],
       ),
     );
+
+  }
+
+  Widget home (UserBloc userBloc, ConnectionState guaco, AsyncSnapshot snapshot) {
+
+      userBloc = BlocProvider.of(context);
+
+      double screenWidth = MediaQuery.of(context).size.width;
+      double screenHeight = MediaQuery.of(context).size.height;
+
+        if(!snapshot.hasData || snapshot.hasError){
+
+          return LoadingScreen(text: "Se ha presentado un error");
+
+        } else {
+
+          var user = User(
+            id: snapshot.data.uid,
+            name: snapshot.data.displayName,
+            email: snapshot.data.email,
+            photoUrl: snapshot.data.photoUrl,
+          );
+
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: Column(
+              children: <Widget>[
+                HomeHeader(user: user),
+                SearchCourse(),
+                SizedBox(
+                  width: screenWidth,
+                  height: screenHeight - 224 - 50,
+                  child: ListView(
+                    padding: EdgeInsets.all(0),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      YourCourses(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            floatingActionButton: Fab(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (BuildContext context) => AddCourseScreen(user: user)
+                ));
+              },
+              icon: Icons.add,
+              iconSize: 50,
+            ),
+          );
+        }
 
   }
 

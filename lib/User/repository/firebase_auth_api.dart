@@ -16,7 +16,7 @@ class FirebaseAuthAPI {
         GoogleAuthProvider.getCredential(idToken: gSA.idToken, accessToken: gSA.accessToken)
     );
 
-    FirebaseUser user = await authResult.user;
+    FirebaseUser user = authResult.user;
 
     return user;
 
