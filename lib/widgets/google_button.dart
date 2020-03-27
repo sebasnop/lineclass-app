@@ -42,7 +42,7 @@ class GoogleButton extends StatelessWidget {
 
             userBloc.updateUserData(
                 User(
-                    id: user.uid,
+                    uid: user.uid,
                     name: user.displayName,
                     email: user.email,
                     photoUrl: user.photoUrl,

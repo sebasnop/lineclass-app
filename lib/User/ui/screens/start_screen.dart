@@ -175,11 +175,29 @@ class _StartScreenState extends State<StartScreen> {
         } else {
 
           var user = User(
-            id: snapshot.data.uid,
+            uid: snapshot.data.uid,
             name: snapshot.data.displayName,
             email: snapshot.data.email,
             photoUrl: snapshot.data.photoUrl,
           );
+
+          return StreamBuilder(
+            stream: userBloc.getUser(user),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+
+              if(snapshot.hasData && !snapshot.hasError) {
+                User usuario = userBloc.buildUser(snapshot.data);
+                return HomeCourses(user: usuario);
+              } else if(snapshot.connectionState != ConnectionState.waiting) {
+                return startUI(screenWidth, screenHeight);
+              } else {
+                return LoadingScreen(text: "Iniciando Sesión");
+              }
+            },
+
+          );
+
+          /**userBloc.getUser(user);
 
           return Scaffold(
             backgroundColor: Colors.white,
@@ -211,6 +229,8 @@ class _StartScreenState extends State<StartScreen> {
               iconSize: 50,
             ),
           );
+
+          **/
         }
 
   }

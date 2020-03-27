@@ -10,10 +10,10 @@ class UsersFirestoreAPI {
 
   void updateUserData (User user) async {
 
-    DocumentReference ref = _db.collection(users).document(user.id);
+    DocumentReference ref = _db.collection(users).document(user.uid);
 
     return await ref.setData({
-      "uid": user.id,
+      "uid": user.uid,
       "name": user.name,
       "firstName": user.name,
       "email": user.email,
@@ -23,6 +23,24 @@ class UsersFirestoreAPI {
     },
         merge: true
     );
+
+  }
+
+  User buildUser (DocumentSnapshot userSnapshot) {
+
+    User user;
+
+    user = User(
+      uid: userSnapshot.data["uid"],
+      firstName: userSnapshot.data["firstName"],
+      lastSignIn: userSnapshot.data["lastSignIn"],
+      name: userSnapshot.data["name"],
+      email: userSnapshot.data["email"],
+      photoUrl: userSnapshot.data["photoUrl"]
+    );
+
+
+    return user;
 
   }
 

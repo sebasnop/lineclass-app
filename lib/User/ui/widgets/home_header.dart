@@ -42,7 +42,7 @@ class HomeHeader extends StatelessWidget {
             child: InkWell(
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext context) => UserSettingsScreen()
+                    builder: (BuildContext context) => UserSettingsScreen(user:user)
                 ));
               },
               child: Icon(Icons.settings, color: Colors.white70, size: 20,),
