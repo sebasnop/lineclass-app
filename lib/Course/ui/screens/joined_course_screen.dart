@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
+import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/widgets/own_exit_button.dart';
 
 class JoinedCourseScreen extends StatelessWidget {
@@ -83,7 +84,7 @@ class JoinedCourseScreen extends StatelessWidget {
           greatText,
           courseOfText,
           CourseCard(course: Course(name: course.name, members: List<String>(), id: "", code: "", institution: "",
-              creationDate: Timestamp.now(), courseOwner: "¡Bienvenido! :D", thematic: course.thematic)),
+              creationDate: Timestamp.now(), courseOwner: User(name: "¡Bienvenido! :D"), thematic: course.thematic)),
           Container(height: screenHeight*0.1,),
           //nameCourseBox,
           OwnExitButton(height: backButtonWidth, width: backButtonWidth, exitText: "Salir")

@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
+import 'package:lineclass/User/bloc/user_bloc.dart';
+import 'package:lineclass/User/model/user.dart';
 
 class CoursesFirestoreAPI {
 
   final courses = "courses";
+  final users = "users";
   final Firestore _db = Firestore.instance;
 
   // Crear un curso
@@ -19,7 +22,7 @@ class CoursesFirestoreAPI {
       'creationDate': course.creationDate,
       'thematic': course.thematic,
       'code': course.code,
-      'courseOwner': course.courseOwner,
+      'courseOwner': _db.document("$users/${course.courseOwner.uid}"),
       'members': course.members
     }).then( (DocumentReference dr) {
 
@@ -123,9 +126,14 @@ class CoursesFirestoreAPI {
               List<dynamic> superList = c.data["members"] ?? ifNull;
               List<String> subList = List <String>.from(superList.whereType<String>()) ?? ifNull;
 
+              // Convertir una referencia de Usuario en un objeto User
+              DocumentReference guaco = c.data["courseOwner"];
+
+              print(guaco.documentID);
+
               CourseCard courseCard = CourseCard(
                 course: Course (code: c.data["code"], institution: c.data["institution"], name: c.data["name"],
-                    creationDate: c.data["creationDate"], courseOwner: c.data["courseOwner"],
+                    creationDate: c.data["creationDate"], courseOwner: User(name:"name",),//courseOwner: c.data["courseOwner"],
                     thematic: c.data["thematic"], id: c.data["id"], members: subList)
               );
 
@@ -137,7 +145,7 @@ class CoursesFirestoreAPI {
       if (courses.isEmpty){
         CourseCard courseCard = CourseCard(
             course: Course (code: "", institution: "", name: "¡Bienvenido!",
-                creationDate: Timestamp.now(), courseOwner: "Añade tu primer curso con el botón de \nabajo a la derecha <3", thematic: "empty")
+                creationDate: Timestamp.now(), courseOwner: User(name:"Añade tu primer curso con el botón de \nabajo a la derecha <3"), thematic: "empty")
         );
 
             courses.add(courseCard);

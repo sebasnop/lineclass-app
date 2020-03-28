@@ -284,7 +284,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                       code: code,
                                       thematic: courseThematic,
                                       creationDate: Timestamp.now(),
-                                      courseOwner: widget.user.name,
+                                      courseOwner: widget.user,
                                       members: guaco
                                     )).whenComplete( () {
 

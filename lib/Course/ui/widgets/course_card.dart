@@ -60,7 +60,7 @@ class CourseCard extends StatelessWidget {
         children: <Widget>[
           Text(course.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
           Text("", style: TextStyle(fontSize: 4,)),
-          Text(course.courseOwner, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200),)
+          Text(course.courseOwner.name, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200),)
         ],
       ),
     );

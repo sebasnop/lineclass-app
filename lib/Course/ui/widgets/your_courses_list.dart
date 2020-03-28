@@ -4,6 +4,7 @@ import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
+import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/widgets/own_circular_progress.dart';
 
 class YourCoursesList extends StatelessWidget {
@@ -14,6 +15,8 @@ class YourCoursesList extends StatelessWidget {
   Widget build(BuildContext context) {
 
     userBloc = BlocProvider.of<UserBloc>(context);
+
+    User Function(DocumentSnapshot) buildUserFunction = userBloc.buildUser;
 
     return Container(
       child: StreamBuilder(
@@ -34,7 +37,7 @@ class YourCoursesList extends StatelessWidget {
               case ConnectionState.none:
                 return Column (
                   children: <Widget>[
-                    CourseCard(course: Course(thematic: "error", courseOwner: "Verifica tu conexión a internet", creationDate: Timestamp.now(),
+                    CourseCard(course: Course(thematic: "error", courseOwner: User(name: "Verifica tu conexión a internet"), creationDate: Timestamp.now(),
                         name: "No se pudo conectar :(", institution: "", code: "", id: "", members: List <String> ()) ),
                   ],
                 );

@@ -10,7 +10,7 @@ class Course {
   String institution;
   Timestamp creationDate;
   String code;
-  String courseOwner;
+  User courseOwner;
   List members;
 
   Course({
