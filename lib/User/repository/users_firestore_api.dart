@@ -29,14 +29,13 @@ class UsersFirestoreAPI {
       nickname = "$firstNickname$emailProvider";
     }
 
-    print(nickname);
-
     return await ref.setData({
       "uid": user.uid,
       "name": user.name,
-      "firstName": firstName,
       "email": user.email,
       "photoUrl": user.photoUrl,
+      "firstName": firstName,
+      "nickname": nickname,
       "lastSignIn": Timestamp.now(),
       //"myCourses": user.myCourses,
     },

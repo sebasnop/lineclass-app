@@ -4,19 +4,21 @@ import 'package:flutter/material.dart';
 class User {
 
   String uid;
-  String email;
-  String firstName;
   String name;
+  String email;
   String photoUrl;
+  String firstName;
+  String nickname;
   Timestamp lastSignIn;
 
   User({
     Key key,
     @required this.uid,
-    @required this.email,
-    @required this.firstName,
-    @required this.photoUrl,
     @required this.name,
+    @required this.email,
+    @required this.photoUrl,
+    @required this.firstName,
+    @required this.nickname,
     @required this.lastSignIn,
   });
 
