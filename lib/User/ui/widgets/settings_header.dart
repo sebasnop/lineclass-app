@@ -22,6 +22,39 @@ class SettingsHeader extends StatelessWidget {
     double widthText = usedWidth*0.80;
     double widthPhoto = usedWidth - widthText;
 
+    Widget name = Container(
+      margin: EdgeInsets.only(bottom: 3),
+      child: Text(
+        "${user.firstName} ${user.firstLastName}",
+        textAlign: TextAlign.left,
+        style: TextStyle(
+          fontSize: 15,
+          color: Colors.white,
+          fontFamily: "Comfortaa",
+        ),
+      )
+    );
+
+    Text nickname = Text(
+      "@${user.nickname}",
+      textAlign: TextAlign.left,
+      style: TextStyle(
+          fontSize: 15,
+          color: Colors.white,
+          fontFamily: "Comfortaa",
+          fontWeight: FontWeight.bold
+      ),
+    );
+
+    Widget text = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        name,
+        nickname
+      ],
+    );
+
     return Container(
       height: screenHeight*0.20,
       alignment: Alignment.center,
@@ -52,7 +85,8 @@ class SettingsHeader extends StatelessWidget {
           width: screenWidth-(side*2),
           child: Row(
             children: <Widget>[
-              AvatarPicture(side: widthPhoto, user: user,)
+              AvatarPicture(side: widthPhoto, user: user,),
+              Container(margin: EdgeInsets.only(left: 15),child:text)
             ]
         ),
       ),

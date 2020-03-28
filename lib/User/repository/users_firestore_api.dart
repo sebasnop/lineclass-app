@@ -14,6 +14,8 @@ class UsersFirestoreAPI {
 
     List <String> nameParts = user.name.split(" ");
     String firstName = nameParts[0];
+    String firstLastName = nameParts[1] ?? "";
+    String secondLastName = nameParts[2] ?? "";
 
     List <String> emailPartsOne = user.email.split("@");
     String firstNickname = emailPartsOne[0];
@@ -35,6 +37,8 @@ class UsersFirestoreAPI {
       "email": user.email,
       "photoUrl": user.photoUrl,
       "firstName": firstName,
+      "firstLastName": firstLastName,
+      "secondLastName": secondLastName,
       "nickname": nickname,
       "lastSignIn": Timestamp.now(),
       //"myCourses": user.myCourses,
@@ -50,11 +54,14 @@ class UsersFirestoreAPI {
 
     user = User(
       uid: userSnapshot.data["uid"],
-      firstName: userSnapshot.data["firstName"],
-      lastSignIn: userSnapshot.data["lastSignIn"],
       name: userSnapshot.data["name"],
       email: userSnapshot.data["email"],
-      photoUrl: userSnapshot.data["photoUrl"]
+      photoUrl: userSnapshot.data["photoUrl"],
+      firstName: userSnapshot.data["firstName"],
+      firstLastName: userSnapshot.data["firstLastName"],
+      secondLastName: userSnapshot.data["secondLastName"],
+      nickname: userSnapshot.data["nickname"],
+      lastSignIn: userSnapshot.data["lastSignIn"],
     );
 
 

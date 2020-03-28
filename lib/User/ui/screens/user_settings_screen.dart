@@ -16,8 +16,6 @@ class UserSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print(user.photoUrl);
-
     double screenWidth = MediaQuery.of(context).size.width;
 
     userBloc = BlocProvider.of(context);

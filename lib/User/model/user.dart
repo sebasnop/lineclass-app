@@ -8,6 +8,8 @@ class User {
   String email;
   String photoUrl;
   String firstName;
+  String firstLastName;
+  String secondLastName;
   String nickname;
   Timestamp lastSignIn;
 
@@ -18,6 +20,8 @@ class User {
     @required this.email,
     @required this.photoUrl,
     @required this.firstName,
+    this.firstLastName,
+    this.secondLastName,
     @required this.nickname,
     @required this.lastSignIn,
   });

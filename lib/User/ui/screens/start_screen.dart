@@ -54,7 +54,7 @@ class _StartScreenState extends State<StartScreen> {
 
   Widget startUI(double screenWidth, double screenHeight) {
 
-    double space1 = screenHeight*0.03;
+    double space1 = screenHeight*0.037;
     double space2 = screenHeight*0.02;
     double space3 = screenHeight*0.1;
     double space4 = screenHeight*0.019;
@@ -64,7 +64,7 @@ class _StartScreenState extends State<StartScreen> {
     Widget logoBox = Container(
       width: screenWidth*0.4,
       height: screenWidth*0.4,
-      margin: EdgeInsets.only(bottom: 30),
+      margin: EdgeInsets.only(bottom: space1),
       decoration: BoxDecoration(
           color: Colors.white,
           image: DecorationImage(
@@ -197,40 +197,6 @@ class _StartScreenState extends State<StartScreen> {
 
           );
 
-          /**userBloc.getUser(user);
-
-          return Scaffold(
-            backgroundColor: Colors.white,
-            body: Column(
-              children: <Widget>[
-                HomeHeader(user: user),
-                SearchCourse(),
-                SizedBox(
-                  width: screenWidth,
-                  height: screenHeight - 224 - 50,
-                  child: ListView(
-                    padding: EdgeInsets.all(0),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      YourCourses(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            floatingActionButton: Fab(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext context) => AddCourseScreen(user: user)
-                ));
-              },
-              icon: Icons.add,
-              iconSize: 50,
-            ),
-          );
-
-          **/
         }
 
   }
