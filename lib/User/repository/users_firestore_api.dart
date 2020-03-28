@@ -12,10 +12,29 @@ class UsersFirestoreAPI {
 
     DocumentReference ref = _db.collection(users).document(user.uid);
 
+    List <String> nameParts = user.name.split(" ");
+    String firstName = nameParts[0];
+
+    List <String> emailPartsOne = user.email.split("@");
+    String firstNickname = emailPartsOne[0];
+
+    List <String> emailPartsTwo = emailPartsOne[1].split(".");
+    String emailProvider = emailPartsTwo[0];
+
+    String nickname;
+
+    if (emailProvider == "gmail") {
+      nickname = firstNickname;
+    } else {
+      nickname = "$firstNickname$emailProvider";
+    }
+
+    print(nickname);
+
     return await ref.setData({
       "uid": user.uid,
       "name": user.name,
-      "firstName": user.name,
+      "firstName": firstName,
       "email": user.email,
       "photoUrl": user.photoUrl,
       "lastSignIn": Timestamp.now(),
