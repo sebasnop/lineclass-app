@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
+import 'package:lineclass/User/model/user.dart';
 
 import 'courses_firestore_api.dart';
 

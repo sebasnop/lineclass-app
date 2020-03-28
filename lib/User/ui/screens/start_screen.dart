@@ -181,8 +181,10 @@ class _StartScreenState extends State<StartScreen> {
             photoUrl: snapshot.data.photoUrl,
           );
 
+          String userUid = user.uid;
+
           return StreamBuilder(
-            stream: userBloc.getUser(user),
+            stream: userBloc.getUser(user.uid),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
 
               if(snapshot.hasData && !snapshot.hasError) {

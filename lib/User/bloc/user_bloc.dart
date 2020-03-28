@@ -41,9 +41,9 @@ class UserBloc implements Bloc {
 
   void updateUserData (User user) => _usersFirestoreRepository.updateUserData(user);
 
-  Stream <DocumentSnapshot> getUser (User user) {
+  Stream <DocumentSnapshot> getUser (String userUid) {
     Stream <DocumentSnapshot> userSnapshot;
-    Stream <DocumentSnapshot> ref = Firestore.instance.collection("users").document(user.uid).snapshots();
+    Stream <DocumentSnapshot> ref = Firestore.instance.collection("users").document(userUid).snapshots();
     userSnapshot = ref;
     return userSnapshot;
   }

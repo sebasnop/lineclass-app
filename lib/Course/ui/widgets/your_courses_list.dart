@@ -16,8 +16,6 @@ class YourCoursesList extends StatelessWidget {
 
     userBloc = BlocProvider.of<UserBloc>(context);
 
-    User Function(DocumentSnapshot) buildUserFunction = userBloc.buildUser;
-
     return Container(
       child: StreamBuilder(
           stream: userBloc.coursesListStream,

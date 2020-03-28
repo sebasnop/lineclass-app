@@ -3,6 +3,7 @@ import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
+import 'package:lineclass/User/repository/users_firestore_api.dart';
 
 class CoursesFirestoreAPI {
 
@@ -127,9 +128,22 @@ class CoursesFirestoreAPI {
               List<String> subList = List <String>.from(superList.whereType<String>()) ?? ifNull;
 
               // Convertir una referencia de Usuario en un objeto User
-              DocumentReference guaco = c.data["courseOwner"];
+              DocumentReference userOwnerReference = c.data["courseOwner"];
 
-              print(guaco.documentID);
+              Stream <DocumentSnapshot> getUser (String userUid) {
+                Stream <DocumentSnapshot> userSnapshot;
+                Stream <DocumentSnapshot> ref = Firestore.instance.collection("users").document(userUid).snapshots();
+                userSnapshot = ref;
+                return userSnapshot;
+              }
+
+              Stream<DocumentSnapshot> getUserOwner = getUser(userOwnerReference.documentID);
+
+              //User = getUserOwner.last;
+
+              //Future <DocumentSnapshot> bro = ;
+
+              //User courseOwner = UsersFirestoreAPI().buildUser(bro);
 
               CourseCard courseCard = CourseCard(
                 course: Course (code: c.data["code"], institution: c.data["institution"], name: c.data["name"],
