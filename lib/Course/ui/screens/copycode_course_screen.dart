@@ -7,12 +7,45 @@ import 'package:toast/toast.dart';
 
 class CopycodeCourseScreen extends StatelessWidget {
 
-  String code;
+  final String code;
 
   CopycodeCourseScreen({Key key, this.code});
 
   @override
   Widget build(BuildContext context) {
+
+    final int codeLength = code.length;
+
+    String codeOne = "";
+    String codeTwo = "";
+    String codeThree = "";
+
+    if (codeLength > 20){
+    var num = 0;
+
+    for(var i = num ; i <= codeLength-1; i++) {
+
+      if (i <= 20) {
+
+        codeOne = "$codeOne${code[i]}";
+
+      } else if (i > 20 && i <= 40){
+
+        codeTwo = "$codeTwo${code[i]}";
+
+      }
+
+      else if (i > 40 && i <= 60){
+
+        codeThree = "$codeThree${code[i]}";
+
+      }
+
+    }
+
+    } else {
+      codeOne = code;
+    }
 
     double screenWidth = MediaQuery.of(context).size.width;
     double backButtonWidth = screenWidth*0.20;
@@ -38,7 +71,7 @@ class CopycodeCourseScreen extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Container(
-            height: screenHeight*0.08,
+            height: screenHeight*0.15,
             width: screenWidth*0.85,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -51,12 +84,13 @@ class CopycodeCourseScreen extends StatelessWidget {
             ),
           ),
           Text(
-            code,
+            "$codeOne\n$codeTwo\n$codeThree",
             style: TextStyle(
               color: Colors.black54,
               fontSize: 20,
               fontWeight: FontWeight.w300,
             ),
+            textAlign: TextAlign.center,
           )
         ],
       ),

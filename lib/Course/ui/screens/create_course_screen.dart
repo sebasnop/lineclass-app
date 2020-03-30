@@ -256,7 +256,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                         String courseNameNoSpaces = courseU.replaceAll(RegExp(r" "), "");
 
-                        String code = "$courseNameNoSpaces";
+                        String courseOwnerNickname = widget.user.nickname;
+
+                        String code = "$courseNameNoSpaces$courseOwnerNickname";
 
                         Navigator.push(context, MaterialPageRoute(
                             builder: (BuildContext context) => LoadingScreen(text: "AÑADIENDO TU \n CURSO...",)

@@ -12,6 +12,7 @@ import 'package:lineclass/User/repository/users_firestore_repository.dart';
 class UserBloc implements Bloc {
 
 
+
   /// CASOS DE USO DE FIREBASE AUTH
 
   final _firebaseAuthRepository = FirebaseAuthRepository();
@@ -51,29 +52,28 @@ class UserBloc implements Bloc {
   User buildUser (DocumentSnapshot userSnapshot) => _usersFirestoreRepository.buildUser(userSnapshot);
 
 
+
   /// CASOS DE USO DE FIRESTORE CURSOS
 
   final _coursesFirestoreRepository = CoursesFirestoreRepository();
 
-    /// Instancia de cursos
+    /// Instancia de cursos:
 
-    // Crear curso
+      /// Crear curso
   Future <void> createCourse (Course course) => _coursesFirestoreRepository.createCourse(course);
 
-  // Actualizar miembros de un curso
+      /// Actualizar miembros de un curso
   void updateCourseMembers (Course course) => _coursesFirestoreRepository.updateCourseMembers(course);
 
-    // Traer todos los cursos
+      /// Traer todos los cursos
   Future <List> allCourses () => _coursesFirestoreRepository.allCourses();
 
-    // Instanciar una lista de cursos con el mismo código para saber si está repetido
+      /// Instanciar una lista de cursos con el mismo código para saber si está repetido
   List <Course> repeatedListCourses (List<DocumentSnapshot> coursesListSnapshot, String code)
   => _coursesFirestoreRepository.repeatedListCourses(coursesListSnapshot, code);
 
-              ///List <Course> listCourses (List<DocumentSnapshot> coursesListSnapshot)
-              ///=> _cloudFirestoreRepository.listCourses(coursesListSnapshot);
 
-    /// Vista de cursos
+    /// Vista de cursos:
 
     // Traer los cursos en tiempo real como vista
   Stream<QuerySnapshot> coursesListStream = Firestore.instance.collection(CoursesFirestoreAPI().courses).snapshots();
@@ -81,6 +81,9 @@ class UserBloc implements Bloc {
   // Construir cada card de los cursos que sean
   List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot)
   => _coursesFirestoreRepository.buildCourses(coursesListSnapshot);
+
+
+
 
   @override
   void dispose() {
