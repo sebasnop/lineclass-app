@@ -264,7 +264,9 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             builder: (BuildContext context) => LoadingScreen(text: "AÑADIENDO TU \n CURSO...",)
                         ));
 
-                        userBloc.allCourses().then(
+                        DocumentReference userReference = userBloc.getUserReference(widget.user.uid);
+
+                        userBloc.ownCourses(userReference).then(
                                 (snapshot){
 
                                   List <Course> repeatedCourses = userBloc.repeatedListCourses(snapshot, code);

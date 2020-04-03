@@ -13,10 +13,12 @@ class CoursesFirestoreRepository {
 
   void updateCourseMembers (Course course) => _coursesFirestoreAPI.updateCourseMembers(course);
 
-  Future <List> allCourses () => _coursesFirestoreAPI.allCourses();
+  Future <List> ownCourses (DocumentReference userReference) => _coursesFirestoreAPI.ownCourses(userReference);
 
   List <Course> repeatedListCourses (List<DocumentSnapshot> coursesListSnapshot, String code)
   => _coursesFirestoreAPI.repeatedListCourses(coursesListSnapshot, code);
+
+  Future <List> allCourses () => _coursesFirestoreAPI.allCourses();
 
   List <Course> listCourses (List<DocumentSnapshot> coursesListSnapshot)
   => _coursesFirestoreAPI.listCourses(coursesListSnapshot);

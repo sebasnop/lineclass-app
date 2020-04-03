@@ -69,4 +69,34 @@ class UsersFirestoreAPI {
 
   }
 
+    /// Traer el usuario en tiempo real como snapshots
+  Stream <DocumentSnapshot> getUser (String userUid) {
+    Stream <DocumentSnapshot> userSnapshot;
+    Stream <DocumentSnapshot> documentSnapshot = _db.collection("users").document(userUid).snapshots();
+    userSnapshot = documentSnapshot;
+    return userSnapshot;
+  }
+
+    ///Traer la referencia del document del usuario
+  DocumentReference getUserReference (String userUid) {
+    DocumentReference userReference;
+    DocumentReference ref = _db.collection("users").document(userUid);
+    userReference = ref;
+    return userReference;
+  }
+
+  Future <User> getUserByReference (DocumentReference userReference){
+
+    Future <User> userByFuture = userReference.get().then((snapshot) {
+
+      User user = buildUser(snapshot);
+
+      return user;
+
+    });
+
+    return userByFuture;
+
+  }
+
 }

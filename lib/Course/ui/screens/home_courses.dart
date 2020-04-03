@@ -39,7 +39,7 @@ class HomeCourses extends StatelessWidget {
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               children: <Widget>[
-                YourCourses(),
+                YourCourses(user: user),
               ],
             ),
           ),

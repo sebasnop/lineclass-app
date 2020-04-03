@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/ui/widgets/your_courses_list.dart';
+import 'package:lineclass/User/model/user.dart';
 
 class YourCourses extends StatefulWidget {
+
+  User user;
+
+  YourCourses ({Key key, this.user});
+
   @override
   _YourCoursesState createState() => _YourCoursesState();
 }
@@ -23,7 +29,7 @@ class _YourCoursesState extends State<YourCourses> {
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 children: <Widget>[
-                  YourCoursesList(),
+                  YourCoursesList(user: widget.user),
                 ],
               ),
             )

@@ -6,7 +6,8 @@ class FirebaseAuthAPI {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<FirebaseUser> signIn () async {
+    /// Iniciar sesión con Google
+  Future<FirebaseUser> signInWithGoogle () async {
     await signOut();
 
     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
@@ -22,20 +23,7 @@ class FirebaseAuthAPI {
 
   }
 
-  Future<FirebaseUser> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    if (googleUser != null) {
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.getCredential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      AuthResult result = await _auth.signInWithCredential(credential);
-      return result?.user;
-    }
-    return null;
-  }
-
+    /// Cerrar sesión de Google
   signOut () async {
     await _auth.signOut().then((onValue) => print("Sesión cerrada Firebase"));
     _googleSignIn.signOut().then((onValue) => print("Sesión cerrada Google"));

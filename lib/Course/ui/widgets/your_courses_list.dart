@@ -11,10 +11,16 @@ class YourCoursesList extends StatelessWidget {
 
   UserBloc userBloc;
 
+  User user;
+
+  YourCoursesList ({Key key, this.user});
+
   @override
   Widget build(BuildContext context) {
 
     userBloc = BlocProvider.of<UserBloc>(context);
+
+    DocumentReference userReference = userBloc.getUserReference(user.uid);
 
     return Container(
       child: StreamBuilder(

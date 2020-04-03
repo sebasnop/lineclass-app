@@ -10,6 +10,10 @@ class UsersFirestoreRepository {
 
   User buildUser (DocumentSnapshot userSnapshot) => _usersFirestoreAPI.buildUser(userSnapshot);
 
-  //Stream <DocumentSnapshot> getUser (User user) =>  _usersFirestoreAPI.getUser(user);
+  Stream <DocumentSnapshot> getUser (String userUid) =>  _usersFirestoreAPI.getUser(userUid);
+
+  DocumentReference getUserReference (String userUid) => _usersFirestoreAPI.getUserReference(userUid);
+
+  Future <User> getUserByReference (DocumentReference userReference) => _usersFirestoreAPI.getUserByReference(userReference);
 
 }

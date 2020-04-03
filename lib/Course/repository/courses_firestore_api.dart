@@ -51,12 +51,48 @@ class CoursesFirestoreAPI {
 
   }
 
-  // Instanciar una Lista de Querys con todos los cursos como documentos
+  // Instanciar una Lista de Querys con todos los cursos que tienes como profesor como documentos
+  Future <List> ownCourses (DocumentReference userReference) async {
+
+    CollectionReference refOwnCourses = _db.collection(courses).where("courseOwner", isEqualTo: userReference);
+
+    QuerySnapshot querySnapshot = await refOwnCourses.getDocuments();
+    return querySnapshot.documents;
+
+  }
+
+  // Usar la lista de Querys para crear una lista de todos los cursos repetidos como cursos
+  List <Course> repeatedListCourses (List<DocumentSnapshot> coursesListSnapshot, String code) {
+
+    List <Course> repeatedCourses = List <Course> ();
+    coursesListSnapshot.forEach((c){
+
+      if (c.data["code"] == code){
+
+        List <String> ifNull = [];
+        List<dynamic> superList = c.data["members"] ?? ifNull;
+        List<String> subList = List <String>.from(superList.whereType<String>()) ?? ifNull;
+
+        Course course = Course (code: c.data["code"]);
+
+        /**, creationDate: c.data["creationDate"],
+            thematic: c.data["thematic"],name: c.data["name"], institution: c.data["institution"],
+            courseOwner: c.data["userOwner"], id: c.data["id"], members: subList);**/
+
+        repeatedCourses.add(course);
+      }
+
+    });
+
+    return repeatedCourses;
+
+  }
+
   Future <List> allCourses () async {
 
-    CollectionReference refCourses = _db.collection(courses);
+    CollectionReference refOwnCourses = _db.collection(courses);
 
-    QuerySnapshot querySnapshot = await refCourses.getDocuments();
+    QuerySnapshot querySnapshot = await refOwnCourses.getDocuments();
     return querySnapshot.documents;
 
   }
@@ -83,38 +119,6 @@ class CoursesFirestoreAPI {
     return courses;
 
   }
-
-  // Usar la lista de Querys para crear una lista de todos los cursos repetidos como cursos
-  List <Course> repeatedListCourses (List<DocumentSnapshot> coursesListSnapshot, String code) {
-
-    List <Course> repeatedCourses = List <Course> ();
-    coursesListSnapshot.forEach((c){
-
-      /**String guaco = c.data["members"].toString();
-
-      String guacote1 = guaco.replaceAll(RegExp(r"\["), "");
-      String guacote = guacote1.replaceAll(RegExp(r"\]"), "");
-
-      List <String> guaquito = guacote.split(", ");**/
-
-      if (c.data["code"] == code){
-
-        List <String> ifNull = [];
-        List<dynamic> superList = c.data["members"] ?? ifNull;
-        List<String> subList = List <String>.from(superList.whereType<String>()) ?? ifNull;
-
-        Course course = Course (code: c.data["code"], creationDate: c.data["creationDate"],
-            thematic: c.data["thematic"],name: c.data["name"], institution: c.data["institution"],
-            courseOwner: c.data["userOwner"], id: c.data["id"], members: subList);
-
-        repeatedCourses.add(course);
-      }
-
-    });
-
-    return repeatedCourses;
-
-    }
 
     List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot) {
 
@@ -169,5 +173,6 @@ class CoursesFirestoreAPI {
       return courses;
 
     }
+
 
   }
