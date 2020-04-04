@@ -54,7 +54,7 @@ class CoursesFirestoreAPI {
   // Instanciar una Lista de Querys con todos los cursos que tienes como profesor como documentos
   Future <List> ownCourses (DocumentReference userReference) async {
 
-    CollectionReference refOwnCourses = _db.collection(courses).where("courseOwner", isEqualTo: userReference);
+    Query refOwnCourses = _db.collection(courses).where("courseOwner", isEqualTo: userReference);
 
     QuerySnapshot querySnapshot = await refOwnCourses.getDocuments();
     return querySnapshot.documents;
