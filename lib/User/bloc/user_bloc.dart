@@ -79,10 +79,10 @@ class UserBloc implements Bloc {
 
   Stream<QuerySnapshot> yourCoursesListStream (DocumentReference userReference) {
 
-    Stream<QuerySnapshot> studentCourses;
-    Stream<QuerySnapshot> teacherCourses = Firestore.instance.collection(CoursesFirestoreAPI().courses).where("userOwner", isEqualTo: userReference).snapshots();
+    //Stream<QuerySnapshot> studentCourses;
+    Stream <QuerySnapshot> teacherCourses = Firestore.instance.collection(CoursesFirestoreAPI().courses).where("courseOwner", isEqualTo: userReference).snapshots();
 
-    return Firestore.instance.collection(CoursesFirestoreAPI().courses).snapshots();
+    return teacherCourses;
   }
 
     /// Construir cada card de los cursos que sean

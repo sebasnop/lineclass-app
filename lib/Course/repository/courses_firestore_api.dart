@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
-import 'package:lineclass/User/bloc/user_bloc.dart';
-import 'package:lineclass/User/model/user.dart';
-import 'package:lineclass/User/repository/users_firestore_api.dart';
 
 class CoursesFirestoreAPI {
 
@@ -23,7 +20,7 @@ class CoursesFirestoreAPI {
       'creationDate': course.creationDate,
       'thematic': course.thematic,
       'code': course.code,
-      'courseOwner': _db.document("$users/${course.courseOwner.uid}"),
+      'courseOwner': course.courseOwner,/**_db.document("$users/${course.courseOwner.uid}"),**/
       'members': course.members
     }).then( (DocumentReference dr) {
 
@@ -69,9 +66,9 @@ class CoursesFirestoreAPI {
 
       if (c.data["code"] == code){
 
-        List <String> ifNull = [];
+        /**List <String> ifNull = [];
         List<dynamic> superList = c.data["members"] ?? ifNull;
-        List<String> subList = List <String>.from(superList.whereType<String>()) ?? ifNull;
+        List<String> subList = List <String>.from(superList.whereType<String>()) ?? ifNull;**/
 
         Course course = Course (code: c.data["code"]);
 
@@ -131,27 +128,9 @@ class CoursesFirestoreAPI {
               List<dynamic> superList = c.data["members"] ?? ifNull;
               List<String> subList = List <String>.from(superList.whereType<String>()) ?? ifNull;
 
-              // Convertir una referencia de Usuario en un objeto User
-              DocumentReference userOwnerReference = c.data["courseOwner"];
-
-              Stream <DocumentSnapshot> getUser (String userUid) {
-                Stream <DocumentSnapshot> userSnapshot;
-                Stream <DocumentSnapshot> ref = Firestore.instance.collection("users").document(userUid).snapshots();
-                userSnapshot = ref;
-                return userSnapshot;
-              }
-
-              Stream<DocumentSnapshot> getUserOwner = getUser(userOwnerReference.documentID);
-
-              //User = getUserOwner.last;
-
-              //Future <DocumentSnapshot> bro = ;
-
-              //User courseOwner = UsersFirestoreAPI().buildUser(bro);
-
               CourseCard courseCard = CourseCard(
                 course: Course (code: c.data["code"], institution: c.data["institution"], name: c.data["name"],
-                    creationDate: c.data["creationDate"], courseOwner: User(name:"name",),//courseOwner: c.data["courseOwner"],
+                    creationDate: c.data["creationDate"], courseOwner: c.data["courseOwner"],
                     thematic: c.data["thematic"], id: c.data["id"], members: subList)
               );
 
@@ -161,9 +140,11 @@ class CoursesFirestoreAPI {
           );
 
       if (courses.isEmpty){
+
+        List <String> noCourseMessages = ["¡Bienvenido!", "Añade tu primer curso con el botón verde :D", "empty"];
+
         CourseCard courseCard = CourseCard(
-            course: Course (code: "", institution: "", name: "¡Bienvenido!",
-                creationDate: Timestamp.now(), courseOwner: User(name:"Añade tu primer curso con el botón de \nabajo a la derecha <3"), thematic: "empty")
+            noCourseMessages: noCourseMessages,
         );
 
             courses.add(courseCard);

@@ -11,7 +11,7 @@ class YourCoursesList extends StatelessWidget {
 
   UserBloc userBloc;
 
-  User user;
+  final User user;
 
   YourCoursesList ({Key key, this.user});
 
@@ -24,7 +24,7 @@ class YourCoursesList extends StatelessWidget {
 
     return Container(
       child: StreamBuilder(
-          stream: userBloc.coursesListStream,
+          stream: userBloc.yourCoursesListStream(userReference),
           builder: (context, AsyncSnapshot snapshot){
             switch(snapshot.connectionState){
               case ConnectionState.waiting:
@@ -39,11 +39,16 @@ class YourCoursesList extends StatelessWidget {
                 );
 
               case ConnectionState.none:
+
+                List <String> noCourseMessages = ["No se pudo cargar :(", "Inténtalo más tarde", "error"];
+
+                CourseCard courseCard = CourseCard(
+                  noCourseMessages: noCourseMessages,
+                );
                 return Column (
                   children: <Widget>[
-                    CourseCard(course: Course(thematic: "error", courseOwner: User(name: "Verifica tu conexión a internet"), creationDate: Timestamp.now(),
-                        name: "No se pudo conectar :(", institution: "", code: "", id: "", members: List <String> ()) ),
-                  ],
+                      courseCard
+                    ],
                 );
               default:
                 return OwnCircularProgress(height: 100, width: 100);

@@ -279,6 +279,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                                   } else {
 
+                                    DocumentReference courseOwner = userBloc.getUserReference(widget.user.uid);
+
                                     List <String> guaco = [];
 
                                     userBloc.createCourse(Course(
@@ -288,7 +290,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                       code: code,
                                       thematic: courseThematic,
                                       creationDate: Timestamp.now(),
-                                      courseOwner: widget.user,
+                                      courseOwner: courseOwner,
                                       members: guaco
                                     )).whenComplete( () {
 

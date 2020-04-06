@@ -5,7 +5,7 @@ import 'package:lineclass/User/model/user.dart';
 
 class YourCourses extends StatefulWidget {
 
-  User user;
+  final User user;
 
   YourCourses ({Key key, this.user});
 
