@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/model/course.dart';
+import 'package:lineclass/Course/ui/screens/course_screen.dart';
 import 'package:lineclass/widgets/own_circular_progress.dart';
 
 class CourseCard extends StatelessWidget {
@@ -89,16 +90,26 @@ class CourseCard extends StatelessWidget {
 
     Widget courseCard (DocumentSnapshot userSnapshot){
 
-      return Container(
-        height: 90,
-        width: screenWidth,
-        decoration: BoxDecoration(color: Colors.white, border: border),
-        child: Row(
-          children: <Widget>[
-            finalIcon,
-            text(course.name, userSnapshot["name"])
-          ],
+      return InkWell(
+        child: Container(
+          height: 90,
+          width: screenWidth,
+          decoration: BoxDecoration(color: Colors.white, border: border),
+          child: Row(
+            children: <Widget>[
+              finalIcon,
+              text(course.name, userSnapshot["name"])
+            ],
+          ),
         ),
+        onTap: ()
+        {
+          Navigator.push(context, MaterialPageRoute (
+              builder: (BuildContext context) => CourseScreen(course:course)
+          ));
+        }
+
+        ,
       );
 
     }

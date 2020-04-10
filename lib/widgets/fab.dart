@@ -7,8 +7,8 @@ class Fab extends StatefulWidget {
   bool mini;
   IconData icon;
   double iconSize;
-  Color color = Color(0xff36C186);
-  Color secondColor = Colors.greenAccent;
+  Color color = Color(0xff1e56a0);
+  Color secondColor = Colors.blue;
 
   Fab({
     Key key,
