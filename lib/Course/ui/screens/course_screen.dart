@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/model/course.dart';
+import 'package:lineclass/Publication/ui/screens/publications_screen.dart';
 import 'package:lineclass/widgets/fab.dart';
 
 // ignore: must_be_immutable
@@ -10,20 +11,7 @@ class CourseScreen extends StatelessWidget {
   CourseScreen({Key key, @required this.course});
 
   List<Widget> containers = [
-    Scaffold(
-      body: Container(
-        color: Colors.white,
-      ),
-      floatingActionButton: Fab(
-        onPressed: () {
-          /**Navigator.push(context, MaterialPageRoute(
-              builder: (BuildContext context) => AddCourseScreen(user: user)
-              ));**/
-        },
-        icon: Icons.edit,
-        iconSize: 35,
-      ),
-    ),
+    PublicationsScreen(),
     Container(
       color: Colors.blue,
     ),
