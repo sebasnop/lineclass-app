@@ -79,7 +79,7 @@ class UserBloc implements Bloc {
 
   Stream<QuerySnapshot> yourCoursesListStream (DocumentReference userReference) {
 
-    //Stream<QuerySnapshot> studentCourses;
+    //Stream <QuerySnapshot> studentCourses = Firestore.instance.collection(CoursesFirestoreAPI().courses).where("members", arrayContains: userReference ).snapshots();
     Stream <QuerySnapshot> teacherCourses = Firestore.instance.collection(CoursesFirestoreAPI().courses).where("courseOwner", isEqualTo: userReference).snapshots();
 
     return teacherCourses;

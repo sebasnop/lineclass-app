@@ -83,8 +83,7 @@ class JoinedCourseScreen extends StatelessWidget {
         children: <Widget>[
           greatText,
           courseOfText,
-          CourseCard(course: Course(name: course.name, members: List<String>(), id: "", code: "", institution: "",
-              creationDate: Timestamp.now(), thematic: course.thematic)),
+          CourseCard(course: course),
           Container(height: screenHeight*0.1,),
           //nameCourseBox,
           OwnExitButton(height: backButtonWidth, width: backButtonWidth, exitText: "Salir")

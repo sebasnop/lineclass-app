@@ -58,6 +58,22 @@ class CoursesFirestoreAPI {
 
   }
 
+  // Construir un objeto Course a partir de un snapshot
+
+  Course buildCourse (DocumentSnapshot c) {
+
+    // Organizar la lista de miembros
+    List <DocumentReference> ifNull = [];
+    List<dynamic> superList = c.data["members"]  ?? ifNull;
+    List<DocumentReference> subList = List <DocumentReference>.from(superList.whereType<DocumentReference>()) ?? ifNull;
+
+    Course course = Course (code: c.data["code"], institution: c.data["institution"], name: c.data["name"],
+        creationDate: c.data["creationDate"], courseOwner: c.data["courseOwner"], thematic: c.data["thematic"],
+        id: c.data["id"], members: subList);
+
+    return course;
+  }
+
   // Usar la lista de Querys para crear una lista de todos los cursos repetidos como cursos
   List <Course> repeatedListCourses (List<DocumentSnapshot> coursesListSnapshot, String code) {
 
@@ -65,24 +81,13 @@ class CoursesFirestoreAPI {
     coursesListSnapshot.forEach((c){
 
       if (c.data["code"] == code){
-
-        /**List <String> ifNull = [];
-        List<dynamic> superList = c.data["members"] ?? ifNull;
-        List<String> subList = List <String>.from(superList.whereType<String>()) ?? ifNull;**/
-
-        Course course = Course (code: c.data["code"]);
-
-        /**, creationDate: c.data["creationDate"],
-            thematic: c.data["thematic"],name: c.data["name"], institution: c.data["institution"],
-            courseOwner: c.data["userOwner"], id: c.data["id"], members: subList);**/
-
+        Course course = buildCourse(c);
         repeatedCourses.add(course);
       }
 
     });
 
     return repeatedCourses;
-
   }
 
   Future <List> allCourses () async {
@@ -100,60 +105,41 @@ class CoursesFirestoreAPI {
 
     coursesListSnapshot.forEach(
             (c){
-
-              List <String> ifNull = [];
-              List<dynamic> superList = c.data["members"]  ?? ifNull;
-              List<String> subList = List <String>.from(superList.whereType<String>()) ?? ifNull;
-
-              Course course = Course (code: c.data["code"], institution: c.data["institution"], name: c.data["name"],
-                  creationDate: c.data["creationDate"], courseOwner: c.data["courseOwner"], thematic: c.data["thematic"],
-                  id: c.data["id"], members: subList);
-
+              Course course = buildCourse(c);
               courses.add(course);
-
     });
 
     return courses;
-
   }
 
-    List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot) {
+  List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot) {
 
-      List <CourseCard> courses = List <CourseCard> ();
+    List <CourseCard> courseCards = List <CourseCard> ();
 
-      coursesListSnapshot.forEach(
-            (c) {
+    coursesListSnapshot.forEach(
+          (c) {
 
-              List <String> ifNull = [];
-              List<dynamic> superList = c.data["members"] ?? ifNull;
-              List<String> subList = List <String>.from(superList.whereType<String>()) ?? ifNull;
+            Course course = buildCourse(c);
+            CourseCard courseCard = CourseCard(
+              course: course
+            );
 
-              CourseCard courseCard = CourseCard(
-                course: Course (code: c.data["code"], institution: c.data["institution"], name: c.data["name"],
-                    creationDate: c.data["creationDate"], courseOwner: c.data["courseOwner"],
-                    thematic: c.data["thematic"], id: c.data["id"], members: subList)
-              );
-
-              courses.add(courseCard);
-
-            }
-          );
-
-      if (courses.isEmpty){
-
-        List <String> noCourseMessages = ["¡Bienvenido!", "Añade tu primer curso con el botón verde :D", "empty"];
-
-        CourseCard courseCard = CourseCard(
-            noCourseMessages: noCourseMessages,
+            courseCards.add(courseCard);
+          }
         );
 
-            courses.add(courseCard);
+    if (courseCards.isEmpty){
 
-      }
+      List <String> noCourseMessages = ["¡Bienvenido!", "Añade tu primer curso con el botón verde :D", "empty"];
 
-      return courses;
+      CourseCard courseCard = CourseCard(
+          noCourseMessages: noCourseMessages,
+      );
+
+          courseCards.add(courseCard);
 
     }
-
-
+    return courseCards;
   }
+
+}

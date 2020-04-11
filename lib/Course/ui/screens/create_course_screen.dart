@@ -281,7 +281,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                                     DocumentReference courseOwner = userBloc.getUserReference(widget.user.uid);
 
-                                    List <String> guaco = [];
+                                    List <DocumentReference> guaco = [];
 
                                     userBloc.createCourse(Course(
                                       id: "",

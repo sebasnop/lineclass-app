@@ -11,7 +11,7 @@ class Course {
   Timestamp creationDate;
   String code;
   DocumentReference courseOwner;
-  List members;
+  List <DocumentReference> members;
 
   Course({
     Key key,

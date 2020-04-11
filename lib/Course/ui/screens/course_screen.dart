@@ -22,13 +22,16 @@ class CourseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    List <String> courseNameList = course.name.split(" ");
+
     return Scaffold(
       body: DefaultTabController(
         length: 3,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
-            title: Text(course.name, style: TextStyle(fontFamily: "Comfortaa")),
+            title: Text(courseNameList[0], style: TextStyle(fontFamily: "Comfortaa")),
             leading: InkWell(
               child: Icon(
                 Icons.keyboard_arrow_left,
