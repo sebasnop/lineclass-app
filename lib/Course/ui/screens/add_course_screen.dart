@@ -3,12 +3,11 @@ import 'package:lineclass/Course/ui/screens/create_course_screen.dart';
 import 'package:lineclass/Course/ui/screens/join_course_screen.dart';
 import 'package:lineclass/Course/ui/widgets/add_course_option.dart';
 import 'package:lineclass/User/model/user.dart';
-import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/own_back_button.dart';
 
 class AddCourseScreen extends StatelessWidget {
 
-  User user;
+  final User user;
 
   AddCourseScreen({Key key, @required this.user});
 

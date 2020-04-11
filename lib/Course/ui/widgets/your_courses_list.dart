@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
@@ -9,7 +8,6 @@ import 'package:lineclass/widgets/own_circular_progress.dart';
 
 class YourCoursesList extends StatelessWidget {
 
-  UserBloc userBloc;
 
   final User user;
 
@@ -18,7 +16,7 @@ class YourCoursesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    userBloc = BlocProvider.of<UserBloc>(context);
+    UserBloc userBloc = BlocProvider.of<UserBloc>(context);
 
     DocumentReference userReference = userBloc.getUserReference(user.uid);
 

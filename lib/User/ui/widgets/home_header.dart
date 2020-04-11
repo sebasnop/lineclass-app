@@ -5,7 +5,7 @@ import 'package:lineclass/User/ui/widgets/user_welcome.dart';
 
 class HomeHeader extends StatelessWidget {
 
-  User user;
+  final User user;
 
   HomeHeader({Key key, @required this.user});
 
@@ -60,8 +60,8 @@ class HomeHeader extends StatelessWidget {
             begin: Alignment(0,-0.5),
             end: Alignment(0,1),
               colors: [
-                Color(0xFF36C186),
-                Color(0xFF158A8C)
+                Color(0xFF1E56A0),
+                Color(0xFF163172)
               ]
           )
       ),

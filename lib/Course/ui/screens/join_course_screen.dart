@@ -3,6 +3,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:lineclass/Course/bloc/course_bloc.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/screens/joined_course_screen.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
@@ -14,7 +15,7 @@ import 'package:toast/toast.dart';
 
 class JoinCourseScreen extends StatefulWidget {
 
-  User user;
+  final User user;
 
   JoinCourseScreen({@required this.user});
 

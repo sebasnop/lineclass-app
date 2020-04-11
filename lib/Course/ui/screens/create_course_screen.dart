@@ -16,7 +16,7 @@ import 'package:toast/toast.dart';
 
 class CreateCourseScreen extends StatefulWidget {
 
-  User user;
+  final User user;
 
   CreateCourseScreen({Key key, @required this.user});
 
