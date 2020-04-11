@@ -4,6 +4,7 @@ import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
+import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/own_circular_progress.dart';
 
 class YourCoursesList extends StatelessWidget {
@@ -16,24 +17,24 @@ class YourCoursesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    UserBloc userBloc = BlocProvider.of<UserBloc>(context);
+    AppBloc bloc = BlocProvider.of<AppBloc>(context);
 
-    DocumentReference userReference = userBloc.getUserReference(user.uid);
+    DocumentReference userReference = bloc.user.getUserReference(user.uid);
 
     return Container(
       child: StreamBuilder(
-          stream: userBloc.yourCoursesListStream(userReference),
+          stream: bloc.course.yourCoursesListStream(userReference),
           builder: (context, AsyncSnapshot snapshot){
             switch(snapshot.connectionState){
               case ConnectionState.waiting:
                 return OwnCircularProgress(height: 100, width: 100);
               case ConnectionState.done:
                 return Column(
-                    children: userBloc.buildCourses(snapshot.data.documents)
+                    children: bloc.course.buildCourses(snapshot.data.documents)
                 );
               case ConnectionState.active:
                 return Column(
-                    children: userBloc.buildCourses(snapshot.data.documents)
+                    children: bloc.course.buildCourses(snapshot.data.documents)
                 );
 
               case ConnectionState.none:

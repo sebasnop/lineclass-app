@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
+import 'package:lineclass/bloc.dart';
 
 class GoogleButton extends StatelessWidget {
 
-  UserBloc userBloc;
+  AppBloc bloc;
   final String buttonText;
 
   final double topMargin;
@@ -23,7 +24,7 @@ class GoogleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    userBloc = BlocProvider.of(context);
+    bloc = BlocProvider.of(context);
 
     double screenWidth = MediaQuery.of(context).size.width;
     double buttonWidth = screenWidth*0.80;
@@ -38,9 +39,9 @@ class GoogleButton extends StatelessWidget {
       child: InkWell(
         onTap: (){
 
-          userBloc.signIn().then((FirebaseUser user){
+          bloc.user.signIn().then((FirebaseUser user){
 
-            userBloc.updateUserData(
+            bloc.user.updateUserData(
                 User(
                     uid: user.uid,
                     name: user.displayName,

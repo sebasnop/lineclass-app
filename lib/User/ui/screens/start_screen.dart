@@ -10,6 +10,7 @@ import 'package:lineclass/Course/ui/widgets/your_courses.dart';
 import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/widgets/home_header.dart';
+import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/fab.dart';
 import 'package:lineclass/widgets/google_button.dart';
 import 'package:lineclass/widgets/green_button.dart';
@@ -22,12 +23,12 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
 
-  UserBloc userBloc;
+  AppBloc bloc;
 
   @override
   Widget build(BuildContext context) {
 
-    userBloc = BlocProvider.of(context);
+    bloc = BlocProvider.of(context);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -36,12 +37,12 @@ class _StartScreenState extends State<StartScreen> {
 
   Widget _handleCurrentSession(double screenWidth, double screenHeight){
     return StreamBuilder(
-      stream: userBloc.authStatus,
+      stream: bloc.user.authStatus,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
 
         if(snapshot.hasData && !snapshot.hasError) {
           print("${snapshot.connectionState}");
-          return home(userBloc, snapshot.connectionState, snapshot);
+          return home(bloc, snapshot.connectionState, snapshot);
         } else if(snapshot.connectionState != ConnectionState.waiting) {
           return startUI(screenWidth, screenHeight);
         } else {
@@ -161,9 +162,9 @@ class _StartScreenState extends State<StartScreen> {
 
   }
 
-  Widget home (UserBloc userBloc, ConnectionState guaco, AsyncSnapshot snapshot) {
+  Widget home (AppBloc bloc, ConnectionState guaco, AsyncSnapshot snapshot) {
 
-      userBloc = BlocProvider.of(context);
+      bloc = BlocProvider.of(context);
 
       double screenWidth = MediaQuery.of(context).size.width;
       double screenHeight = MediaQuery.of(context).size.height;
@@ -184,11 +185,11 @@ class _StartScreenState extends State<StartScreen> {
           String userUid = user.uid;
 
           return StreamBuilder(
-            stream: userBloc.getUser(user.uid),
+            stream: bloc.user.getUser(user.uid),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
 
               if(snapshot.hasData && !snapshot.hasError) {
-                User usuario = userBloc.buildUser(snapshot.data);
+                User usuario = bloc.user.buildUser(snapshot.data);
                 return HomeCourses(user: usuario);
               } else if(snapshot.connectionState != ConnectionState.waiting) {
                 return startUI(screenWidth, screenHeight);

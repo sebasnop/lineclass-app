@@ -7,8 +7,8 @@ import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/screens/copycode_course_screen.dart';
 import 'package:lineclass/Course/ui/widgets/thematic_course_option.dart';
-import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
+import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/blue_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/own_back_button.dart';
@@ -32,7 +32,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
   @override
   Widget build(BuildContext context) {
 
-    UserBloc userBloc = BlocProvider.of <UserBloc> (context);
+    AppBloc bloc = BlocProvider.of <AppBloc> (context);
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -264,12 +264,12 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                             builder: (BuildContext context) => LoadingScreen(text: "AÑADIENDO TU \n CURSO...",)
                         ));
 
-                        DocumentReference userReference = userBloc.getUserReference(widget.user.uid);
+                        DocumentReference userReference = bloc.user.getUserReference(widget.user.uid);
 
-                        userBloc.ownCourses(userReference).then(
+                        bloc.course.ownCourses(userReference).then(
                                 (snapshot){
 
-                                  List <Course> repeatedCourses = userBloc.repeatedListCourses(snapshot, code);
+                                  List <Course> repeatedCourses = bloc.course.repeatedListCourses(snapshot, code);
 
                                   if (repeatedCourses.isNotEmpty) {
 
@@ -279,11 +279,11 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                                   } else {
 
-                                    DocumentReference courseOwner = userBloc.getUserReference(widget.user.uid);
+                                    DocumentReference courseOwner = bloc.user.getUserReference(widget.user.uid);
 
                                     List <DocumentReference> guaco = [];
 
-                                    userBloc.createCourse(Course(
+                                    bloc.course.createCourse(Course(
                                       id: "",
                                       name: courseName,
                                       institution: courseInstitution,

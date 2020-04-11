@@ -3,11 +3,10 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:lineclass/Course/bloc/course_bloc.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/screens/joined_course_screen.dart';
-import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
+import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/blue_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/own_back_button.dart';
@@ -30,7 +29,7 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
   @override
   Widget build(BuildContext context) {
 
-    UserBloc userBloc = BlocProvider.of <UserBloc> (context);
+    AppBloc bloc = BlocProvider.of <AppBloc> (context);
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -69,10 +68,10 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
           String codeToLowerCase = codeInitial.toLowerCase();
           String code = codeToLowerCase.replaceAll(RegExp(r" "), "");
 
-          userBloc.allCourses().then(
+          bloc.course.allCourses().then(
                   (snapshot){
 
-                List <Course> repeatedCourses = userBloc.repeatedListCourses(snapshot, code);
+                List <Course> repeatedCourses = bloc.course.repeatedListCourses(snapshot, code);
 
                 if (repeatedCourses.isEmpty) {
 
@@ -82,7 +81,7 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
 
                 } else {
 
-                  DocumentReference userReference = userBloc.getUserReference(widget.user.uid);
+                  DocumentReference userReference = bloc.user.getUserReference(widget.user.uid);
                   Course course = repeatedCourses[0];
 
                   String courseOwnerUid = course.courseOwner.documentID;
@@ -114,7 +113,7 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
 
                     course.members = currentMembers;
 
-                    userBloc.updateCourseMembers(course);
+                    bloc.course.updateCourseMembers(course);
 
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                         JoinedCourseScreen(course: course)), (Route<dynamic> route) => false);
