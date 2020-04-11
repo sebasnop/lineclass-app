@@ -30,11 +30,11 @@ class YourCoursesList extends StatelessWidget {
                 return OwnCircularProgress(height: 100, width: 100);
               case ConnectionState.done:
                 return Column(
-                    children: bloc.course.buildCourses(snapshot.data.documents)
+                    children: bloc.course.buildCourses(snapshot.data.documents, user)
                 );
               case ConnectionState.active:
                 return Column(
-                    children: bloc.course.buildCourses(snapshot.data.documents)
+                    children: bloc.course.buildCourses(snapshot.data.documents, user)
                 );
 
               case ConnectionState.none:

@@ -2,14 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/screens/course_screen.dart';
+import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/widgets/own_circular_progress.dart';
 
 class CourseCard extends StatelessWidget {
 
   final Course course;
+  final User user;
   final List <String> noCourseMessages;
 
-  CourseCard({Key key, this.course, this.noCourseMessages});
+  CourseCard({Key key, this.course, this.user, this.noCourseMessages});
 
   Stream <DocumentSnapshot> getUser (String userUid) {
     Stream <DocumentSnapshot> userSnapshot = Firestore.instance.collection("users").document(userUid).snapshots();
@@ -105,7 +107,7 @@ class CourseCard extends StatelessWidget {
         onTap: ()
         {
           Navigator.push(context, MaterialPageRoute (
-              builder: (BuildContext context) => CourseScreen(course:course)
+              builder: (BuildContext context) => CourseScreen(course:course, user: user,)
           ));
         }
 

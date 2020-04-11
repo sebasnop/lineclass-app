@@ -4,6 +4,7 @@ import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
 import 'package:lineclass/Course/repository/courses_firestore_api.dart';
 import 'package:lineclass/Course/repository/courses_firestore_repository.dart';
+import 'package:lineclass/User/model/user.dart';
 
 class CourseBloc implements Bloc {
 
@@ -41,8 +42,8 @@ class CourseBloc implements Bloc {
   }
 
   /// Construir cada card de los cursos que sean
-  List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot)
-  => _coursesFirestoreRepository.buildCourses(coursesListSnapshot);
+  List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot, User user)
+  => _coursesFirestoreRepository.buildCourses(coursesListSnapshot, user);
 
   @override
   void dispose() {

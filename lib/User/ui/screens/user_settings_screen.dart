@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:lineclass/User/bloc/user_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/widgets/settings_header.dart';
+import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/own_app_bar.dart';
 
 class UserSettingsScreen extends StatelessWidget {
 
-  UserBloc userBloc;
+  AppBloc bloc;
 
   User user;
 
@@ -18,7 +18,7 @@ class UserSettingsScreen extends StatelessWidget {
 
     double screenWidth = MediaQuery.of(context).size.width;
 
-    userBloc = BlocProvider.of(context);
+    bloc = BlocProvider.of(context);
 
     Widget profile = InkWell(
       child: Container(
@@ -47,7 +47,7 @@ class UserSettingsScreen extends StatelessWidget {
               child: Text("Cerrar Sesión", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "Comfortaa"),),
             ),
             onTap: (){
-              userBloc.signOut();
+              bloc.user.signOut();
               Navigator.pop(context);
             },
           )

@@ -23,7 +23,7 @@ class CoursesFirestoreRepository {
   List <Course> listCourses (List<DocumentSnapshot> coursesListSnapshot)
   => _coursesFirestoreAPI.listCourses(coursesListSnapshot);
 
- List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot)
-  => _coursesFirestoreAPI.buildCourses(coursesListSnapshot);
+ List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot, User user)
+  => _coursesFirestoreAPI.buildCourses(coursesListSnapshot, user);
 
 }

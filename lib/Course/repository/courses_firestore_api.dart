@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
+import 'package:lineclass/User/model/user.dart';
 
 class CoursesFirestoreAPI {
 
@@ -112,7 +113,7 @@ class CoursesFirestoreAPI {
     return courses;
   }
 
-  List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot) {
+  List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot, User user) {
 
     List <CourseCard> courseCards = List <CourseCard> ();
 
@@ -121,7 +122,8 @@ class CoursesFirestoreAPI {
 
             Course course = buildCourse(c);
             CourseCard courseCard = CourseCard(
-              course: course
+              course: course,
+              user: user,
             );
 
             courseCards.add(courseCard);
