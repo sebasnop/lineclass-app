@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lineclass/Publication/model/publication.dart';
+import 'package:lineclass/Publication/ui/widgets/publication_card.dart';
+import 'package:lineclass/User/model/user.dart';
 
 class PublicationsFirestoreAPI {
 
@@ -29,6 +31,34 @@ class PublicationsFirestoreAPI {
     }
     );
 
+  }
+
+  List <PublicationCard> buildPublications(List<DocumentSnapshot> coursesListSnapshot, User user) {
+
+    List <PublicationCard> courseCards = List <PublicationCard> ();
+
+    coursesListSnapshot.forEach(
+            (c) {
+
+          PublicationCard courseCard = PublicationCard(
+          );
+
+          courseCards.add(courseCard);
+        }
+    );
+
+    if (courseCards.isEmpty){
+
+      //List <String> noCourseMessages = ["¡Bienvenido!", "Añade tu primer curso con el botón verde :D", "empty"];
+
+      PublicationCard courseCard = PublicationCard(
+        //noCourseMessages: noCourseMessages,
+      );
+
+      courseCards.add(courseCard);
+
+    }
+    return courseCards;
   }
 
 }

@@ -45,7 +45,7 @@ class CourseBloc implements Bloc {
 
   }
 
-  /// Construir cada card de los cursos que sean
+  /// Construir cada card de los cursos del usuario
   List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot, User user)
   => _coursesFirestoreRepository.buildCourses(coursesListSnapshot, user);
 

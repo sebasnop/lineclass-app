@@ -39,7 +39,7 @@ class PublicationsScreen extends StatelessWidget {
           shrinkWrap: true,
           children: <Widget>[
             title,
-            PublicationsList(course: course,)
+            PublicationsList(course: course, user: user)
           ],
         ),
       ),

@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
+import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/own_circular_progress.dart';
 
 class PublicationsList extends StatelessWidget {
 
   final Course course;
+  final User user;
 
-  const PublicationsList({Key key, @required this.course}) : super(key: key);
+  const PublicationsList({Key key, @required this.course, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +29,11 @@ class PublicationsList extends StatelessWidget {
                 return OwnCircularProgress(height: 100, width: 100);
               case ConnectionState.done:
                 return Column(
-                    children: <Widget> [Text("Cursos Cargados")]//bloc.course.buildCourses(snapshot.data.documents, user)
+                    children: bloc.publication.buildPublications(snapshot.data.documents, user)
                 );
               case ConnectionState.active:
                 return Column(
-                    children: <Widget> [Text("Cursos Cargados")]//bloc.course.buildCourses(snapshot.data.documents, user)
+                    children: bloc.publication.buildPublications(snapshot.data.documents, user)
                 );
 
               case ConnectionState.none:
