@@ -32,6 +32,7 @@ class CourseScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
+            elevation: 0,
             title: Text(courseNameList[0], style: TextStyle(fontFamily: "Comfortaa")),
             leading: InkWell(
               child: Icon(

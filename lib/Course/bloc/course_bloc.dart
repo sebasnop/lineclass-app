@@ -42,6 +42,7 @@ class CourseBloc implements Bloc {
     Stream <QuerySnapshot> teacherCourses = Firestore.instance.collection(CoursesFirestoreAPI().courses).where("courseOwner", isEqualTo: userReference).snapshots();
 
     return teacherCourses;
+
   }
 
   /// Construir cada card de los cursos que sean

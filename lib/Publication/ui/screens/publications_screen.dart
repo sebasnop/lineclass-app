@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Publication/ui/screens/create_publication_screen.dart';
+import 'package:lineclass/Publication/ui/widgets/publications_list.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/widgets/fab.dart';
 
@@ -17,7 +18,19 @@ class PublicationsScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    Container title = Container(
+      padding: EdgeInsets.only(left:30, top: 20, bottom: 20),
+      child: Text(
+        "Novedades",
+        style: TextStyle(
+          fontSize: 26,
+          fontFamily: "Comfortaa",
+        ),
+      ),
+    );
+
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SizedBox(
         width: screenWidth,
         height: screenHeight,
@@ -25,6 +38,8 @@ class PublicationsScreen extends StatelessWidget {
           padding: EdgeInsets.only(top: 20),
           shrinkWrap: true,
           children: <Widget>[
+            title,
+            PublicationsList(course: course,)
           ],
         ),
       ),
