@@ -49,6 +49,14 @@ class CoursesFirestoreAPI {
 
   }
 
+  ///Traer la referencia del document del usuario
+  DocumentReference getCourseReference(String courseId) {
+    DocumentReference courseReference;
+    DocumentReference ref = _db.collection(courses).document(courseId);
+    courseReference = ref;
+    return courseReference;
+  }
+
   // Instanciar una Lista de Querys con todos los cursos que tienes como profesor como documentos
   Future <List> ownCourses (DocumentReference userReference) async {
 

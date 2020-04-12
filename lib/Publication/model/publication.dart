@@ -8,14 +8,16 @@ class Publication {
   String description;
   DocumentReference publisher;
   DocumentReference course;
+  Timestamp publicationDate;
 
   Publication({
     Key key,
-    this.id,
-    this.title,
-    this.description,
-    this.publisher,
-    this.course
+    @required this.id,
+    @required this.title,
+    @required this.description,
+    @required this.publisher,
+    @required this.course,
+    @required this.publicationDate
   });
 
 }

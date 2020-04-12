@@ -1,23 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/ui/screens/add_course_screen.dart';
 import 'package:lineclass/Course/ui/widgets/search_course.dart';
-import 'package:lineclass/Course/ui/widgets/your_courses.dart';
-import 'package:lineclass/User/bloc/user_bloc.dart';
+import 'package:lineclass/Course/ui/widgets/your_courses_list.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/widgets/home_header.dart';
-import 'package:lineclass/User/ui/widgets/user_welcome.dart';
-import 'package:lineclass/widgets/loading_screen.dart';
-import 'package:lineclass/widgets/own_app_bar.dart';
 import 'package:lineclass/widgets/fab.dart';
-import 'package:lineclass/widgets/own_circular_progress.dart';
 
 class HomeCourses extends StatelessWidget {
 
-  User user;
+  final User user;
 
-  HomeCourses ({Key key, this.user});
+  HomeCourses ({Key key, @required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +27,13 @@ class HomeCourses extends StatelessWidget {
           SearchCourse(),
           SizedBox(
             width: screenWidth,
-            height: screenHeight - 224 - 50,
+            height: screenHeight - 274 - 55,
             child: ListView(
-              padding: EdgeInsets.all(0),
+              padding: EdgeInsets.only(top: 20, bottom: 0),
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               children: <Widget>[
-                YourCourses(user: user),
+                YourCoursesList(user: user),
               ],
             ),
           ),

@@ -28,6 +28,9 @@ class CourseBloc implements Bloc {
 
   Future <List> allCourses () => _coursesFirestoreRepository.allCourses();
 
+  ///Traer la referencia del document del curso
+  DocumentReference getCourseReference (String courseId) => _coursesFirestoreRepository.getCourseReference(courseId);
+
   ///  VISTA
 
   /// Traer todos los cursos en tiempo real como snapshots

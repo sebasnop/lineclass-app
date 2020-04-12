@@ -72,7 +72,25 @@ class CourseCard extends StatelessWidget {
       color: Colors.white,
     );
 
-    Widget text (String courseName, String courseOwner) {
+    Widget text (String courseName, /**String courseOwner**/) {
+      return Container(
+        height: 90,
+        width: screenWidth - 90,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(courseName,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),),
+            /**Text("", style: TextStyle(fontSize: 4,)),
+            Text(courseOwner,
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200),)**/
+          ],
+        ),
+      );
+    }
+
+    Widget text1 (String courseName, String courseOwner) {
       return Container(
         height: 90,
         width: screenWidth - 90,
@@ -84,7 +102,7 @@ class CourseCard extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
             Text("", style: TextStyle(fontSize: 4,)),
             Text(courseOwner,
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200),)
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200),)
           ],
         ),
       );
@@ -100,7 +118,7 @@ class CourseCard extends StatelessWidget {
           child: Row(
             children: <Widget>[
               finalIcon,
-              text(course.name, userSnapshot["name"])
+              text(course.name, /**userSnapshot["name"]**/)
             ],
           ),
         ),
@@ -125,7 +143,7 @@ class CourseCard extends StatelessWidget {
         child: Row(
           children: <Widget>[
             finalIcon,
-            text(messages[0], messages[1])
+            text1(messages[0], messages[1])
           ],
         ),
       );

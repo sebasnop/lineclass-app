@@ -236,10 +236,8 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                       if (_fbKey.currentState.saveAndValidate()) {
 
-                        //int now = DateTime.now().microsecond;
                         String courseNameInitial = _fbKey.currentState.value["name"];
                         String courseInstitution = _fbKey.currentState.value["institution"] ?? "";
-
                         String courseThematicInitial = _fbKey.currentState.value["thematic"];
 
                         String courseThematic = courseThematicInitial.trim();
