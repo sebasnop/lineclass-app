@@ -33,15 +33,34 @@ class PublicationsFirestoreAPI {
 
   }
 
-  List <PublicationCard> buildPublications(List<DocumentSnapshot> coursesListSnapshot, User user) {
+  Publication buildPublication (DocumentSnapshot publicationSnapshot){
+
+    Publication publication = Publication(
+      id: publicationSnapshot.data["id"],
+      title: publicationSnapshot.data["title"],
+      description: publicationSnapshot.data["description"],
+      publicationDate: publicationSnapshot.data["publicationDate"],
+      publisher: publicationSnapshot.data["publisher"],
+      course: publicationSnapshot.data["course"]
+    );
+
+    return publication;
+
+  }
+
+  List <PublicationCard> buildPublications(List<DocumentSnapshot> publicationsListSnapshot, User user) {
 
     List <PublicationCard> courseCards = List <PublicationCard> ();
 
-    coursesListSnapshot.forEach(
-            (c) {
+    publicationsListSnapshot.forEach(
+            (p) {
 
-          PublicationCard courseCard = PublicationCard(
-          );
+              Publication publication = buildPublication(p);
+
+              PublicationCard courseCard = PublicationCard(
+                publication: publication,
+                user: user
+              );
 
           courseCards.add(courseCard);
         }
@@ -49,15 +68,17 @@ class PublicationsFirestoreAPI {
 
     if (courseCards.isEmpty){
 
-      //List <String> noCourseMessages = ["¡Bienvenido!", "Añade tu primer curso con el botón verde :D", "empty"];
+      //List <String> noPublicationMessages = ["¡Bienvenido!", "Añade tu primera publicación.", "empty"];
 
       PublicationCard courseCard = PublicationCard(
         //noCourseMessages: noCourseMessages,
+        user: user,
       );
 
       courseCards.add(courseCard);
 
     }
+
     return courseCards;
   }
 

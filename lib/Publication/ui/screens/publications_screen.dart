@@ -19,7 +19,7 @@ class PublicationsScreen extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     Container title = Container(
-      padding: EdgeInsets.only(left:30, top: 20, bottom: 20),
+      padding: EdgeInsets.only(left:30, top: 20, bottom: 30),
       child: Text(
         "Novedades",
         style: TextStyle(

@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/screens/course_screen.dart';
 import 'package:lineclass/User/model/user.dart';
-import 'package:lineclass/widgets/own_circular_progress.dart';
 
 class CourseCard extends StatelessWidget {
 
@@ -12,11 +10,6 @@ class CourseCard extends StatelessWidget {
   final List <String> noCourseMessages;
 
   CourseCard({Key key, this.course, this.user, this.noCourseMessages});
-
-  Stream <DocumentSnapshot> getUser (String userUid) {
-    Stream <DocumentSnapshot> userSnapshot = Firestore.instance.collection("users").document(userUid).snapshots();
-    return userSnapshot;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +65,7 @@ class CourseCard extends StatelessWidget {
       color: Colors.white,
     );
 
-    Widget text (String courseName, /**String courseOwner**/) {
+    Widget text (String courseName,) {
       return Container(
         height: 90,
         width: screenWidth - 90,
@@ -82,9 +75,6 @@ class CourseCard extends StatelessWidget {
           children: <Widget>[
             Text(courseName,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),),
-            /**Text("", style: TextStyle(fontSize: 4,)),
-            Text(courseOwner,
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w200),)**/
           ],
         ),
       );
@@ -108,7 +98,7 @@ class CourseCard extends StatelessWidget {
       );
     }
 
-    Widget courseCard (DocumentSnapshot userSnapshot){
+    Widget courseCard (){
 
       return InkWell(
         child: Container(
@@ -152,28 +142,7 @@ class CourseCard extends StatelessWidget {
 
     if (course != null) {
 
-      Stream<DocumentSnapshot> getUserOwner = getUser(course.courseOwner.documentID);
-
-      return Container(
-        child: StreamBuilder(
-          stream: getUserOwner,
-          builder: (context, AsyncSnapshot snapshot){
-            switch(snapshot.connectionState){
-              case ConnectionState.waiting:
-                return OwnCircularProgress(height: 100, width: 100);
-              case ConnectionState.done:
-                return courseCard(snapshot.data);
-              case ConnectionState.active:
-                return courseCard(snapshot.data);
-              case ConnectionState.none:
-                return OwnCircularProgress(height: 100, width: 100);
-              default:
-                return OwnCircularProgress(height: 100, width: 100);
-            }
-
-          },
-        ),
-      );
+      return courseCard();
 
     } else {
 
