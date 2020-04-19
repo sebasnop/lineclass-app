@@ -7,10 +7,11 @@ import 'bloc.dart';
 
 Future main() async {
 
+  /// Set the Device Orientation to Portrait Up.
   WidgetsFlutterBinding.ensureInitialized();
-
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
+  /// Set the Notifications Bar Style while app is running
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
@@ -28,11 +29,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    /// Use BLoC Architecture in the project
     return BlocProvider(
       bloc: AppBloc(),
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: Colors.white,
+          primaryColor: Color(0xFF1E56A0),
+          accentColor: Colors.white,
         ),
         title: 'Lineclass',
         home: StartScreen(),

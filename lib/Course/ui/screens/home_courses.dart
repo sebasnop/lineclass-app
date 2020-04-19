@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/ui/screens/add_course_screen.dart';
 import 'package:lineclass/Course/ui/widgets/search_course.dart';
-import 'package:lineclass/Course/ui/widgets/your_courses_list.dart';
+import 'package:lineclass/Course/ui/widgets/student_courses_list.dart';
+import 'package:lineclass/Course/ui/widgets/teacher_courses_list.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/widgets/home_header.dart';
 import 'package:lineclass/widgets/fab.dart';
@@ -23,7 +24,7 @@ class HomeCourses extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          HomeHeader(user: user),
+          //HomeHeader(user: user),
           SearchCourse(),
           SizedBox(
             width: screenWidth,
@@ -33,7 +34,8 @@ class HomeCourses extends StatelessWidget {
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               children: <Widget>[
-                YourCoursesList(user: user),
+                StudentCoursesList(user: user),
+                TeacherCoursesList(user: user)
               ],
             ),
           ),

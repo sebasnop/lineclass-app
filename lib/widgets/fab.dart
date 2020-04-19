@@ -33,7 +33,7 @@ class _FabState extends State<Fab> {
           splashColor: widget.secondColor,
           elevation: 2,
           child: Container(
-            child: Icon(widget.icon, size: widget.iconSize),
+            child: Icon(widget.icon, size: widget.iconSize, color: Colors.white,),
           ),
         )
     );

@@ -16,7 +16,7 @@ class PublicationBloc implements Bloc {
   Stream<QuerySnapshot> publicationsListStream (DocumentReference courseReference) {
 
     Stream <QuerySnapshot> publications = Firestore.instance.collection(PublicationsFirestoreAPI().publications).where(
-        "course", isEqualTo: courseReference).snapshots();
+        "course", isEqualTo: courseReference).orderBy("publicationDate", descending: true).snapshots();
 
     return publications;
   }

@@ -1,4 +1,6 @@
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/widgets/course_card.dart';
@@ -33,21 +35,21 @@ class CourseBloc implements Bloc {
 
   ///  VISTA
 
-  /// Traer todos los cursos en tiempo real como snapshots
-  Stream<QuerySnapshot> coursesListStream = Firestore.instance.collection(CoursesFirestoreAPI().courses).snapshots();
+  Stream<List <QuerySnapshot>> coursesListStream (DocumentReference userReference) {
 
-  Stream<QuerySnapshot> yourCoursesListStream (DocumentReference userReference) {
+      Stream <QuerySnapshot> studentCourses = Firestore.instance.collection(
+          CoursesFirestoreAPI().courses).where("members", arrayContains: userReference).snapshots();
 
-    //Stream <QuerySnapshot> studentCourses = Firestore.instance.collection(CoursesFirestoreAPI().courses).where("members", arrayContains: userReference ).snapshots();
-    Stream <QuerySnapshot> teacherCourses = Firestore.instance.collection(CoursesFirestoreAPI().courses).where("courseOwner", isEqualTo: userReference).snapshots();
+      Stream <QuerySnapshot> teacherCourses = Firestore.instance.collection(
+          CoursesFirestoreAPI().courses).where("courseOwner", isEqualTo: userReference).snapshots();
 
-    return teacherCourses;
+      return StreamZip([studentCourses, teacherCourses]);
 
-  }
+    }
 
   /// Construir cada card de los cursos del usuario
-  List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot, User user)
-  => _coursesFirestoreRepository.buildCourses(coursesListSnapshot, user);
+  List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot, User user, int role)
+  => _coursesFirestoreRepository.buildCourses(coursesListSnapshot, user, role);
 
   @override
   void dispose() {

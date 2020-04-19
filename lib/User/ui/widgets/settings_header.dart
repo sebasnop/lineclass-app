@@ -25,7 +25,7 @@ class SettingsHeader extends StatelessWidget {
     Widget name = Container(
       margin: EdgeInsets.only(bottom: 3),
       child: Text(
-        "${user.firstName} ${user.firstLastName}",
+        "${user.firstName} ${user.firstLastName ?? ""}",
         textAlign: TextAlign.left,
         style: TextStyle(
           fontSize: 15,

@@ -6,11 +6,11 @@ import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/own_circular_progress.dart';
 
-class YourCoursesList extends StatelessWidget {
+class StudentCoursesList extends StatelessWidget {
 
   final User user;
 
-  YourCoursesList ({Key key, this.user});
+  StudentCoursesList ({Key key, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +21,54 @@ class YourCoursesList extends StatelessWidget {
 
     return Container(
       child: StreamBuilder(
-          stream: bloc.course.yourCoursesListStream(userReference),
+          stream: bloc.course.coursesListStream(userReference),
           builder: (context, AsyncSnapshot snapshot){
+
+            //0 is new_a, 1 is new_b, 2 is notNew,
+            int role = 1;
+
+            QuerySnapshot student;
+            QuerySnapshot teacher;
+
+            if (snapshot.data != null) {
+
+              List<QuerySnapshot> querySnapshotData =  snapshot.data.toList();
+
+              student = querySnapshotData[0];
+              teacher = querySnapshotData[1];
+
+              int studentCourses= student.documents.length;
+              int teacherCourses= teacher.documents.length;
+
+              if(teacherCourses > 0 || studentCourses > 0){
+                role = 2;
+              }
+
+            }
+
             switch(snapshot.connectionState){
               case ConnectionState.waiting:
                 return OwnCircularProgress(height: 100, width: 100);
               case ConnectionState.done:
-                return Column(
-                    children: bloc.course.buildCourses(snapshot.data.documents, user)
-                );
+                if (snapshot.data != null) {
+                  return Column(
+                      children: bloc.course.buildCourses(
+                          student.documents, user, role)
+                  );
+                } else {
+                  return OwnCircularProgress(height: 100, width: 100);
+                }
+                break;
               case ConnectionState.active:
-                return Column(
-                    children: bloc.course.buildCourses(snapshot.data.documents, user)
-                );
+                if (snapshot.data != null) {
+                  return Column(
+                      children: bloc.course.buildCourses(
+                          student.documents, user, role)
+                  );
+                } else {
+                  return OwnCircularProgress(height: 100, width: 100);
+                }
+                break;
 
               case ConnectionState.none:
 
@@ -42,6 +77,7 @@ class YourCoursesList extends StatelessWidget {
                 CourseCard courseCard = CourseCard(
                   noCourseMessages: noCourseMessages,
                 );
+
                 return Column (
                   children: <Widget>[
                       courseCard

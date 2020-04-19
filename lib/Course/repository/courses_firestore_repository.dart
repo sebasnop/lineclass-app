@@ -23,8 +23,8 @@ class CoursesFirestoreRepository {
   List <Course> listCourses (List<DocumentSnapshot> coursesListSnapshot)
   => _coursesFirestoreAPI.listCourses(coursesListSnapshot);
 
- List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot, User user)
-  => _coursesFirestoreAPI.buildCourses(coursesListSnapshot, user);
+ List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot, User user, int role)
+  => _coursesFirestoreAPI.buildCourses(coursesListSnapshot, user, role);
 
   DocumentReference getCourseReference(String courseId) => _coursesFirestoreAPI.getCourseReference(courseId);
 

@@ -121,7 +121,7 @@ class CoursesFirestoreAPI {
     return courses;
   }
 
-  List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot, User user) {
+  List <CourseCard> buildCourses(List<DocumentSnapshot> coursesListSnapshot, User user, int role) {
 
     List <CourseCard> courseCards = List <CourseCard> ();
 
@@ -138,9 +138,9 @@ class CoursesFirestoreAPI {
           }
         );
 
-    if (courseCards.isEmpty){
+    if (courseCards.isEmpty && role == 1){
 
-      List <String> noCourseMessages = ["¡Bienvenido!", "Añade tu primer curso con el botón verde :D", "empty"];
+      List <String> noCourseMessages = ["¡Bienvenido!", "Añade tu primer curso con el botón azul :D", "empty"];
 
       CourseCard courseCard = CourseCard(
           noCourseMessages: noCourseMessages,
@@ -149,6 +149,8 @@ class CoursesFirestoreAPI {
           courseCards.add(courseCard);
 
     }
+
+
     return courseCards;
   }
 

@@ -3,11 +3,13 @@ import"package:flutter/material.dart";
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/ui/screens/home_courses.dart';
 import 'package:lineclass/User/model/user.dart';
+import 'package:lineclass/User/ui/screens/navigation_drawer.dart';
 import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/google_button.dart';
 import 'package:lineclass/widgets/green_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 
+/// Create an stateful because maybe in the future it could be util for IntroScreen
 class StartScreen extends StatefulWidget {
   @override
   _StartScreenState createState() => _StartScreenState();
@@ -15,19 +17,25 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
 
+  /// Instantiate the global bloc to call methods
   AppBloc bloc;
 
   @override
   Widget build(BuildContext context) {
 
     bloc = BlocProvider.of(context);
+
+    /// Get the current device's width & height
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    /// This handle allow us to control what to show knowing if user is logged in or not
     return _handleCurrentSession (screenWidth, screenHeight);
   }
 
   Widget _handleCurrentSession(double screenWidth, double screenHeight){
+
+    /// This StreamBuilder is handled by the state of the Firebase Auth Status stream
     return StreamBuilder(
       stream: bloc.user.authStatus,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -45,8 +53,19 @@ class _StartScreenState extends State<StartScreen> {
 
   }
 
+  /// Define the Log In screen for not logged in users
   Widget startUI(double screenWidth, double screenHeight) {
 
+    ///This Log In screen have:
+      /// Logo
+      /// App Name
+      /// App Slogan
+      /// Create an Account Button
+      /// Google Log In Button
+      /// Already have an Account? + Log In Button Text
+      /// App Version
+
+    /// Define spaces between the widgets of the Log In screen for avoid screen size issues
     double space1 = screenHeight*0.037;
     double space2 = screenHeight*0.02;
     double space3 = screenHeight*0.1;
@@ -67,7 +86,7 @@ class _StartScreenState extends State<StartScreen> {
       ),
     );
 
-    Widget title = Container (
+    Widget appName = Container (
       alignment: Alignment.center,
       margin: EdgeInsets.only(bottom: space2),
       child: Text(
@@ -79,7 +98,7 @@ class _StartScreenState extends State<StartScreen> {
       ),
     );
 
-    Widget subtitle = Container (
+    Widget appSlogan = Container (
       alignment: Alignment.center,
       margin: EdgeInsets.only(bottom: space3),
       child: Text(
@@ -136,8 +155,8 @@ class _StartScreenState extends State<StartScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           logoBox,
-          title,
-          subtitle,
+          appName,
+          appSlogan,
           GreenButton(bottomMargin: 0, topMargin: 0, buttonText: "Crear cuenta",),
           GoogleButton(bottomMargin: 0, topMargin: space4, buttonText: "Entra con Google"),
           Row(
@@ -154,7 +173,8 @@ class _StartScreenState extends State<StartScreen> {
 
   }
 
-  Widget home (AppBloc bloc, ConnectionState guaco, AsyncSnapshot snapshot) {
+  /// Create a StreamBuilder that allows us to make sure that we have the user's information
+  Widget home (AppBloc bloc, ConnectionState connectionState, AsyncSnapshot snapshot) {
 
       bloc = BlocProvider.of(context);
 
@@ -167,22 +187,26 @@ class _StartScreenState extends State<StartScreen> {
 
         } else {
 
-          var user = User(
+          /// Instantiate User, only for know the User Uid
+          // ignore: missing_required_param
+          User basicUser = User(
             uid: snapshot.data.uid,
-            name: snapshot.data.displayName,
-            email: snapshot.data.email,
-            photoUrl: snapshot.data.photoUrl,
           );
 
-          //String userUid = user.uid;
-
+          /// Method getUser use the User Uid obtained with Firebase Auth, to gets a DocumentSnapshot from Firebase FireStore
           return StreamBuilder(
-            stream: bloc.user.getUser(user.uid),
+            stream: bloc.user.getUser(basicUser.uid),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
 
               if(snapshot.hasData && !snapshot.hasError) {
-                User usuario = bloc.user.buildUser(snapshot.data);
-                return HomeCourses(user: usuario);
+
+                /// Then, we use that DocumentSnapshot on buildUser method,
+                /// building a completely User object using FireStore Saved Attributes
+                User user = bloc.user.buildUser(snapshot.data);
+
+                /// And send it to the Home Page, that shows the Users Courses
+                return NavigationDrawer(user: user,);
+
               } else if(snapshot.connectionState != ConnectionState.waiting) {
                 return startUI(screenWidth, screenHeight);
               } else {
