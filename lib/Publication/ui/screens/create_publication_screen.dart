@@ -171,12 +171,8 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
           bloc.publication.createPublication(publication).whenComplete( () {
 
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                HomeCourses(user: widget.user,)), (Route<dynamic> route) => false);
-
-            Navigator.push(context, MaterialPageRoute(
-                builder: (BuildContext context) => CourseScreen(course: widget.course, user: widget.user,)
-            ));
+            Navigator.pop(context);
+            Navigator.pop(context);
 
             Toast.show("¡Publicación hecha!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
 
@@ -197,11 +193,12 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xFFf6f6f6),
         elevation: 2,
-        title: Text("Agregar Contenido", style: TextStyle(fontFamily: "Comfortaa", fontSize: 16)),
+        title: Text("Agregar Contenido", style: TextStyle(fontFamily: "Comfortaa", fontSize: 16, color: Colors.black,)),
         leading: InkWell(
           child: Icon(
             Icons.keyboard_arrow_left,
             size: 24,
+            color: Colors.black,
           ),
           onTap: () {
             Navigator.pop(context);

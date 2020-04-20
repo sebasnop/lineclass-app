@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Publication/model/publication.dart';
+import 'package:lineclass/Publication/ui/screens/publication_screen.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/widgets/avatar_picture.dart';
 import 'package:lineclass/bloc.dart';
@@ -18,10 +19,7 @@ class PublicationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     AppBloc bloc = BlocProvider.of<AppBloc>(context);
 
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double screenWidth = MediaQuery.of(context).size.width;
     double cardWidth = screenWidth * 0.88;
     double cardHeight = cardWidth * 0.3;
 
@@ -33,8 +31,6 @@ class PublicationCard extends StatelessWidget {
     String dateText = "";
 
     Duration duration = currentDate.difference(publicationDate);
-
-    print(duration.inHours);
 
     if (duration.inDays == 0){
 
@@ -151,7 +147,12 @@ class PublicationCard extends StatelessWidget {
 
       InkWell card (DocumentSnapshot getPublisher) {
         return InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (BuildContext context) => PublicationScreen(publication: publication, user: user,)
+                )
+              );
+            },
             child: Container(
               height: cardHeight,
               width: cardWidth,
@@ -175,7 +176,7 @@ class PublicationCard extends StatelessWidget {
         );
       }
 
-      Stream <DocumentSnapshot> getPublisher = bloc.user.getUser(user.uid);
+      Stream <DocumentSnapshot> getPublisher = bloc.user.getUser(publication.publisher.documentID);
 
       return StreamBuilder(
         stream: getPublisher,

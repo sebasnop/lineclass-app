@@ -33,11 +33,12 @@ class CourseScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.white,
             elevation: 0,
-            title: Text(courseNameList[0], style: TextStyle(fontFamily: "Comfortaa")),
+            title: Text(courseNameList[0], style: TextStyle(fontFamily: "Comfortaa", color: Colors.black,)),
             leading: InkWell(
               child: Icon(
-                Icons.keyboard_arrow_left,
+                Icons.arrow_back_ios,
                 size: 24,
+                color: Colors.black,
               ),
               onTap: () {
                 Navigator.pop(context);
@@ -47,13 +48,13 @@ class CourseScreen extends StatelessWidget {
               indicatorColor: Color(0xff1e56a0),
               tabs: <Widget>[
                 Tab(
-                  icon: Icon(Icons.collections_bookmark),
+                  icon: Icon(Icons.collections_bookmark, color: Colors.black,),
                 ),
                 Tab(
-                  icon: Icon(Icons.calendar_today),
+                  icon: Icon(Icons.calendar_today, color: Colors.black,),
                 ),
                 Tab(
-                  icon: Icon(Icons.people),
+                  icon: Icon(Icons.people, color: Colors.black,),
                 ),
               ],
             ),

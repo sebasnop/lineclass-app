@@ -4,7 +4,7 @@ import 'package:lineclass/User/ui/widgets/avatar_picture.dart';
 
 class SettingsHeader extends StatelessWidget {
 
-  User user;
+  final User user;
 
   SettingsHeader({Key key, @required this.user});
 
@@ -12,25 +12,20 @@ class SettingsHeader extends StatelessWidget {
   Widget build(BuildContext context) {
 
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     double side = screenWidth*0.06;
-    double width = screenWidth-(side*2);
-
-    double usedWidth = width*0.75;
-    double unusedWidth = width*0.25;
-    double widthText = usedWidth*0.80;
-    double widthPhoto = usedWidth - widthText;
+    double boxWidth = screenWidth-(side*2);
 
     Widget name = Container(
-      margin: EdgeInsets.only(bottom: 3),
+      margin: EdgeInsets.only(bottom: 3, top: 10),
       child: Text(
         "${user.firstName} ${user.firstLastName ?? ""}",
         textAlign: TextAlign.left,
         style: TextStyle(
-          fontSize: 15,
-          color: Colors.white,
+          fontSize: 16,
+          color: Colors.black,
           fontFamily: "Comfortaa",
+          fontWeight: FontWeight.w600
         ),
       )
     );
@@ -39,58 +34,58 @@ class SettingsHeader extends StatelessWidget {
       "@${user.nickname}",
       textAlign: TextAlign.left,
       style: TextStyle(
-          fontSize: 15,
-          color: Colors.white,
+          fontSize: 13,
+          color: Colors.black,
           fontFamily: "Comfortaa",
-          fontWeight: FontWeight.bold
+          fontWeight: FontWeight.w300
       ),
     );
 
     Widget text = Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         name,
         nickname
       ],
     );
 
-    return Container(
-      height: screenHeight*0.20,
+    Container box = Container(
       alignment: Alignment.center,
+      margin: EdgeInsets.only(top:20, bottom: 30, left: side, right: side),
+      height: 150,
+      width: screenWidth-(side*2),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow (
+                color:  Colors.black12,
+                blurRadius: 10,
+                offset: Offset(2, 3)
+            )
+          ]
+      ),
       child: InkWell(
         borderRadius: BorderRadius.all(Radius.circular(25)),
         onTap: (){
 
         },
-        child: Container(
-          padding: EdgeInsets.only(left: 30),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-              gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF36C186),
-                    Color(0xFF158A8C)
-                  ]
-              ),
-            boxShadow: <BoxShadow>[
-              BoxShadow (
-                  color:  Colors.black26,
-                  blurRadius: 1,
-                  offset: Offset(2, 3)
-              )
-            ]
-          ),
-          height: screenHeight*0.12,
-          width: screenWidth-(side*2),
-          child: Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              AvatarPicture(side: widthPhoto, user: user,),
-              Container(margin: EdgeInsets.only(left: 15),child:text)
+              AvatarPicture(side: boxWidth*0.17, user: user,),
+              Container(child:text, alignment: Alignment.center,)
             ]
         ),
-      ),
     )
     );
+
+    return Stack(
+      children: <Widget>[
+        Container(color: Color(0xFF1E56A0), height: 120, width: screenWidth,),
+        box
+      ],
+    );
+
   }
 }

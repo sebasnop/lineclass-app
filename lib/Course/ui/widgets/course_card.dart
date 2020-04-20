@@ -16,7 +16,7 @@ class CourseCard extends StatelessWidget {
 
     double screenWidth = MediaQuery.of(context).size.width;
 
-    Border border = Border(top: BorderSide(width: 0.7, color: Colors.black12), );
+    Border border = Border(top: BorderSide(width: 0.3, color: Colors.black12), );
 
     IconData temathicIcon;
 

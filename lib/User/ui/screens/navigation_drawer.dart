@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/ui/screens/home_courses.dart';
 import 'package:lineclass/User/model/user.dart';
+import 'package:lineclass/User/ui/screens/user_settings_screen.dart';
+import 'package:lineclass/User/ui/widgets/avatar_picture.dart';
 
 class NavigationDrawer extends StatefulWidget {
 
@@ -13,25 +16,81 @@ class NavigationDrawer extends StatefulWidget {
 }
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
+
+  int _selectDrawerScreen = 0;
+  String _selectDrawerTitle = "Lineclass";
+
+  _getDrawerScreen(int position) {
+    switch (position){
+      case 0 : return HomeCourses(user: widget.user);
+      case 1 : return HomeCourses(user: widget.user);
+      case 2 : return UserSettingsScreen(user: widget.user);
+    }
+  }
+
+  _onSelectDrawerOption (int option, String title) {
+    setState(() {
+      _selectDrawerScreen = option;
+      _selectDrawerTitle = title;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color(0xFF1E56A0),
-        title: Text("Lineclass", style: TextStyle(fontFamily:"Comfortaa", fontWeight: FontWeight.w600),),
+        title: Container(
+          padding: EdgeInsets.only(top:4),
+          child: Text(
+            _selectDrawerTitle,
+            style: TextStyle(
+                fontFamily:"Comfortaa", fontWeight: FontWeight.w500, letterSpacing: 0.5, fontSize: 24
+            ),
+          ),
+        )
       ),
       drawer: Drawer(
         child: ListView(
+          padding: EdgeInsets.only(top: 0),
           children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text (widget.user.name, style: TextStyle(fontFamily: "Comfortaa", fontWeight: FontWeight.w600),),
+              accountEmail: Text (widget.user.email, style: TextStyle(fontFamily: "Comfortaa", fontSize: 13)),
+              currentAccountPicture: AvatarPicture(user: widget.user, side: 30,),
+              decoration: BoxDecoration(
+                  color: Color(0xFF1E56A0),
+                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(50))),
+            ),
             ListTile(
-              title: Text("Guaco"),
-              onTap: (){},
+              title: Text("Tus cursos", style: TextStyle(fontFamily: "Comfortaa", fontSize: 17),),
+              leading: Icon(Icons.home),
+              onTap: (){
+                _onSelectDrawerOption(0, "Lineclass");
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              title: Text("Mensajes", style: TextStyle(fontFamily: "Comfortaa", fontSize: 17),),
+              leading: Icon(CupertinoIcons.mail_solid),
+              onTap: (){
+                _onSelectDrawerOption(1, "Lineclass");
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              title: Text("Configuración", style: TextStyle(fontFamily: "Comfortaa", fontSize: 17),),
+              leading: Icon(CupertinoIcons.gear_big),
+              onTap: (){
+                _onSelectDrawerOption(2, "Configuración");
+                Navigator.of(context).pop();
+              },
             )
           ],
         ),
       ),
-      body: HomeCourses(user: widget.user),
+      body: _getDrawerScreen(_selectDrawerScreen),
     );
   }
 }

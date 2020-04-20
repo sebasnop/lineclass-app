@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Course/ui/screens/add_course_screen.dart';
-import 'package:lineclass/Course/ui/widgets/search_course.dart';
+import 'package:lineclass/Course/ui/widgets/home_header.dart';
 import 'package:lineclass/Course/ui/widgets/student_courses_list.dart';
 import 'package:lineclass/Course/ui/widgets/teacher_courses_list.dart';
 import 'package:lineclass/User/model/user.dart';
-import 'package:lineclass/User/ui/widgets/home_header.dart';
 import 'package:lineclass/widgets/fab.dart';
 
 class HomeCourses extends StatelessWidget {
@@ -20,17 +19,19 @@ class HomeCourses extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    double headerHeight = 200;
+    double listHeight = screenHeight- headerHeight;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          //HomeHeader(user: user),
-          SearchCourse(),
+          SearchCourse(headerHeight: headerHeight),
           SizedBox(
             width: screenWidth,
-            height: screenHeight - 274 - 55,
+            height: listHeight,
             child: ListView(
-              padding: EdgeInsets.only(top: 20, bottom: 0),
+              padding: EdgeInsets.only(top: 0, bottom: 0),
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               children: <Widget>[

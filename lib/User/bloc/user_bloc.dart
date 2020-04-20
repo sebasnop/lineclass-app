@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:lineclass/Course/bloc/course_bloc.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/repository/firebase_auth_repository.dart';
 import 'package:lineclass/User/repository/users_firestore_repository.dart';

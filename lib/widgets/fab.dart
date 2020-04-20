@@ -4,11 +4,11 @@ class Fab extends StatefulWidget {
 
   final VoidCallback onPressed;
 
-  bool mini;
-  IconData icon;
-  double iconSize;
-  Color color = Color(0xff1e56a0);
-  Color secondColor = Colors.blue;
+  final bool mini;
+  final IconData icon;
+  final double iconSize;
+  final Color color = Color(0xff1e56a0);
+  final secondColor = Colors.blue;
 
   Fab({
     Key key,
