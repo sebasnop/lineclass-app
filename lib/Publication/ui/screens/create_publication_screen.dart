@@ -1,14 +1,15 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Course/model/course.dart';
-import 'package:lineclass/Course/ui/screens/course_screen.dart';
-import 'package:lineclass/Course/ui/screens/home_courses.dart';
 import 'package:lineclass/Publication/model/publication.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
+import 'package:lineclass/widgets/gray_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:toast/toast.dart';
 
@@ -29,6 +30,8 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     AppBloc bloc = BlocProvider.of <AppBloc> (context);
 
@@ -59,7 +62,6 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
         decoration: InputDecoration(
             alignLabelWithHint: true,
             hintText: "Escribe un título breve",
-            //labelText: "Título",
             helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
             labelStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa"),
             hintStyle: TextStyle(color: Colors.black38, fontFamily: "Comfortaa"),
@@ -140,6 +142,31 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       )
     );
 
+    Widget contentsTitle = Container(
+      width: screenWidth*0.5,
+      child: Text("Contenidos", style: TextStyle(
+        fontSize: 20,
+        fontFamily: "Comfortaa"
+        ),
+      ),
+      padding: EdgeInsets.only(left: 25, right: 20),
+    );
+
+    Widget addContent = GrayButton(
+      width: screenWidth*0.5,
+      onPressed: (){
+      },
+      buttonText: "Añadir",
+      iconData: Icons.add,
+    );
+
+    Widget headerContents = Row(
+      children: <Widget>[
+        contentsTitle,
+        addContent
+      ],
+    );
+
     Future <void> Function () submit = () async {
 
       bool internetConexion = await DataConnectionChecker().hasConnection;
@@ -176,7 +203,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
             Toast.show("¡Publicación hecha!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
 
-          });;
+          });
 
         } else {
           Toast.show("Completa los campos requeridos", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.TOP);
@@ -193,7 +220,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xFFf6f6f6),
         elevation: 2,
-        title: Text("Agregar Contenido", style: TextStyle(fontFamily: "Comfortaa", fontSize: 16, color: Colors.black,)),
+        title: Text("Agregar Publicación", style: TextStyle(fontFamily: "Comfortaa", fontSize: 16, color: Colors.black,)),
         leading: InkWell(
           child: Icon(
             Icons.keyboard_arrow_left,
@@ -225,7 +252,8 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       ),
       body: Column(
         children: <Widget>[
-          form
+          form,
+          headerContents
         ],
       )
     );

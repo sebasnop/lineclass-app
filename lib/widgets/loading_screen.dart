@@ -44,8 +44,8 @@ class LoadingScreen extends StatelessWidget {
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     colors: [
-                      Color(0xFF49CCB9),
-                      Color(0xFF4EC2E0)
+                      Color(0xff1e56a0),
+                      Color(0xFF163172)
                     ]
                 )
 

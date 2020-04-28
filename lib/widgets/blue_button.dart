@@ -21,7 +21,6 @@ class BlueButton extends StatelessWidget {
   Widget build(BuildContext context) {
 
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     double buttonWidth = screenWidth*0.90;
 
     return Container(
