@@ -1,10 +1,10 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:lineclass/Content/type_selection_screen.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Publication/model/publication.dart';
 import 'package:lineclass/User/model/user.dart';
@@ -27,11 +27,13 @@ class CreatePublicationScreen extends StatefulWidget {
 class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  List <String> contents = [];
 
   @override
   Widget build(BuildContext context) {
 
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     AppBloc bloc = BlocProvider.of <AppBloc> (context);
 
@@ -47,7 +49,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
           border: Border(bottom: BorderSide(color: Colors.black12,width: 0.3))
       ),
       child: FormBuilderTextField(
-        autofocus: true,
+        autofocus: false,
         attribute: "title",
         keyboardType: TextInputType.multiline,
         textCapitalization: TextCapitalization.sentences,
@@ -152,9 +154,29 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       padding: EdgeInsets.only(left: 25, right: 20),
     );
 
+    _navigateAndDisplaySelection(BuildContext context, List<String> alv) async {
+
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => TypeSelectionScreen(contentsList: contents)),
+      ) ?? "";
+
+      contents.add(result);
+
+    }
+
     Widget addContent = GrayButton(
       width: screenWidth*0.5,
       onPressed: (){
+
+        Toast.show("Datos guardados temporalmente", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+        _navigateAndDisplaySelection(context, contents).whenComplete(() {
+
+          Toast.show("${contents.last}", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+          print(contents);
+
+        });
+
       },
       buttonText: "Añadir",
       iconData: Icons.add,
@@ -166,6 +188,25 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
         addContent
       ],
     );
+
+    List<Widget> contentsList (List <String> contents) {
+
+      List<Widget> contentsInsideList = [];
+
+        contents.forEach((f) {
+          Container oneContent = Container (
+            height: 30,
+            width: 100,
+            margin: EdgeInsets.only(top: 20, left: 20),
+              child: Text(f, style: TextStyle(fontFamily: "Comfortaa", fontSize: 20),)
+          );
+          contentsInsideList.add(Divider());
+          contentsInsideList.add(oneContent);
+        });
+
+      return contentsInsideList;
+
+    };
 
     Future <void> Function () submit = () async {
 
@@ -216,6 +257,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
     };
 
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xFFf6f6f6),
@@ -253,10 +295,16 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       body: Column(
         children: <Widget>[
           form,
-          headerContents
+          headerContents,
+        Container(
+          height: screenHeight*0.4,
+          child: ListView(
+            shrinkWrap: true,
+            children: contentsList(contents)
+            ),
+        ),
         ],
       )
     );
   }
 }
-
