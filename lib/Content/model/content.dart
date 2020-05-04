@@ -7,6 +7,6 @@ class Content {
   String type;
   String url;
 
-  Content({Key key, @required this.title, this.description, @required this.type, this.url});
+  Content({Key key, @required this.title, @required this.description, @required this.type, @required this.url});
 
 }

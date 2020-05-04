@@ -30,6 +30,7 @@ dependencies:
   cloud_firestore: ^0.13.4
   google_sign_in: ^4.2.0
   firebase_auth: ^0.15.5+3
+  firebase_storage: ^3.1.5
 
   generic_bloc_provider: ^1.0.9
   flutter_form_builder: ^3.8.0+1
