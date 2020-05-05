@@ -4,7 +4,9 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:lineclass/Content/type_selection_screen.dart';
+import 'package:lineclass/Content/model/content.dart';
+import 'package:lineclass/Content/ui/screens/type_selection_screen.dart';
+import 'package:lineclass/Content/ui/widgets/create_content_card.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Publication/model/publication.dart';
 import 'package:lineclass/User/model/user.dart';
@@ -27,7 +29,7 @@ class CreatePublicationScreen extends StatefulWidget {
 class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
-  List <String> contents = [];
+  List <Content> contents = [];
 
   @override
   Widget build(BuildContext context) {
@@ -154,14 +156,16 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       padding: EdgeInsets.only(left: 25, right: 20),
     );
 
-    _navigateAndDisplaySelection(BuildContext context, List<String> alv) async {
+    _navigateAndDisplaySelection(BuildContext context) async {
 
       final result = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => TypeSelectionScreen(contentsList: contents)),
+        MaterialPageRoute(builder: (context) => TypeSelectionScreen()),
       ) ?? "";
 
-      contents.add(result);
+      if(result != "") {
+        contents.add(result);
+      }
 
     }
 
@@ -170,9 +174,8 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       onPressed: (){
 
         Toast.show("Datos guardados temporalmente", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
-        _navigateAndDisplaySelection(context, contents).whenComplete(() {
+        _navigateAndDisplaySelection(context).whenComplete(() {
 
-          Toast.show("${contents.last}", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
           print(contents);
 
         });
@@ -189,24 +192,37 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       ],
     );
 
-    List<Widget> contentsList (List <String> contents) {
+    List<Widget> contentsList (List <Content> contents) {
 
       List<Widget> contentsInsideList = [];
 
+      contentsInsideList.add(Divider());
+
         contents.forEach((f) {
-          Container oneContent = Container (
-            height: 30,
-            width: 100,
-            margin: EdgeInsets.only(top: 20, left: 20),
-              child: Text(f, style: TextStyle(fontFamily: "Comfortaa", fontSize: 20),)
-          );
-          contentsInsideList.add(Divider());
+
+          IconData icon;
+
+          switch(f.type){
+            case "youtube_video" : icon = Icons.ondemand_video;
+              break;
+            case "local_file" : icon = Icons.insert_drive_file; // Icons.description
+              break;
+            case "images" : icon = Icons.collections; //Or Icons.burst_mode
+              break;
+            case "link" : icon = Icons.share;
+              break;
+            case "drive_file" : icon = Icons.cloud_download;
+              break;
+          }
+
+          Widget oneContent = CreateContentCard(screenWidth: screenWidth, content: f, iconData: icon,);
           contentsInsideList.add(oneContent);
+          contentsInsideList.add(Divider());
         });
 
       return contentsInsideList;
 
-    };
+    }
 
     Future <void> Function () submit = () async {
 
@@ -256,6 +272,43 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
     };
 
+    Future<void> _neverSatisfied() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('¿Deseas salir?'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Perderás el contenido de tu publicación.'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('SALIR', style: TextStyle(color: Color(0xFF163172)),),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+              ),
+              MaterialButton(
+                height: 35,
+                child: Text('Volver'),
+                color: Color(0xFF163172),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
@@ -269,9 +322,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
             size: 24,
             color: Colors.black,
           ),
-          onTap: () {
-            Navigator.pop(context);
-          },
+          onTap: _neverSatisfied
         ),
         actions: <Widget>[
           InkWell(
