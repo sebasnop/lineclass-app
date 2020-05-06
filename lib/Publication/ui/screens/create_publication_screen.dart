@@ -176,7 +176,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
         Toast.show("Datos guardados temporalmente", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
         _navigateAndDisplaySelection(context).whenComplete(() {
 
-          print(contents);
+          print(contents.last.file);
 
         });
 
@@ -198,11 +198,11 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
       contentsInsideList.add(Divider());
 
-        contents.forEach((f) {
+        contents.forEach((content) {
 
           IconData icon;
 
-          switch(f.type){
+          switch(content.type){
             case "youtube_video" : icon = Icons.ondemand_video;
               break;
             case "local_file" : icon = Icons.insert_drive_file; // Icons.description
@@ -215,16 +215,17 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
               break;
           }
 
-          Widget oneContent = CreateContentCard(screenWidth: screenWidth, content: f, iconData: icon,);
+          Widget oneContent = CreateContentCard(screenWidth: screenWidth, content: content, iconData: icon,);
           contentsInsideList.add(oneContent);
           contentsInsideList.add(Divider());
+
         });
 
       return contentsInsideList;
 
     }
 
-    Future <void> Function () submit = () async {
+    Future <void> _submit () async {
 
       bool internetConexion = await DataConnectionChecker().hasConnection;
 
@@ -270,12 +271,12 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
         Toast.show("Verifica tu conexión a internet :)", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
       }
 
-    };
+    }
 
     Future<void> _neverSatisfied() async {
       return showDialog<void>(
         context: context,
-        barrierDismissible: false, // user must tap button!
+        barrierDismissible: true, // user must not tap a button
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('¿Deseas salir?'),
@@ -339,7 +340,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
                   ),
                 ),
             ),
-            onTap: submit,
+            onTap: _submit,
           ),
         ],
       ),

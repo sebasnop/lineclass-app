@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Content/model/content.dart';
 
@@ -38,11 +39,24 @@ class TypeSelectionScreen extends StatelessWidget {
               child: MaterialButton(
                 color: Color(0xFFf6f6f6),
                 elevation: 1,
-                onPressed: () {
+                onPressed: () async {
 
-                  content = Content(title: "Archivo Local", type: "local_file", description: "", url: "");
 
-                  Navigator.pop(context, content);
+
+                  await FilePicker.getFile(type: FileType.any).then(
+                      (value){
+
+                        content = Content(title: "Archivo Local", type: "local_file", description: "", file: value);
+
+                        Navigator.pop(context, content);
+
+                        }
+                    ).catchError((onError){
+                      print("$onError ERROR");
+                  });
+
+
+
                 },
                 child: Text('Archivo', style: TextStyle(color: Colors.black, fontFamily: "Comfortaa"),),
               ),
