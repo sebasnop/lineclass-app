@@ -13,6 +13,7 @@ import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/gray_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
+import 'package:lineclass/widgets/title_input.dart';
 import 'package:toast/toast.dart';
 
 class CreatePublicationScreen extends StatefulWidget {
@@ -39,56 +40,6 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
     AppBloc bloc = BlocProvider.of <AppBloc> (context);
 
-    Container titleInput = Container(
-      margin: EdgeInsets.only(
-          left: 20,
-          right: 20,
-          bottom: 20,
-          top: 20
-      ),
-      padding: EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.black12,width: 0.3))
-      ),
-      child: FormBuilderTextField(
-        autofocus: false,
-        attribute: "title",
-        keyboardType: TextInputType.multiline,
-        textCapitalization: TextCapitalization.sentences,
-        cursorColor: Color(0xff686868),
-        style: TextStyle(
-          //fontFamily: "Comfortaa",
-          fontSize: 20,
-          //letterSpacing: 0.3,
-          fontWeight: FontWeight.w400,
-          color: Colors.black87
-        ),
-        decoration: InputDecoration(
-            alignLabelWithHint: true,
-            hintText: "Escribe un título breve",
-            helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
-            labelStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa"),
-            hintStyle: TextStyle(color: Colors.black38, fontFamily: "Comfortaa"),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-            focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-            errorStyle: TextStyle(
-                fontFamily: "Comfortaa",
-                color: Colors.black26
-            ),
-            contentPadding: EdgeInsets.only(
-                left: 10,
-                right: 10
-            )
-        ),
-        validators: [
-          FormBuilderValidators.required(errorText: "Escribe un título"),
-          FormBuilderValidators.minLength(2, errorText: "Debe contener más letras"),
-          FormBuilderValidators.maxLength(35, errorText: "Debe contener menos letras"),
-        ],
-      ),
-    );
-
     Container descriptionInput = Container(
       margin: EdgeInsets.only(
           left: 20,
@@ -113,8 +64,8 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
         decoration: InputDecoration(
             alignLabelWithHint: true,
             hintText: "Escribe una descripción...",
-            labelStyle: TextStyle(color:Colors.black12, /**fontFamily: "Comfortaa"**/),
-            hintStyle: TextStyle(color: Colors.black26, /**fontFamily: "Comfortaa"**/),
+            labelStyle: TextStyle(color:Colors.black12,),
+            hintStyle: TextStyle(color: Colors.black26,),
             enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
             focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
             focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
@@ -139,7 +90,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
         autovalidate: true,
         child: Column(
           children: <Widget>[
-            titleInput,
+            TitleInput(hintText: "Escribe un título breve",requiredErrorText: "Escribe un título",),
             descriptionInput
           ],
         )
@@ -160,7 +111,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
       final result = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => TypeSelectionScreen()),
+        MaterialPageRoute(builder: (context) => TypeSelectionScreen(user: widget.user,)),
       ) ?? "";
 
       if(result != "") {
@@ -176,7 +127,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
         Toast.show("Datos guardados temporalmente", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
         _navigateAndDisplaySelection(context).whenComplete(() {
 
-          print(contents.last.file);
+          print(contents.last.files.last.path);
 
         });
 
@@ -207,12 +158,17 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
               break;
             case "local_file" : icon = Icons.insert_drive_file; // Icons.description
               break;
-            case "images" : icon = Icons.collections; //Or Icons.burst_mode
+            case "image" : icon = Icons.collections; //Or Icons.burst_mode
               break;
             case "link" : icon = Icons.share;
               break;
+            case "text" : icon = Icons.title;
+              break;
             case "drive_file" : icon = Icons.cloud_download;
               break;
+            case "audio" : icon = Icons.keyboard_voice;
+              break;
+            default: icon = Icons.all_inclusive;
           }
 
           Widget oneContent = CreateContentCard(screenWidth: screenWidth, content: content, iconData: icon,);
@@ -227,9 +183,9 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
     Future <void> _submit () async {
 
-      bool internetConexion = await DataConnectionChecker().hasConnection;
+      bool internetConnexion = await DataConnectionChecker().hasConnection;
 
-      if (internetConexion) {
+      if (internetConnexion) {
 
         if (_fbKey.currentState.saveAndValidate()) {
 
@@ -267,7 +223,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
           Toast.show("Completa los campos requeridos", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.TOP);
         }
 
-      } else if (!internetConexion){
+      } else if (!internetConnexion){
         Toast.show("Verifica tu conexión a internet :)", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
       }
 

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 class Content {
 
+  String id;
   String title;
   String description;
   String type;
-  String url;
-  File file;
+  List <File> files;
+  List <String> urlFiles;
 
-  Content({Key key, @required this.title, @required this.description, @required this.type,
-    this.url, this.file});
+  Content({Key key, this.title, this.description, @required this.type, this.files, this.id, this.urlFiles});
 
 }
