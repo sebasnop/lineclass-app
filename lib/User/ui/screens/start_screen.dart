@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import"package:flutter/material.dart";
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:lineclass/Course/ui/screens/home_courses.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/screens/navigation_drawer.dart';
 import 'package:lineclass/bloc.dart';
@@ -41,7 +40,6 @@ class _StartScreenState extends State<StartScreen> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
 
         if(snapshot.hasData && !snapshot.hasError) {
-          print("${snapshot.connectionState}");
           return home(bloc, snapshot.connectionState, snapshot);
         } else if(snapshot.connectionState != ConnectionState.waiting) {
           return startUI(screenWidth, screenHeight);
@@ -60,9 +58,9 @@ class _StartScreenState extends State<StartScreen> {
       /// Logo
       /// App Name
       /// App Slogan
-      /// Create an Account Button
+      /// Create Account Button
       /// Google Log In Button
-      /// Already have an Account? + Log In Button Text
+      /// Already have an Account? Log In Button Text
       /// App Version
 
     /// Define spaces between the widgets of the Log In screen for avoid screen size issues

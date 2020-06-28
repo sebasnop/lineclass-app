@@ -6,6 +6,13 @@ import 'Course/bloc/course_bloc.dart';
 
 class AppBloc implements Bloc {
 
+  /// Using Bloc & Clean Architecture, setting Entities and separating their functions.
+
+  /// It's an educational app, and currently for this, it has:
+      /// Users that creates Courses (Teachers) or joins to created Courses (Students).
+      /// Courses, which are spaces for Users (Who own the course or have joined) to create and share Publications.
+      /// Publications that contains Contents, added by Users while they are creating a Publication.
+
   UserBloc user = UserBloc();
   CourseBloc course = CourseBloc();
   PublicationBloc publication = PublicationBloc();

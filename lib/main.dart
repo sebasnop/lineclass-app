@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    /// Use BLoC Architecture in the project
+    /// Use BLoC & Clean Architecture in the project
     return BlocProvider(
       bloc: AppBloc(),
       child: MaterialApp(
