@@ -202,8 +202,8 @@ class _StartScreenState extends State<StartScreen> {
                 /// building a completely User object using FireStore Saved Attributes
                 User user = bloc.user.buildUser(snapshot.data);
 
-                /// And send it to the Home Page, that shows the Users Courses
-                return NavigationDrawer(user: user,);
+                /// And send it to the NavigationDrawer, that controls what screen is displayed
+                return NavigationDrawer(user: user);
 
               } else if(snapshot.connectionState != ConnectionState.waiting) {
                 return startUI(screenWidth, screenHeight);

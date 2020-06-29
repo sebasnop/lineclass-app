@@ -29,7 +29,9 @@ class CreatePublicationScreen extends StatefulWidget {
 
 class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
+  /// We create a state for control the Form
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  /// And a Contents List
   List <Content> contents = [];
 
   @override
@@ -40,6 +42,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
     AppBloc bloc = BlocProvider.of <AppBloc> (context);
 
+    /// Make a Text Field for the Publication's Description
     Container descriptionInput = Container(
       margin: EdgeInsets.only(
           left: 20,
@@ -63,7 +66,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
         ),
         decoration: InputDecoration(
             alignLabelWithHint: true,
-            hintText: "Escribe una descripción...",
+            hintText: "Descripción...\n(Opcional)",
             labelStyle: TextStyle(color:Colors.black12,),
             hintStyle: TextStyle(color: Colors.black26,),
             enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
@@ -84,22 +87,24 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       ),
     );
 
+    /// Form that contains the title and description text fields. Title field already exists.
     Container form = Container(
       child: FormBuilder(
         key: _fbKey,
         autovalidate: true,
         child: Column(
           children: <Widget>[
-            TitleInput(hintText: "Escribe un título breve",requiredErrorText: "Escribe un título",),
+            TitleInput(hintText: "Escribe un título...", requiredErrorText: "Título requerido",),
             descriptionInput
           ],
         )
       )
     );
 
+    /// Title of Contents
     Widget contentsTitle = Container(
       width: screenWidth*0.5,
-      child: Text("Contenidos", style: TextStyle(
+      child: Text("Contenido", style: TextStyle(
         fontSize: 20,
         fontFamily: "Comfortaa"
         ),
@@ -107,15 +112,16 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       padding: EdgeInsets.only(left: 25, right: 20),
     );
 
-    _navigateAndDisplaySelection(BuildContext context) async {
+    /// Function that allows to add a Content and then, back to this screen to add a Content to a Publication
+    _createAndReturnContent(BuildContext context) async {
 
-      final result = await Navigator.push(
+      final selectedContent = await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => TypeSelectionScreen(user: widget.user,)),
       ) ?? "";
 
-      if(result != "") {
-        contents.add(result);
+      if(selectedContent != "") {
+        contents.add(selectedContent);
       }
 
     }
@@ -125,7 +131,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       onPressed: (){
 
         Toast.show("Datos guardados temporalmente", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
-        _navigateAndDisplaySelection(context).whenComplete(() {
+        _createAndReturnContent(context).whenComplete(() {
 
           print(contents.last.files.last.path);
 
@@ -229,8 +235,9 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
     }
 
-    Future<void> _neverSatisfied() async {
-      return showDialog<void>(
+    /// Alert Dialog for confirm if User really wants to exit and discard the Publication
+    Future <bool> _confirmExit() async {
+      return showDialog<bool>(
         context: context,
         barrierDismissible: true, // user must not tap a button
         builder: (BuildContext context) {
@@ -245,74 +252,74 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
             ),
             actions: <Widget>[
               FlatButton(
+                child: Text('VOLVER', style: TextStyle(color: Color(0xFF163172)),),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              FlatButton(
                 child: Text('SALIR', style: TextStyle(color: Color(0xFF163172)),),
                 onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-              ),
-              MaterialButton(
-                height: 35,
-                child: Text('Volver'),
-                color: Color(0xFF163172),
-                onPressed: () {
+                  Navigator.of(context).pop(true);
                   Navigator.of(context).pop();
                 },
               ),
-
             ],
           );
         },
       );
     }
 
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color(0xFFf6f6f6),
-        elevation: 2,
-        title: Text("Agregar Publicación", style: TextStyle(fontFamily: "Comfortaa", fontSize: 16, color: Colors.black,)),
-        leading: InkWell(
-          child: Icon(
-            Icons.keyboard_arrow_left,
-            size: 24,
-            color: Colors.black,
+    return WillPopScope(
+      onWillPop: _confirmExit,
+      child: Scaffold(
+        resizeToAvoidBottomPadding: false,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Color(0xFFf6f6f6),
+          elevation: 2,
+          title: Text("Agregar Publicación", style: TextStyle(fontFamily: "Comfortaa", fontSize: 16, color: Colors.black,)),
+          leading: InkWell(
+            child: Icon(
+              Icons.close,
+              size: 24,
+              color: Colors.black,
+            ),
+            onTap: _confirmExit
           ),
-          onTap: _neverSatisfied
-        ),
-        actions: <Widget>[
-          InkWell(
-            child: Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(right: 10),
-                child: Text(
-                  "Publicar",
-                  style: TextStyle(
-                      fontFamily: "Comfortaa",
-                      fontSize: 16,
-                      color: Color(0xFF1E56A0),
-                      fontWeight: FontWeight.bold
+          actions: <Widget>[
+            InkWell(
+              child: Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(right: 10),
+                  child: Text(
+                    "Publicar",
+                    style: TextStyle(
+                        fontFamily: "Comfortaa",
+                        fontSize: 16,
+                        color: Color(0xFF1E56A0),
+                        fontWeight: FontWeight.bold
+                    ),
                   ),
-                ),
+              ),
+              onTap: _submit,
             ),
-            onTap: _submit,
-          ),
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          form,
-          headerContents,
-        Container(
-          height: screenHeight*0.4,
-          child: ListView(
-            shrinkWrap: true,
-            children: contentsList(contents)
-            ),
+          ],
         ),
-        ],
-      )
+        body: Column(
+          children: <Widget>[
+            form,
+            headerContents,
+          Container(
+            height: screenHeight*0.4,
+            child: ListView(
+              shrinkWrap: true,
+              children: contentsList(contents)
+              ),
+          ),
+          ],
+        )
+      ),
     );
   }
 }

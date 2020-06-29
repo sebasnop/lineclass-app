@@ -22,13 +22,13 @@ class TitleInput extends StatelessWidget {
           border: Border(bottom: BorderSide(color: Colors.black12,width: 0.3))
       ),
       child: FormBuilderTextField(
-        autofocus: true,
+        autofocus: false,
         attribute: "title",
         keyboardType: TextInputType.multiline,
         textCapitalization: TextCapitalization.sentences,
-        cursorColor: Color(0xff686868),
+        cursorColor: Color(0xFF1E56A0),
         style: TextStyle(
-            fontSize: 20,
+            fontSize: 25,
             fontWeight: FontWeight.w400,
             color: Colors.black87
         ),
@@ -39,8 +39,8 @@ class TitleInput extends StatelessWidget {
             labelStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa"),
             hintStyle: TextStyle(color: Colors.black38, fontFamily: "Comfortaa"),
             enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-            focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.blueGrey)),
+            focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.blueGrey)),
             errorStyle: TextStyle(
                 fontFamily: "Comfortaa",
                 color: Colors.black26

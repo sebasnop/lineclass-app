@@ -30,6 +30,7 @@ class PublicationsScreen extends StatelessWidget {
     );
 
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       body: SizedBox(
         width: screenWidth,

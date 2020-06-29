@@ -11,6 +11,7 @@ class NavigationDrawer extends StatefulWidget {
 
   NavigationDrawer({Key key, @required this.user});
 
+  /// We create an state because is necessarily to control what screen is displayed
   @override
   _NavigationDrawerState createState() => _NavigationDrawerState();
 }
@@ -20,6 +21,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   int _selectDrawerScreen = 0;
   String _selectDrawerTitle = "Lineclass";
 
+  /// State options that controls the Main Navigation in the App with the Drawer declared later on Scaffold.
   _getDrawerScreen(int position) {
     switch (position){
       case 0 : return HomeCourses(user: widget.user);
@@ -28,6 +30,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     }
   }
 
+  ///Change the Appbar name according to the current screen
   _onSelectDrawerOption (int option, String title) {
     setState(() {
       _selectDrawerScreen = option;
@@ -37,6 +40,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
   @override
   Widget build(BuildContext context) {
+
+    /// Return a Scaffold with:
+        /// An Appbar with the name of the current screen.
+        /// A Drawer to control the app navigation with the states options declared previously.
 
     return Scaffold(
       appBar: AppBar(
@@ -52,6 +59,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
         )
       ),
+
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.only(top: 0),
