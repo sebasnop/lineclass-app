@@ -39,6 +39,23 @@ class TypeSelectionScreen extends StatelessWidget {
     Content content;
     final double screenWidth = MediaQuery.of(context).size.width;
 
+    _textCreation () async {
+
+      content = Content(type: text["type"]);
+      await Navigator.push(context, MaterialPageRoute(builder: (context) => TextCreationScreen(content: content, user: user,))
+
+      ).then((onValue){
+
+        if (onValue != null){
+          Navigator.pop(context, onValue);
+        }
+
+      }).catchError((onError){
+        print("$onError ERROR");
+      });
+
+    }
+
     _localFileCreation () async {
 
       await FilePicker.getMultiFile(type: FileType.custom, allowedExtensions: allowedFileExtensions).then(
@@ -89,23 +106,6 @@ class TypeSelectionScreen extends StatelessWidget {
           }
       ).catchError((onError){
         print("$onError ERROR");
-      });
-
-    }
-
-    _textCreation () async {
-
-              await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TextCreationScreen()),
-              ).then((onValue){
-
-                if (onValue != null){
-                  Navigator.pop(context, onValue);
-                }
-
-              }).catchError((onError){
-                print("$onError ERROR");
       });
 
     }

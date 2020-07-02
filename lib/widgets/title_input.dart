@@ -22,6 +22,7 @@ class TitleInput extends StatelessWidget {
           border: Border(bottom: BorderSide(color: Colors.black12,width: 0.3))
       ),
       child: FormBuilderTextField(
+        maxLength: 35,
         autofocus: false,
         attribute: "title",
         keyboardType: TextInputType.multiline,
