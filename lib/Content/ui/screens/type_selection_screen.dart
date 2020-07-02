@@ -17,6 +17,22 @@ class TypeSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final List<String> keys = ['type', 'typeName', 'description'];
+
+    final List<String> textValues = ['text', 'Texto', 'Solo escribe texto plano.'];
+    final List<String> fileValues = ['localFile', 'Archivo', 'Adjunta archivos desde tu celular.'];
+    final List<String> imageValues = ['image', 'Imágenes', 'Selecciona fotos desde tu galería.'];
+    final List<String> linkValues = ['link', 'Página Web', 'Comparte el enlace de una web.'];
+    final List<String> audioValues = ['audio', 'Audio', 'Graba un audio.'];
+    final List<String> youtubeVideoValues = ['youtubeVideo', 'Video de Youtube', 'Comparte el enlace de un video.'];
+
+    final Map <String, String> text = Map.fromIterables(keys, textValues);
+    final Map <String, String> file = Map.fromIterables(keys, fileValues);
+    final Map <String, String> image = Map.fromIterables(keys, imageValues);
+    final Map <String, String> link = Map.fromIterables(keys, linkValues);
+    final Map <String, String> audio = Map.fromIterables(keys, audioValues);
+    final Map <String, String> youtubeVideo = Map.fromIterables(keys, youtubeVideoValues);
+
     final List <String> allowedFileExtensions = ["pdf", "svg", "doc", "docx", "txt", "xls", "xlsx", "ppt",
       "rtf", "csv", "zip", "rar", "html", "css", "apk"];
 
@@ -30,7 +46,7 @@ class TypeSelectionScreen extends StatelessWidget {
 
             if (values != null){
 
-              content = Content(type: "local_file", description: "", files: values, urlFiles: <String>[]);
+              content = Content(type: "localFile", description: "", files: values, urlFiles: <String>[]);
 
               await Navigator.push(
                 context,
@@ -113,13 +129,14 @@ class TypeSelectionScreen extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Escoge una opción', style: TextStyle(color: Colors.black, fontFamily: "Comfortaa"),),
         backgroundColor: Colors.white,
-        elevation: 0,
+        elevation: 2,
+        title: Text("Escoge una opción...", style: TextStyle(fontFamily: "Comfortaa", fontSize: 16, color: Colors.black,)),
         leading: InkWell(
           child: Icon(
-            Icons.keyboard_arrow_left,
+            Icons.close,
             size: 24,
             color: Colors.black,
           ),
@@ -128,24 +145,18 @@ class TypeSelectionScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Container(
+      body: SizedBox(
         width: screenWidth,
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          padding: EdgeInsets.only(bottom:8, top:8),
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                TypeSelectionButton(typeString: "Archivo", type: "local_file", function: _localFileCreation,),
-                TypeSelectionButton(typeString: "Video de Youtube",  type: "youtube_video", function: _youtubeVideoCreation),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                TypeSelectionButton(typeString: "Texto",  type: "text", function: _textCreation,),
-                TypeSelectionButton(typeString: "Imagen",  type: "image", function: _imageCreation,)
-              ],
-            ),
+            TypeSelectionButton(type: text["type"], typeName: text["typeName"], description: text["description"], function: _textCreation,),
+            TypeSelectionButton(type: file["type"], typeName: file["typeName"], description: file["description"], function: _localFileCreation,),
+            TypeSelectionButton(type: image["type"], typeName: image["typeName"], description: image["description"], function: _imageCreation,),
+            TypeSelectionButton(type: audio["type"], typeName: audio["typeName"], description: audio["description"], function: _textCreation,),
+            TypeSelectionButton(type: link["type"], typeName: link["typeName"], description: link["description"], function: _textCreation,),
+            TypeSelectionButton(type: youtubeVideo["type"], typeName: youtubeVideo["typeName"],
+                description: youtubeVideo["description"], function: _youtubeVideoCreation)
           ],
         ),
       ),

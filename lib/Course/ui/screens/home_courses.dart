@@ -5,7 +5,7 @@ import 'package:lineclass/Course/ui/widgets/home_header.dart';
 import 'package:lineclass/Course/ui/widgets/student_courses_list.dart';
 import 'package:lineclass/Course/ui/widgets/teacher_courses_list.dart';
 import 'package:lineclass/User/model/user.dart';
-import 'package:lineclass/widgets/fab.dart';
+import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/fab.dart';
 
 class HomeCourses extends StatelessWidget {
 

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lineclass/widgets/blue_button.dart';
+import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/blue_button.dart';
 import 'package:lineclass/widgets/own_exit_button.dart';
 import 'package:toast/toast.dart';
 

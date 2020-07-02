@@ -4,8 +4,8 @@ import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/User/ui/screens/navigation_drawer.dart';
 import 'package:lineclass/bloc.dart';
-import 'package:lineclass/widgets/google_button.dart';
-import 'package:lineclass/widgets/green_button.dart';
+import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/google_button.dart';
+import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/green_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 
 /// Create an stateful because maybe in the future it could be util for IntroScreen

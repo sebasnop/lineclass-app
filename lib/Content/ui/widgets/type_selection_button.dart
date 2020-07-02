@@ -1,74 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lineclass/widgets/cards/two_line_list_card.dart';
 
 class TypeSelectionButton extends StatelessWidget {
 
   final VoidCallback function;
-  final String typeString;
+  final String typeName;
+  final String description;
   final String type;
 
-  const TypeSelectionButton({Key key, @required this.function, this.typeString, this.type}) : super(key: key);
+  const TypeSelectionButton({Key key, @required this.function, this.typeName, this.type, this.description}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    Icon icon;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final Color iconColor = Color(0xFF545454);
+    final double iconSize = 30;
+    Widget icon;
 
     switch (type) {
-      case "youtube_video" : icon = Icon(Icons.ondemand_video, color: Colors.red, size: 60,);
+      case "youtubeVideo" : icon = Container(
+        height: 30,
+        width: 30,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          image: DecorationImage(fit: BoxFit.cover, image: AssetImage("assets/youtube.png"))
+        ),
+      );
       break;
-      case "local_file" : icon = Icon(Icons.insert_drive_file, color: Color(0xFF1e56a0), size: 60,); // Icons.description
+      case "localFile" : icon = Icon(Icons.description, color: iconColor, size: iconSize,);
       break;
-      case "image" : icon = Icon(Icons.collections, color: Colors.lightBlueAccent, size: 60,); //Or Icons.burst_mode
+      case "image" : icon = Icon(Icons.burst_mode, color: iconColor, size: iconSize,);
       break;
-      case "link" : icon = Icon(Icons.share, color: Colors.teal, size: 60,);
+      case "link" : icon = Icon(Icons.share, color: iconColor, size: iconSize,);
       break;
-      case "text" : icon = Icon(Icons.title, color: Color(0xFF163172), size: 60,);
+      case "text" : icon = Icon(Icons.title, color: iconColor, size: iconSize,);
       break;
-      case "drive_file" : icon = Icon(Icons.cloud_download, color: Colors.blueAccent, size: 60,);
+      case "drive_file" : icon = Icon(Icons.cloud_download, color: iconColor, size: iconSize,);
       break;
-      case "audio" : icon = Icon(Icons.keyboard_voice, color: Colors.blueAccent, size: 60,);
+      case "audio" : icon = Icon(Icons.keyboard_voice, color: iconColor, size: iconSize,);
       break;
-      default: icon = Icon(Icons.all_inclusive, color: Colors.blueAccent, size: 60,);
+      default: icon = Icon(Icons.all_inclusive, color: iconColor, size: iconSize,);
     }
 
-    final double screenWidth = MediaQuery.of(context).size.width;
+    return TwoLineListCard(screenWidth: screenWidth, icon: icon, title: typeName, description: description, function: function);
 
-    final double containerSide = screenWidth*0.5;
-    final containerPadding = containerSide*0.2;
-
-    final buttonSide = containerSide*0.8;
-    final buttonPadding = buttonSide*0.07;
-
-    Widget typeText = Container(
-        child: Text(typeString, style: TextStyle(color: Colors.black, fontFamily: "Comfortaa", ), textAlign: TextAlign.center,)
-    );
-
-    Widget typeIcon = Container(
-      margin: EdgeInsets.only(bottom: 10, top: 15),
-      child: icon,
-    );
-
-    return Container(
-      width: containerSide,
-      height: containerSide,
-      padding: EdgeInsets.only(top: containerPadding, left: containerPadding, right: containerPadding),
-      child: MaterialButton(
-        padding: EdgeInsets.all(buttonPadding),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-        height: buttonSide,
-        minWidth: buttonSide,
-        onPressed: function,
-        color: Color(0xFFf6f6f6),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            typeIcon,
-            typeText
-          ],
-        ),
-      ),
-    );
   }
 }

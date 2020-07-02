@@ -7,7 +7,7 @@ import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/screens/joined_course_screen.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
-import 'package:lineclass/widgets/blue_button.dart';
+import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/blue_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/own_back_button.dart';
 import 'package:toast/toast.dart';

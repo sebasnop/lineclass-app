@@ -3,7 +3,7 @@ import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Publication/ui/screens/create_publication_screen.dart';
 import 'package:lineclass/Publication/ui/widgets/publications_list.dart';
 import 'package:lineclass/User/model/user.dart';
-import 'package:lineclass/widgets/fab.dart';
+import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/fab.dart';
 
 class PublicationsScreen extends StatelessWidget {
 

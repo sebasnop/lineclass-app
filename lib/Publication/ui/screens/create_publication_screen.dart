@@ -11,7 +11,7 @@ import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Publication/model/publication.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
-import 'package:lineclass/widgets/gray_button.dart';
+import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/gray_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/title_input.dart';
 import 'package:toast/toast.dart';
@@ -131,10 +131,9 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       onPressed: (){
 
         Toast.show("Datos guardados temporalmente", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+
         _createAndReturnContent(context).whenComplete(() {
-
           print(contents.last.files.last.path);
-
         });
 
       },
@@ -160,11 +159,11 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
           IconData icon;
 
           switch(content.type){
-            case "youtube_video" : icon = Icons.ondemand_video;
+            case "youtubeVideo" : icon = Icons.ondemand_video;
               break;
-            case "local_file" : icon = Icons.insert_drive_file; // Icons.description
+            case "localFile" : icon = Icons.description;
               break;
-            case "image" : icon = Icons.collections; //Or Icons.burst_mode
+            case "image" : icon = Icons.burst_mode;
               break;
             case "link" : icon = Icons.share;
               break;
