@@ -39,35 +39,37 @@ class LocalFileCreationScreen extends StatelessWidget {
 
       if (_fbKey.currentState.saveAndValidate()) {
 
+        /// Uploading Files Screen
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => LoadingScreen(text: "Subiendo Archivos...",)),
         );
 
+        /// Getting title from the form
         String title = _fbKey.currentState.value["title"];
-
-        List <String> test () {
 
           List <String> urls = [];
 
           content.files.forEach(
                   (file) {
 
-                ///Se sube el archivo a Firebase Storage
+                /// File is uploaded to Firebase Storage
                 bloc.content.uploadFile("${user.uid}/local_files/${title.trim()}-${file.lastAccessedSync() ?? ""}", file).then(
 
-                  /// Cuando se complete la subida...
+                  /// When upload completes...
                         (StorageUploadTask storageUploadTask){
 
-                      ///Entonces se verificará que la tarea haya sido completada...
+                      ///Then, the task completion will be verified...
                       storageUploadTask.onComplete.then(
                               (StorageTaskSnapshot snapshot){
 
-                            ///Se obtendrá la url del archivo
+                            ///Then, gets the URL of the file by Firebase Storage
                             snapshot.ref.getDownloadURL().then((urlImage){
 
-                              /// Y se añadirá cada url a la lista de urls del contenido
+                              /// And every URL will be added to the URLs list
                               urls.add(urlImage);
+
+                              print(urlImage.toString());
 
                             }).catchError((onError){
                               print("$onError ERROR on getDownloadURL");
@@ -84,11 +86,7 @@ class LocalFileCreationScreen extends StatelessWidget {
               }
           );
 
-          return urls;
-
-        }
-
-        content.urlFiles = test();
+        content.urlFiles = [""];
         content.title = title;
         
         bloc.content.createContent(content).whenComplete( () {

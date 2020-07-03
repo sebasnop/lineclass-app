@@ -27,7 +27,7 @@ class TitleInput extends StatelessWidget {
         attribute: "title",
         keyboardType: TextInputType.multiline,
         textCapitalization: TextCapitalization.sentences,
-        cursorColor: Color(0xFF1E56A0),
+        cursorColor: Colors.blueGrey,
         style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w400,
@@ -38,7 +38,7 @@ class TitleInput extends StatelessWidget {
             hintText: hintText,
             helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
             labelStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa"),
-            hintStyle: TextStyle(color: Colors.black38, fontFamily: "Comfortaa"),
+            hintStyle: TextStyle(color: Colors.black38, ),
             enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
             focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.blueGrey)),
             focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.blueGrey)),

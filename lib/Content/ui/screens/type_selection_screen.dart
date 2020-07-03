@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Content/model/content.dart';
 import 'package:lineclass/Content/ui/screens/text_creation_screen.dart';
+import 'package:lineclass/Content/ui/screens/link_creation_screen.dart';
 import 'package:lineclass/Content/ui/screens/youtube_video_creation_screen.dart';
 import 'package:lineclass/Content/ui/widgets/type_selection_button.dart';
 import 'package:lineclass/User/model/user.dart';
@@ -110,11 +111,29 @@ class TypeSelectionScreen extends StatelessWidget {
 
     }
 
+    _linkCreation () async {
+
+      content = Content(type: link["type"]);
+      await Navigator.push(context, MaterialPageRoute(builder: (context) => LinkCreationScreen(content: content, user: user,))
+
+      ).then((onValue){
+
+        if (onValue != null){
+          Navigator.pop(context, onValue);
+        }
+
+      }).catchError((onError){
+        print("$onError ERROR");
+      });
+
+    }
+
     _youtubeVideoCreation () async {
 
+      content = Content(type: youtubeVideo["type"]);
       await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => YoutubeVideoCreationScreen()),
+        MaterialPageRoute(builder: (context) => YoutubeVideoCreationScreen(content: content, user: user,)),
       ).then((onValue){
 
         if (onValue != null){
@@ -154,7 +173,7 @@ class TypeSelectionScreen extends StatelessWidget {
             TypeSelectionButton(type: file["type"], typeName: file["typeName"], description: file["description"], function: _localFileCreation,),
             TypeSelectionButton(type: image["type"], typeName: image["typeName"], description: image["description"], function: _imageCreation,),
             TypeSelectionButton(type: audio["type"], typeName: audio["typeName"], description: audio["description"], function: _textCreation,),
-            TypeSelectionButton(type: link["type"], typeName: link["typeName"], description: link["description"], function: _textCreation,),
+            TypeSelectionButton(type: link["type"], typeName: link["typeName"], description: link["description"], function: _linkCreation,),
             TypeSelectionButton(type: youtubeVideo["type"], typeName: youtubeVideo["typeName"],
                 description: youtubeVideo["description"], function: _youtubeVideoCreation)
           ],

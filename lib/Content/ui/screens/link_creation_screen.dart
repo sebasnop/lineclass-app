@@ -9,12 +9,12 @@ import 'package:lineclass/widgets/title_input.dart';
 import 'package:toast/toast.dart';
 
 // ignore: must_be_immutable
-class TextCreationScreen extends StatelessWidget {
+class LinkCreationScreen extends StatelessWidget {
 
   Content content;
   final User user;
 
-  TextCreationScreen({Key key, @required this.content, @required this.user}) : super(key: key);
+  LinkCreationScreen({Key key, @required this.content, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,29 +27,29 @@ class TextCreationScreen extends StatelessWidget {
           left: 20,
           right: 20,
           bottom: 400,
-          top: 0
-      ),
-      decoration: BoxDecoration(
+          top: 10
       ),
       child: FormBuilderTextField(
         showCursor: true,
         textAlign: TextAlign.left,
-        maxLength: 4000,
-        attribute: "text",
-        keyboardType: TextInputType.multiline,
+        textCapitalization: TextCapitalization.none,
+        attribute: "link",
+        keyboardType: TextInputType.url,
         cursorColor: Color(0xff979797),
         style: TextStyle(
-          fontSize: 17,
+          color: Colors.blue,
+          fontSize: 16,
           letterSpacing: 0.3,
           fontWeight: FontWeight.w300,
+          decoration: TextDecoration.underline
         ),
         decoration: InputDecoration(
             alignLabelWithHint: true,
-            hintText: "Escribe aquí :D",
-            labelStyle: TextStyle(color:Colors.black12,),
-            hintStyle: TextStyle(color: Colors.black26,),
+            hintText: "Escribe la url aquí...",
+            labelStyle: TextStyle(color:Colors.blue),
+            hintStyle: TextStyle(color: Colors.blueGrey),
             helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.black26)),
             focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.black26)),
             focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.red)),
             errorStyle: TextStyle(
@@ -59,11 +59,13 @@ class TextCreationScreen extends StatelessWidget {
             contentPadding: EdgeInsets.only(
                 left: 10,
                 right: 10,
-              bottom: 50
+                bottom: 70
             )
         ),
         validators: [
-          FormBuilderValidators.maxLength(4000, errorText: "Debe contener menos letras"),
+          FormBuilderValidators.required(errorText: "Escribe una url"),
+          FormBuilderValidators.maxLength(2000, errorText: "Prueba con una url más corta"),
+          FormBuilderValidators.url(errorText: "Escribe una url válida")
         ],
       ),
     );
@@ -74,7 +76,7 @@ class TextCreationScreen extends StatelessWidget {
             autovalidate: true,
             child: Column(
               children: <Widget>[
-                TitleInput(hintText: "Dale un nombre...", requiredErrorText: "Escribe un título",),
+                TitleInput(hintText: "Nombre de Web...", requiredErrorText: "Escribe un título",),
                 textInput
               ],
             )
@@ -90,14 +92,14 @@ class TextCreationScreen extends StatelessWidget {
         if (_fbKey.currentState.saveAndValidate()) {
 
           String title = _fbKey.currentState.value["title"];
-          String text = _fbKey.currentState.value["text"] ?? "";
+          String link = _fbKey.currentState.value["link"] ?? "";
 
           content.title = title;
-          content.description = text;
+          content.description = link;
 
           bloc.content.createContent(content).whenComplete( () {
             Navigator.pop(context, content);
-            Toast.show("¡Texto añadido!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+            Toast.show("¡Web añadida!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
           }
           ).catchError((onError){
             print("$onError ERROR on uploadFile");
@@ -115,46 +117,46 @@ class TextCreationScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: Text('Texto', style: TextStyle(color: Colors.black, fontFamily: "Comfortaa"),),
         backgroundColor: Colors.white,
-        leading: InkWell(
-          child: Icon(
-            Icons.keyboard_arrow_left,
-            size: 24,
-            color: Colors.black,
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          title: Text('Página Web', style: TextStyle(color: Colors.black, fontFamily: "Comfortaa"),),
+          backgroundColor: Colors.white,
+          leading: InkWell(
+            child: Icon(
+              Icons.keyboard_arrow_left,
+              size: 24,
+              color: Colors.black,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
           ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: <Widget>[
-          InkWell(
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(right: 10),
-              child: Text(
-                "¡Listo!",
-                style: TextStyle(
-                    fontFamily: "Comfortaa",
-                    fontSize: 16,
-                    color: Color(0xFF1E56A0),
-                    fontWeight: FontWeight.bold
+          actions: <Widget>[
+            InkWell(
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(right: 10),
+                child: Text(
+                  "¡Listo!",
+                  style: TextStyle(
+                      fontFamily: "Comfortaa",
+                      fontSize: 16,
+                      color: Color(0xFF1E56A0),
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ),
+              onTap: _submit,
             ),
-            onTap: _submit,
-          ),
-        ],
-      ),
-      body: ListView(
+          ],
+        ),
+        body: ListView(
           shrinkWrap: true,
           children: <Widget>[
-          form
-        ],
-      )
+            form
+          ],
+        )
     );
 
   }
