@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Content/model/content.dart';
@@ -29,8 +27,8 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
     final List<String> keys = ['type', 'typeName', 'description'];
 
     final List<String> textValues = ['text', 'Texto', 'Solo escribe texto plano.'];
-    final List<String> fileValues = ['localFile', 'Archivo', 'Adjunta archivos desde tu celular.'];
-    final List<String> imageValues = ['image', 'Imágenes', 'Selecciona fotos desde tu galería.'];
+    final List<String> fileValues = ['localFile', 'Archivo', 'Adjunta un archivo desde tu celular.'];
+    final List<String> imageValues = ['image', 'Imagen', 'Selecciona una foto desde tu galería.'];
     final List<String> linkValues = ['link', 'Página Web', 'Comparte el enlace de una web.'];
     final List<String> audioValues = ['audio', 'Audio', 'Graba un audio.'];
     final List<String> youtubeVideoValues = ['youtubeVideo', 'Video de Youtube', 'Comparte el enlace de un video.'];
@@ -83,11 +81,13 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
                   Navigator.pop(context, onValue);
                 }
 
+              }).catchError((onError){
+                print("87 type_selection_screen $onError ERROR");
               });
             }
           }
       ).catchError((onError){
-        print("$onError ERROR");
+        print("92 type_selection_screen $onError ERROR");
       });
 
     }

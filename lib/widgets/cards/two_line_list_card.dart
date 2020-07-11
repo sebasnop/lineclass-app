@@ -36,7 +36,7 @@ class TwoLineListCard extends StatelessWidget {
           Container(
               alignment: Alignment.centerLeft,
               height: 20,
-              child: Text(title, style: TextStyle(color: Colors.black, fontFamily: "Comfortaa", ))
+              child: Text(title ?? "", style: TextStyle(color: Colors.black, fontFamily: "Comfortaa", ))
           ),
           Container(
               alignment: Alignment.centerLeft,

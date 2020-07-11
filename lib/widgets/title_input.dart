@@ -5,8 +5,12 @@ class TitleInput extends StatelessWidget {
 
   final String hintText;
   final String requiredErrorText;
+  final String initialValue;
+  final String helperText;
+  final bool autoFocus;
 
-  const TitleInput({Key key, @required this.hintText, @required this.requiredErrorText}) : super(key: key);
+  const TitleInput({Key key, @required this.hintText, @required this.requiredErrorText, this.initialValue,
+    this.autoFocus, this.helperText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +27,12 @@ class TitleInput extends StatelessWidget {
       ),
       child: FormBuilderTextField(
         maxLength: 35,
-        autofocus: false,
+        autofocus: autoFocus ?? false,
         attribute: "title",
         keyboardType: TextInputType.multiline,
         textCapitalization: TextCapitalization.sentences,
         cursorColor: Colors.blueGrey,
+        initialValue: initialValue ?? "",
         style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w400,
@@ -36,6 +41,7 @@ class TitleInput extends StatelessWidget {
         decoration: InputDecoration(
             alignLabelWithHint: true,
             hintText: hintText,
+            helperText: helperText ?? "",
             helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
             labelStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa"),
             hintStyle: TextStyle(color: Colors.black38, ),

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Content/model/content.dart';
+import 'package:lineclass/Content/ui/widgets/type_selection_button.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
+import 'package:lineclass/widgets/cards/two_line_list_card.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/title_input.dart';
 import 'package:toast/toast.dart';
@@ -30,6 +32,22 @@ class _LocalFileCreationScreen extends State<LocalFileCreationScreen> {
   @override
   Widget build(BuildContext context) {
 
+    String fileName = widget.content.file.path.split("/").last;
+    String helperText;
+    String fileNameNoExt;
+
+    if (fileName.length < 35) {
+      fileNameNoExt = fileName.split(".").first;
+      helperText = "Puedes editarlo";
+    } else {
+      fileNameNoExt = "";
+      helperText = "";
+    }
+
+    String lastModified= "Última modificación";
+    List <String> lastModifiedDate = widget.content.file.lastModifiedSync().toString().split(":");
+    String fileDescription = "$lastModified ${lastModifiedDate[0]}:${lastModifiedDate[1]}";
+
     final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
     AppBloc bloc = BlocProvider.of <AppBloc> (context);
 
@@ -39,7 +57,8 @@ class _LocalFileCreationScreen extends State<LocalFileCreationScreen> {
             autovalidate: true,
             child: Column(
               children: <Widget>[
-                TitleInput(hintText: "Dale un nombre...", requiredErrorText: "Escribe un título",),
+                TitleInput(hintText: "Dale un nombre...", requiredErrorText: "Escribe un título",
+                  initialValue: fileNameNoExt, autoFocus: false, helperText: helperText,)
               ],
             )
         )
@@ -56,10 +75,9 @@ class _LocalFileCreationScreen extends State<LocalFileCreationScreen> {
 
         String title = _fbKey.currentState.value["title"];
 
-        StorageReference storageReference = FirebaseStorage.instance
-            .ref()
-            .child("${widget.user.uid}/local_files/${title.trim()}-${widget.content.file
-            .lastAccessedSync() ?? ""}");
+        StorageReference storageReference = FirebaseStorage.instance.ref()
+            .child("${widget.user.uid}/local_files/${title.trim()}-${widget.content.file.lastAccessedSync() ?? ""}");
+
         StorageUploadTask uploadTask = storageReference.putFile(widget.content.file);
 
         await uploadTask.onComplete;
@@ -125,7 +143,8 @@ class _LocalFileCreationScreen extends State<LocalFileCreationScreen> {
       ),
       body: Column(
         children: <Widget>[
-          form
+          form,
+          TypeSelectionButton(function: (){}, type: "localFile", typeName: fileName, description: fileDescription,)
         ],
       ),
     );
