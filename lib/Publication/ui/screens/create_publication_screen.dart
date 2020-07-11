@@ -9,6 +9,7 @@ import 'package:lineclass/Content/ui/screens/type_selection_screen.dart';
 import 'package:lineclass/Content/ui/widgets/create_content_card.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Publication/model/publication.dart';
+import 'package:lineclass/Publication/ui/widgets/description_input_publication.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
 import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/gray_button.dart';
@@ -42,54 +43,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
     AppBloc bloc = BlocProvider.of <AppBloc> (context);
 
-    /// Make a Text Field for the Publication's Description
-    Container descriptionInput = Container(
-      margin: EdgeInsets.only(
-          left: 20,
-          right: 20,
-          bottom: 20,
-          top: 0
-      ),
-      padding: EdgeInsets.only(bottom: 30),
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.black12,width: 0.2))
-      ),
-      child: FormBuilderTextField(
-        maxLength: 200,
-        attribute: "description",
-        keyboardType: TextInputType.multiline,
-        cursorColor: Color(0xff979797),
-        style: TextStyle(
-          //fontFamily: "Comfortaa",
-          fontSize: 16,
-          letterSpacing: 0.3,
-          fontWeight: FontWeight.w300,
-        ),
-        decoration: InputDecoration(
-            alignLabelWithHint: true,
-            hintText: "Descripción...\n(Opcional)",
-            labelStyle: TextStyle(color:Colors.black12,),
-            helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
-            hintStyle: TextStyle(color: Colors.black26,),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-            focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-            focusedErrorBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-            errorStyle: TextStyle(
-                fontFamily: "Comfortaa",
-                color: Colors.black26
-            ),
-            contentPadding: EdgeInsets.only(
-                left: 10,
-                right: 10
-            )
-        ),
-        validators: [
-          FormBuilderValidators.maxLength(200, errorText: "Debe contener menos letras"),
-        ],
-      ),
-    );
-
-    /// Form that contains the title and description text fields. Title field already exists.
+    /// Form that contains the title and description text fields. The fields already exists.
     Container form = Container(
       child: FormBuilder(
         key: _fbKey,
@@ -97,7 +51,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
         child: Column(
           children: <Widget>[
             TitleInput(hintText: "Escribe un título...", requiredErrorText: "Título requerido",),
-            descriptionInput
+            DescriptionInputPublication()
           ],
         )
       )

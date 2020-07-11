@@ -9,4 +9,17 @@ class ContentStorageAPI {
     return _storageReference.child(path).putFile(file);
   }
 
+  Future <String> uploadFileNew(String path, File _file) async {
+
+    StorageReference reference = _storageReference.child(path);
+    StorageUploadTask uploadTask = reference.putFile(_file);
+
+    await uploadTask.onComplete;
+
+    print('File Uploaded');
+
+    return reference.getDownloadURL();
+
+  }
+
 }

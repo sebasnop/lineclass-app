@@ -12,6 +12,7 @@ class ContentBloc implements Bloc{
   final _contentStorageRepository = ContentStorageRepository();
 
   Future<StorageUploadTask> uploadFile(String path, File file) => _contentStorageRepository.uploadFile(path, file);
+  Future<String> uploadFileNew(String path, File file) => _contentStorageRepository.uploadFileNew(path, file);
 
 
   /// FIREBASE FIRESTORE

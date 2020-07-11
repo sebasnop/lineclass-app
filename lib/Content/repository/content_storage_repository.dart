@@ -8,5 +8,6 @@ class ContentStorageRepository{
   final _contentStorageAPI = ContentStorageAPI();
 
   Future<StorageUploadTask> uploadFile(String path, File file) => _contentStorageAPI.uploadFile(path, file);
+  Future<String> uploadFileNew(String path, File file) => _contentStorageAPI.uploadFileNew(path, file);
 
 }

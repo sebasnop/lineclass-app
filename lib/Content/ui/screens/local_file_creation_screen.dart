@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -35,6 +37,52 @@ class LocalFileCreationScreen extends StatelessWidget {
         )
     );
 
+    List <String> _upload (List <File> files , String title){
+
+      List <String> urls = [("")];
+
+      files.forEach(
+              (file) async {
+
+                String url = await bloc.content.uploadFileNew("${user.uid}/local_files/${title.trim()}-${file.lastAccessedSync() ?? ""}", file);
+
+                urls.add(url);
+
+            /// File is uploaded to Firebase Storage
+            /**bloc.content.uploadFile("${user.uid}/local_files/${title.trim()}-${file.lastAccessedSync() ?? ""}", file).then(
+
+              /// When upload completes...
+                    (StorageUploadTask storageUploadTask){
+
+                  ///Then, the task completion will be verified...
+                  storageUploadTask.onComplete.then(
+                          (StorageTaskSnapshot snapshot){
+
+                        ///Then, gets the URL of the file by Firebase Storage
+                        snapshot.ref.getDownloadURL().then((urlImage){
+
+                          /// And every URL will be added to the URLs list
+                          urls.add(urlImage);
+
+                        }).catchError((onError){
+                          print("$onError ERROR on getDownloadURL");
+                        });
+
+                      }).catchError((onError){
+                    print("$onError ERROR on storageUploadTask");
+                  });
+
+                }).catchError((onError){
+              print("$onError ERROR on uploadFile");
+            });**/
+
+          }
+      );
+
+      return urls;
+
+    }
+
     _submit () {
 
       if (_fbKey.currentState.saveAndValidate()) {
@@ -48,45 +96,11 @@ class LocalFileCreationScreen extends StatelessWidget {
         /// Getting title from the form
         String title = _fbKey.currentState.value["title"];
 
-          List <String> urls = [];
+        List <String> urls = _upload(content.files, title);
 
-          content.files.forEach(
-                  (file) {
+        print("Aquiiiiiiiiiiiiiiiiiiii ${urls.last.toString()}");
 
-                /// File is uploaded to Firebase Storage
-                bloc.content.uploadFile("${user.uid}/local_files/${title.trim()}-${file.lastAccessedSync() ?? ""}", file).then(
-
-                  /// When upload completes...
-                        (StorageUploadTask storageUploadTask){
-
-                      ///Then, the task completion will be verified...
-                      storageUploadTask.onComplete.then(
-                              (StorageTaskSnapshot snapshot){
-
-                            ///Then, gets the URL of the file by Firebase Storage
-                            snapshot.ref.getDownloadURL().then((urlImage){
-
-                              /// And every URL will be added to the URLs list
-                              urls.add(urlImage);
-
-                              print(urlImage.toString());
-
-                            }).catchError((onError){
-                              print("$onError ERROR on getDownloadURL");
-                            });
-
-                          }).catchError((onError){
-                        print("$onError ERROR on storageUploadTask");
-                      });
-
-                    }).catchError((onError){
-                  print("$onError ERROR on uploadFile");
-                });
-
-              }
-          );
-
-        content.urlFiles = [""];
+        content.urlFiles = urls;
         content.title = title;
         
         bloc.content.createContent(content).whenComplete( () {
