@@ -88,9 +88,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
         Toast.show("Datos guardados temporalmente", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
 
-        _createAndReturnContent(context).whenComplete(() {
-          print(contents.last.files.last.path);
-        });
+        _createAndReturnContent(context);
 
       },
       buttonText: "Añadir",

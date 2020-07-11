@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/Content/model/content.dart';
@@ -9,11 +11,17 @@ import 'package:lineclass/User/model/user.dart';
 
 import 'local_file_creation_screen.dart';
 
-class TypeSelectionScreen extends StatelessWidget {
+class TypeSelectionScreen extends StatefulWidget {
 
   final User user;
 
   const TypeSelectionScreen({Key key, @required this.user}) : super(key: key);
+
+  @override
+  _TypeSelectionScreen createState() => _TypeSelectionScreen();
+}
+
+class _TypeSelectionScreen extends State<TypeSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +36,7 @@ class TypeSelectionScreen extends StatelessWidget {
     final List<String> youtubeVideoValues = ['youtubeVideo', 'Video de Youtube', 'Comparte el enlace de un video.'];
 
     final Map <String, String> text = Map.fromIterables(keys, textValues);
-    final Map <String, String> file = Map.fromIterables(keys, fileValues);
+    final Map <String, String> localFile = Map.fromIterables(keys, fileValues);
     final Map <String, String> image = Map.fromIterables(keys, imageValues);
     final Map <String, String> link = Map.fromIterables(keys, linkValues);
     final Map <String, String> audio = Map.fromIterables(keys, audioValues);
@@ -43,7 +51,7 @@ class TypeSelectionScreen extends StatelessWidget {
     _textCreation () async {
 
       content = Content(type: text["type"]);
-      await Navigator.push(context, MaterialPageRoute(builder: (context) => TextCreationScreen(content: content, user: user,))
+      await Navigator.push(context, MaterialPageRoute(builder: (context) => TextCreationScreen(content: content, user: widget.user,))
 
       ).then((onValue){
 
@@ -59,16 +67,16 @@ class TypeSelectionScreen extends StatelessWidget {
 
     _localFileCreation () async {
 
-      await FilePicker.getMultiFile(type: FileType.custom, allowedExtensions: allowedFileExtensions).then(
-              (values) async {
+      await FilePicker.getFile(type: FileType.custom, allowedExtensions: allowedFileExtensions).then(
+              (file) async {
 
-            if (values != null){
+            if (file != null){
 
-              content = Content(type: "localFile", description: "", files: values, urlFiles: <String>[]);
+              content = Content(type: "localFile", description: "", file: file);
 
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LocalFileCreationScreen(content: content, user: user,)),
+                MaterialPageRoute(builder: (context) => LocalFileCreationScreen(content: content, user: widget.user)),
               ).then((onValue){
 
                 if (onValue != null){
@@ -86,16 +94,17 @@ class TypeSelectionScreen extends StatelessWidget {
 
     _imageCreation () async {
 
+
       await FilePicker.getFile(type: FileType.image).then(
-              (photo) async {
+              (image) async {
 
-            if (photo != null){
+            if (image != null){
 
-              content = Content(type: "image", description: "", files: [photo]);
+              content = Content(type: "image", description: "", file: image);
 
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LocalFileCreationScreen(content: content, user: user)),
+                MaterialPageRoute(builder: (context) => LocalFileCreationScreen(content: content, user: widget.user)),
               ).then((onValue){
 
                 if (onValue != null){
@@ -114,7 +123,7 @@ class TypeSelectionScreen extends StatelessWidget {
     _linkCreation () async {
 
       content = Content(type: link["type"]);
-      await Navigator.push(context, MaterialPageRoute(builder: (context) => LinkCreationScreen(content: content, user: user,))
+      await Navigator.push(context, MaterialPageRoute(builder: (context) => LinkCreationScreen(content: content, user: widget.user,))
 
       ).then((onValue){
 
@@ -133,7 +142,7 @@ class TypeSelectionScreen extends StatelessWidget {
       content = Content(type: youtubeVideo["type"]);
       await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => YoutubeVideoCreationScreen(content: content, user: user,)),
+        MaterialPageRoute(builder: (context) => YoutubeVideoCreationScreen(content: content, user: widget.user,)),
       ).then((onValue){
 
         if (onValue != null){
@@ -170,7 +179,7 @@ class TypeSelectionScreen extends StatelessWidget {
           padding: EdgeInsets.only(bottom:8, top:8),
           children: <Widget>[
             TypeSelectionButton(type: text["type"], typeName: text["typeName"], description: text["description"], function: _textCreation,),
-            TypeSelectionButton(type: file["type"], typeName: file["typeName"], description: file["description"], function: _localFileCreation,),
+            TypeSelectionButton(type: localFile["type"], typeName: localFile["typeName"], description: localFile["description"], function: _localFileCreation,),
             TypeSelectionButton(type: image["type"], typeName: image["typeName"], description: image["description"], function: _imageCreation,),
             TypeSelectionButton(type: audio["type"], typeName: audio["typeName"], description: audio["description"], function: _textCreation,),
             TypeSelectionButton(type: link["type"], typeName: link["typeName"], description: link["description"], function: _linkCreation,),

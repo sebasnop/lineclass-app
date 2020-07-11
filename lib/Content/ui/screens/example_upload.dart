@@ -16,13 +16,10 @@ class _ExampleUpload extends State<ExampleUpload> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Firestore File Upload'),
-      ),
       body: Center(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('Selected Image'),
             _image != null

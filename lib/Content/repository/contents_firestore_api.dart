@@ -15,7 +15,7 @@ class ContentsFirestoreAPI {
       'title': content.title,
       'description': content.description,
       'type': content.type,
-      'urlFiles': content.urlFiles
+      'urlFile': content.urlFile
     }).then((DocumentReference dr) {
 
       String getId = dr.documentID;

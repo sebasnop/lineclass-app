@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
@@ -10,14 +9,23 @@ import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/title_input.dart';
 import 'package:toast/toast.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 // ignore: must_be_immutable
-class LocalFileCreationScreen extends StatelessWidget {
+class LocalFileCreationScreen extends StatefulWidget {
 
   Content content;
   final User user;
 
   LocalFileCreationScreen({Key key, @required this.content, @required this.user});
+
+  @override
+  _LocalFileCreationScreen createState() => _LocalFileCreationScreen();
+}
+
+class _LocalFileCreationScreen extends State<LocalFileCreationScreen> {
+
+  String _uploadedFileURL;
 
   @override
   Widget build(BuildContext context) {
@@ -37,86 +45,46 @@ class LocalFileCreationScreen extends StatelessWidget {
         )
     );
 
-    List <String> _upload (List <File> files , String title){
-
-      List <String> urls = [("")];
-
-      files.forEach(
-              (file) async {
-
-                String url = await bloc.content.uploadFileNew("${user.uid}/local_files/${title.trim()}-${file.lastAccessedSync() ?? ""}", file);
-
-                urls.add(url);
-
-            /// File is uploaded to Firebase Storage
-            /**bloc.content.uploadFile("${user.uid}/local_files/${title.trim()}-${file.lastAccessedSync() ?? ""}", file).then(
-
-              /// When upload completes...
-                    (StorageUploadTask storageUploadTask){
-
-                  ///Then, the task completion will be verified...
-                  storageUploadTask.onComplete.then(
-                          (StorageTaskSnapshot snapshot){
-
-                        ///Then, gets the URL of the file by Firebase Storage
-                        snapshot.ref.getDownloadURL().then((urlImage){
-
-                          /// And every URL will be added to the URLs list
-                          urls.add(urlImage);
-
-                        }).catchError((onError){
-                          print("$onError ERROR on getDownloadURL");
-                        });
-
-                      }).catchError((onError){
-                    print("$onError ERROR on storageUploadTask");
-                  });
-
-                }).catchError((onError){
-              print("$onError ERROR on uploadFile");
-            });**/
-
-          }
-      );
-
-      return urls;
-
-    }
-
-    _submit () {
-
+    _submit () async {
       if (_fbKey.currentState.saveAndValidate()) {
 
-        /// Uploading Files Screen
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LoadingScreen(text: "Subiendo Archivos...",)),
+          MaterialPageRoute(builder: (context) =>
+              LoadingScreen(text: "Subiendo Archivos...",)),
         );
 
-        /// Getting title from the form
         String title = _fbKey.currentState.value["title"];
 
-        List <String> urls = _upload(content.files, title);
+        StorageReference storageReference = FirebaseStorage.instance
+            .ref()
+            .child("${widget.user.uid}/local_files/${title.trim()}-${widget.content.file
+            .lastAccessedSync() ?? ""}");
+        StorageUploadTask uploadTask = storageReference.putFile(widget.content.file);
 
-        print("Aquiiiiiiiiiiiiiiiiiiii ${urls.last.toString()}");
+        await uploadTask.onComplete;
+        print("125 local_file_creation File Uploaded");
+        storageReference.getDownloadURL().then((fileURL) {
+          setState(() {
+            _uploadedFileURL = fileURL.toString();
+          });
 
-        content.urlFiles = urls;
-        content.title = title;
-        
-        bloc.content.createContent(content).whenComplete( () {
-          Navigator.pop(context, content);
-          Navigator.pop(context, content);
-          Toast.show("¡Carga exitosa!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
-        }
-        ).catchError((onError){
-          print("$onError ERROR on uploadFile");
+          widget.content.urlFile = _uploadedFileURL;
+          widget.content.title = title;
+
+          print (widget.content.urlFile);
+
+          bloc.content.createContent(widget.content).whenComplete( () {
+            Navigator.pop(context, widget.content);
+            Navigator.pop(context, widget.content);
+            Toast.show("¡Archivo añadido correctamente!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+          });
+
         });
-
 
       } else {
         Toast.show("Completa los campos requeridos", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.TOP);
       }
-
     }
 
     return Scaffold(
@@ -128,7 +96,7 @@ class LocalFileCreationScreen extends StatelessWidget {
         elevation: 0,
         leading: InkWell(
           child: Icon(
-            Icons.keyboard_arrow_left,
+            Icons.close,
             size: 24,
             color: Colors.black,
           ),
@@ -163,4 +131,24 @@ class LocalFileCreationScreen extends StatelessWidget {
     );
 
   }
+
+  Future uploadFile(String title, File _file) async {
+
+    StorageReference storageReference = FirebaseStorage.instance
+        .ref()
+        .child("${widget.user.uid}/local_files/${title.trim()}-${_file
+        .lastAccessedSync() ?? ""}");
+    StorageUploadTask uploadTask = storageReference.putFile(_file);
+
+    await uploadTask.onComplete;
+    print("125 local_file_creation File Uploaded");
+    storageReference.getDownloadURL().then((fileURL) {
+      setState(() {
+        _uploadedFileURL = fileURL.toString();
+      });
+
+    });
+
+  }
+
 }

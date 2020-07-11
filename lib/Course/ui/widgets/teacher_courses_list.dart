@@ -48,7 +48,7 @@ class TeacherCoursesList extends StatelessWidget {
 
             switch(snapshot.connectionState){
               case ConnectionState.waiting:
-                return OwnCircularProgress(height: 100, width: 100);
+                return OwnCircularProgress();
               case ConnectionState.done:
                 if (snapshot.data != null) {
                   return Column(
@@ -56,7 +56,7 @@ class TeacherCoursesList extends StatelessWidget {
                           teacher.documents, user, role)
                   );
                 } else {
-                  return OwnCircularProgress(height: 100, width: 100);
+                  return OwnCircularProgress();
                 }
                 break;
               case ConnectionState.active:
@@ -66,7 +66,7 @@ class TeacherCoursesList extends StatelessWidget {
                           teacher.documents, user, role)
                   );
                 } else {
-                  return OwnCircularProgress(height: 100, width: 100);
+                  return OwnCircularProgress();
                 }
                 break;
               case ConnectionState.none:
@@ -83,7 +83,7 @@ class TeacherCoursesList extends StatelessWidget {
                   ],
                 );
               default:
-                return OwnCircularProgress(height: 100, width: 100);
+                return OwnCircularProgress();
             }
 
           }

@@ -14,19 +14,16 @@ class OwnCircularProgress extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    if (height == null){height = 100;}
-    if (width == null){width = 100;}
-
     return Container(
         padding: EdgeInsets.only(
             bottom: 20
         ),
         color: Colors.transparent,
-        height: height,
-        width: width,
+        height: 100,
+        width: 100,
         alignment: Alignment.center,
         child: CircularProgressIndicator(
-          strokeWidth: 7,
+          strokeWidth: 4,
           backgroundColor: Colors.white,
         )
     );
