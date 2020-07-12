@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
@@ -7,7 +5,6 @@ import 'package:lineclass/Content/model/content.dart';
 import 'package:lineclass/Content/ui/widgets/type_selection_button.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
-import 'package:lineclass/widgets/cards/two_line_list_card.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/title_input.dart';
 import 'package:toast/toast.dart';
@@ -67,9 +64,7 @@ class _LocalFileCreationScreen extends State<LocalFileCreationScreen> {
     _submit () async {
       if (_fbKey.currentState.saveAndValidate()) {
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) =>
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>
               LoadingScreen(text: "Subiendo Archivos...",)),
         );
 
@@ -105,69 +100,86 @@ class _LocalFileCreationScreen extends State<LocalFileCreationScreen> {
       }
     }
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: Text('Agregar Archivos', style: TextStyle(color: Colors.black, fontFamily: "Comfortaa"),),
+    return WillPopScope(
+      onWillPop: _confirmExit,
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        leading: InkWell(
-          child: Icon(
-            Icons.close,
-            size: 24,
-            color: Colors.black,
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          title: Text('Agregar Archivos', style: TextStyle(color: Colors.black, fontFamily: "Comfortaa"),),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: InkWell(
+            child: Icon(
+              Icons.close,
+              size: 24,
+              color: Colors.black,
+            ),
+            onTap: _confirmExit,
           ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: <Widget>[
-          InkWell(
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(right: 10),
-              child: Text(
-                "¡Listo!",
-                style: TextStyle(
-                    fontFamily: "Comfortaa",
-                    fontSize: 16,
-                    color: Color(0xFF1E56A0),
-                    fontWeight: FontWeight.bold
+          actions: <Widget>[
+            InkWell(
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(right: 10),
+                child: Text(
+                  "¡Listo!",
+                  style: TextStyle(
+                      fontFamily: "Comfortaa",
+                      fontSize: 16,
+                      color: Color(0xFF1E56A0),
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ),
+              onTap: _submit,
             ),
-            onTap: _submit,
-          ),
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          form,
-          TypeSelectionButton(function: (){}, type: "localFile", typeName: fileName, description: fileDescription,)
-        ],
+          ],
+        ),
+        body: Column(
+          children: <Widget>[
+            form,
+            TypeSelectionButton(function: (){}, type: "localFile", typeName: fileName, description: fileDescription,)
+          ],
+        ),
       ),
     );
 
   }
 
-  Future uploadFile(String title, File _file) async {
-
-    StorageReference storageReference = FirebaseStorage.instance
-        .ref()
-        .child("${widget.user.uid}/local_files/${title.trim()}-${_file
-        .lastAccessedSync() ?? ""}");
-    StorageUploadTask uploadTask = storageReference.putFile(_file);
-
-    await uploadTask.onComplete;
-    print("125 local_file_creation File Uploaded");
-    storageReference.getDownloadURL().then((fileURL) {
-      setState(() {
-        _uploadedFileURL = fileURL.toString();
-      });
-
-    });
-
+  /// Alert Dialog for confirm if User really wants to exit and discard the Publication
+  Future <bool> _confirmExit() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: true, // user must not tap a button
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('¿Deseas salir?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Se borrará el archivo seleccionado.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('VOLVER', style: TextStyle(color: Color(0xFF163172)),),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            FlatButton(
+              child: Text('SALIR', style: TextStyle(color: Color(0xFF163172)),),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
 }

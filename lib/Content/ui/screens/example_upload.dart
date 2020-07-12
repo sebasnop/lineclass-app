@@ -27,7 +27,7 @@ class _ExampleUpload extends State<ExampleUpload> {
               _image.path,
               height: 150,
             )
-                : Container(height: 150),
+                : Container(height: 150, color: Colors.black,),
             _image == null
                 ? RaisedButton(
               child: Text('Choose File'),

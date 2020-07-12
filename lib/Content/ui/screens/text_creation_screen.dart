@@ -8,14 +8,21 @@ import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/title_input.dart';
 import 'package:toast/toast.dart';
 
+  ///This screen is a form that allows users to write large texts
+
 // ignore: must_be_immutable
-class TextCreationScreen extends StatelessWidget {
+class TextCreationScreen extends StatefulWidget {
 
   Content content;
   final User user;
 
   TextCreationScreen({Key key, @required this.content, @required this.user}) : super(key: key);
 
+  @override
+  _TextCreationScreenState createState() => _TextCreationScreenState();
+}
+
+class _TextCreationScreenState extends State<TextCreationScreen> {
   @override
   Widget build(BuildContext context) {
 
@@ -92,11 +99,11 @@ class TextCreationScreen extends StatelessWidget {
           String title = _fbKey.currentState.value["title"];
           String text = _fbKey.currentState.value["text"] ?? "";
 
-          content.title = title;
-          content.description = text;
+          widget.content.title = title;
+          widget.content.description = text;
 
-          bloc.content.createContent(content).whenComplete( () {
-            Navigator.pop(context, content);
+          bloc.content.createContent(widget.content).whenComplete( () {
+            Navigator.pop(context, widget.content);
             Toast.show("¡Texto añadido!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
           }
           ).catchError((onError){
@@ -114,48 +121,85 @@ class TextCreationScreen extends StatelessWidget {
 
     }
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: Text('Texto', style: TextStyle(color: Colors.black, fontFamily: "Comfortaa"),),
+    return WillPopScope(
+      onWillPop: _confirmExit,
+      child: Scaffold(
         backgroundColor: Colors.white,
-        leading: InkWell(
-          child: Icon(
-            Icons.keyboard_arrow_left,
-            size: 24,
-            color: Colors.black,
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          title: Text('Texto', style: TextStyle(color: Colors.black, fontFamily: "Comfortaa"),),
+          backgroundColor: Colors.white,
+          leading: InkWell(
+            child: Icon(
+              Icons.close,
+              size: 24,
+              color: Colors.black,
+            ),
+            onTap: _confirmExit,
           ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: <Widget>[
-          InkWell(
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(right: 10),
-              child: Text(
-                "¡Listo!",
-                style: TextStyle(
-                    fontFamily: "Comfortaa",
-                    fontSize: 16,
-                    color: Color(0xFF1E56A0),
-                    fontWeight: FontWeight.bold
+          actions: <Widget>[
+            InkWell(
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(right: 10),
+                child: Text(
+                  "¡Listo!",
+                  style: TextStyle(
+                      fontFamily: "Comfortaa",
+                      fontSize: 16,
+                      color: Color(0xFF1E56A0),
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ),
+              onTap: _submit,
             ),
-            onTap: _submit,
-          ),
-        ],
+          ],
+        ),
+        body: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+            form
+          ],
+        )
       ),
-      body: ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-          form
-        ],
-      )
     );
 
   }
+
+  /// Alert Dialog for confirm if User really wants to exit and discard the Text's Creation
+  Future <bool> _confirmExit() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: true, // user must not tap a button
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('¿Deseas salir?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Perderás el texto escrito.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('VOLVER', style: TextStyle(color: Color(0xFF163172)),),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            FlatButton(
+              child: Text('SALIR', style: TextStyle(color: Color(0xFF163172)),),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

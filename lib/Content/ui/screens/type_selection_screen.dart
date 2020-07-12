@@ -7,6 +7,7 @@ import 'package:lineclass/Content/ui/screens/youtube_video_creation_screen.dart'
 import 'package:lineclass/Content/ui/widgets/type_selection_button.dart';
 import 'package:lineclass/User/model/user.dart';
 
+import 'image_creation_screen.dart';
 import 'local_file_creation_screen.dart';
 
 class TypeSelectionScreen extends StatefulWidget {
@@ -24,8 +25,14 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
   @override
   Widget build(BuildContext context) {
 
+    ///For every option of content that the user can choose for adding we define:
+    ///1. Icon(showed knowing type). 2. Title(nameType). 3. Description(description).
+    ///Those parameters will be used by the widget called TypeSelectionButton to show every option
+
+    ///Define the keys on the maps that will be used in the Content Type Selection UI
     final List<String> keys = ['type', 'typeName', 'description'];
 
+    ///Define the values on the maps that will be used in the Content Type Selection UI
     final List<String> textValues = ['text', 'Texto', 'Solo escribe texto plano.'];
     final List<String> fileValues = ['localFile', 'Archivo', 'Adjunta un archivo desde tu celular.'];
     final List<String> imageValues = ['image', 'Imagen', 'Selecciona una foto desde tu galería.'];
@@ -33,6 +40,7 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
     final List<String> audioValues = ['audio', 'Audio', 'Graba un audio.'];
     final List<String> youtubeVideoValues = ['youtubeVideo', 'Video de Youtube', 'Comparte el enlace de un video.'];
 
+    ///Define the maps that will be used
     final Map <String, String> text = Map.fromIterables(keys, textValues);
     final Map <String, String> localFile = Map.fromIterables(keys, fileValues);
     final Map <String, String> image = Map.fromIterables(keys, imageValues);
@@ -40,15 +48,23 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
     final Map <String, String> audio = Map.fromIterables(keys, audioValues);
     final Map <String, String> youtubeVideo = Map.fromIterables(keys, youtubeVideoValues);
 
+    ///Define the allowed file extensions for _localFileCreation function
     final List <String> allowedFileExtensions = ["pdf", "svg", "doc", "docx", "txt", "xls", "xlsx", "ppt",
       "rtf", "csv", "zip", "rar", "html", "css", "apk"];
 
+    ///Creates the content
     Content content;
+
+    ///Get´s device's width of screen
     final double screenWidth = MediaQuery.of(context).size.width;
 
+    ///Define the function that allows to create text
     _textCreation () async {
 
+      ///Initialize the content
       content = Content(type: text["type"]);
+
+      ///Open the screen to create the text
       await Navigator.push(context, MaterialPageRoute(builder: (context) => TextCreationScreen(content: content, user: widget.user,))
 
       ).then((onValue){
@@ -63,18 +79,22 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
 
     }
 
+    ///Define the function that allows to select allowed files
     _localFileCreation () async {
 
+      ///Open the external screen to select the local file
       await FilePicker.getFile(type: FileType.custom, allowedExtensions: allowedFileExtensions).then(
               (file) async {
 
             if (file != null){
 
+              ///Initialize the content
               content = Content(type: "localFile", description: "", file: file);
 
+              ///Open the screen to name the content that contains the selected file
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LocalFileCreationScreen(content: content, user: widget.user)),
+                MaterialPageRoute(builder: (context) => LocalFileCreationScreen(content: content, user: widget.user))
               ).then((onValue){
 
                 if (onValue != null){
@@ -92,19 +112,22 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
 
     }
 
+    ///Define the function that allows to select images
     _imageCreation () async {
 
-
+      ///Open the external screen to select the image from gallery
       await FilePicker.getFile(type: FileType.image).then(
               (image) async {
 
             if (image != null){
 
+              ///Initialize the content
               content = Content(type: "image", description: "", file: image);
 
+              ///Open the screen to name the content that contains the selected file
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LocalFileCreationScreen(content: content, user: widget.user)),
+                MaterialPageRoute(builder: (context) => ImageCreationScreen(content: content, user: widget.user)),
               ).then((onValue){
 
                 if (onValue != null){
@@ -120,9 +143,13 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
 
     }
 
+    ///Define the function that allows to share a link
     _linkCreation () async {
 
+      ///Initialize the content
       content = Content(type: link["type"]);
+
+      ///Open the screen to paste a link
       await Navigator.push(context, MaterialPageRoute(builder: (context) => LinkCreationScreen(content: content, user: widget.user,))
 
       ).then((onValue){
@@ -137,9 +164,13 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
 
     }
 
+    ///Define the function that allows to share a Youtube Video
     _youtubeVideoCreation () async {
 
+      ///Initialize the content
       content = Content(type: youtubeVideo["type"]);
+
+      ///Open the screen to paste a youtube link
       await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => YoutubeVideoCreationScreen(content: content, user: widget.user,)),
