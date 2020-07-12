@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lineclass/Content/model/content.dart';
 import 'package:lineclass/Content/ui/screens/text_creation_screen.dart';
 import 'package:lineclass/Content/ui/screens/link_creation_screen.dart';
@@ -115,31 +118,35 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
     ///Define the function that allows to select images
     _imageCreation () async {
 
+      final picker = ImagePicker();
+
       ///Open the external screen to select the image from gallery
-      await FilePicker.getFile(type: FileType.image).then(
-              (image) async {
+        await picker.getImage(source: ImageSource.gallery,imageQuality: 10).then(
+                (pickedFile) async {
 
-            if (image != null){
+              if (image != null){
 
-              ///Initialize the content
-              content = Content(type: "image", description: "", file: image);
+                final File image = File(pickedFile.path);
 
-              ///Open the screen to name the content that contains the selected file
-              await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ImageCreationScreen(content: content, user: widget.user)),
-              ).then((onValue){
+                ///Initialize the content
+                content = Content(type: "image", description: "", file: image);
 
-                if (onValue != null){
-                  Navigator.pop(context, onValue);
-                }
+                ///Open the screen to name the content that contains the selected file
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ImageCreationScreen(content: content, user: widget.user)),
+                ).then((onValue){
 
-              });
+                  if (onValue != null){
+                    Navigator.pop(context, onValue);
+                  }
+
+                });
+              }
             }
-          }
-      ).catchError((onError){
-        print("$onError ERROR");
-      });
+        ).catchError((onError){
+          print("$onError ERROR");
+        });
 
     }
 

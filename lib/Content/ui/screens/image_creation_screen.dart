@@ -45,7 +45,7 @@ class _ImageCreationScreen extends State<ImageCreationScreen> {
         StorageUploadTask uploadTask = storageReference.putFile(widget.content.file);
 
         await uploadTask.onComplete;
-        print("125 local_file_creation File Uploaded");
+        print("125 local_file_creation Image Uploaded");
         storageReference.getDownloadURL().then((fileURL) {
           setState(() {
             _uploadedFileURL = fileURL.toString();
@@ -59,7 +59,7 @@ class _ImageCreationScreen extends State<ImageCreationScreen> {
           bloc.content.createContent(widget.content).whenComplete( () {
             Navigator.pop(context, widget.content);
             Navigator.pop(context, widget.content);
-            Toast.show("¡Archivo añadido correctamente!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+            Toast.show("¡Imagen añadida correctamente!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
           });
 
         });
@@ -97,7 +97,7 @@ class _ImageCreationScreen extends State<ImageCreationScreen> {
                   ),
                 ),
               ),
-              onTap: (){},
+              onTap: _submit,
             ),
           ],
         ),
