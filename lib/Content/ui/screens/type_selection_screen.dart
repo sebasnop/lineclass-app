@@ -40,6 +40,7 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
     final List<String> fileValues = ['localFile', 'Archivo', 'Adjunta un archivo desde tu celular.'];
     final List<String> imageValues = ['image', 'Imagen', 'Selecciona una foto desde tu galería.'];
     final List<String> linkValues = ['link', 'Página Web', 'Comparte el enlace de una web.'];
+    final List<String> photoValues = ['photo', 'Foto', 'Toma una foto.'];
     final List<String> audioValues = ['audio', 'Audio', 'Graba un audio.'];
     final List<String> youtubeVideoValues = ['youtubeVideo', 'Video de Youtube', 'Comparte el enlace de un video.'];
 
@@ -49,6 +50,7 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
     final Map <String, String> image = Map.fromIterables(keys, imageValues);
     final Map <String, String> link = Map.fromIterables(keys, linkValues);
     final Map <String, String> audio = Map.fromIterables(keys, audioValues);
+    final Map <String, String> photo = Map.fromIterables(keys, photoValues);
     final Map <String, String> youtubeVideo = Map.fromIterables(keys, youtubeVideoValues);
 
     ///Define the allowed file extensions for _localFileCreation function
@@ -111,6 +113,41 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
           }
       ).catchError((onError){
         print("92 type_selection_screen $onError ERROR");
+      });
+
+    }
+
+    ///Define the function that allows to take a camera picture
+    _photoCreation () async {
+
+      final picker = ImagePicker();
+
+      ///Open the camera
+      await picker.getImage(source: ImageSource.camera,imageQuality: 10).then(
+              (pickedFile) async {
+
+            if (image != null){
+
+              final File image = File(pickedFile.path);
+
+              ///Initialize the content
+              content = Content(type: "image", description: "", file: image);
+
+              ///Open the screen to name the content that contains the selected file
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ImageCreationScreen(content: content, user: widget.user)),
+              ).then((onValue){
+
+                if (onValue != null){
+                  Navigator.pop(context, onValue);
+                }
+
+              });
+            }
+          }
+      ).catchError((onError){
+        print("$onError ERROR");
       });
 
     }
@@ -218,8 +255,8 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
           children: <Widget>[
             TypeSelectionButton(type: text["type"], typeName: text["typeName"], description: text["description"], function: _textCreation,),
             TypeSelectionButton(type: localFile["type"], typeName: localFile["typeName"], description: localFile["description"], function: _localFileCreation,),
+            TypeSelectionButton(type: photo["type"], typeName: photo["typeName"], description: photo["description"], function: _photoCreation,),
             TypeSelectionButton(type: image["type"], typeName: image["typeName"], description: image["description"], function: _imageCreation,),
-            TypeSelectionButton(type: audio["type"], typeName: audio["typeName"], description: audio["description"], function: _textCreation,),
             TypeSelectionButton(type: link["type"], typeName: link["typeName"], description: link["description"], function: _linkCreation,),
             TypeSelectionButton(type: youtubeVideo["type"], typeName: youtubeVideo["typeName"],
                 description: youtubeVideo["description"], function: _youtubeVideoCreation)

@@ -171,10 +171,10 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
           bloc.publication.createPublication(publication).whenComplete( () {
 
-            Navigator.pop(context);
-            Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.pop(context);
 
-            Toast.show("¡Publicación hecha!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
+              Toast.show("¡Publicación hecha!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
 
           });
 

@@ -39,6 +39,8 @@ class TypeSelectionButton extends StatelessWidget {
       break;
       case "drive_file" : icon = Icon(Icons.cloud_download, color: iconColor, size: iconSize,);
       break;
+      case "photo" : icon = Icon(Icons.camera_alt, color: iconColor, size: iconSize,);
+      break;
       case "audio" : icon = Icon(Icons.keyboard_voice, color: iconColor, size: iconSize,);
       break;
       default: icon = Icon(Icons.all_inclusive, color: iconColor, size: iconSize,);

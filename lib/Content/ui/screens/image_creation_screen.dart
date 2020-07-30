@@ -45,7 +45,7 @@ class _ImageCreationScreen extends State<ImageCreationScreen> {
         StorageUploadTask uploadTask = storageReference.putFile(widget.content.file);
 
         await uploadTask.onComplete;
-        print("125 local_file_creation Image Uploaded");
+        print("48 local_file_creation Image Uploaded");
         storageReference.getDownloadURL().then((fileURL) {
           setState(() {
             _uploadedFileURL = fileURL.toString();

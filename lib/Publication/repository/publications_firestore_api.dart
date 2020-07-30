@@ -8,7 +8,7 @@ class PublicationsFirestoreAPI {
   final publications = "publications";
   final Firestore _db = Firestore.instance;
 
-  // Crear un curso
+  // Crear una publicación
   Future <void> createPublication(Publication publication) async {
 
     CollectionReference refPublications = _db.collection(publications);

@@ -41,7 +41,6 @@ class UsersFirestoreAPI {
       "secondLastName": secondLastName,
       "nickname": nickname,
       "lastSignIn": Timestamp.now(),
-      //"myCourses": user.myCourses,
     },
         merge: true
     );
