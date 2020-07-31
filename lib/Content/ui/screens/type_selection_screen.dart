@@ -143,7 +143,10 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
                   Navigator.pop(context, onValue);
                 }
 
+              }).catchError((onError){
+                print("$onError ERROR");
               });
+
             }
           }
       ).catchError((onError){
@@ -178,7 +181,10 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
                     Navigator.pop(context, onValue);
                   }
 
+                }).catchError((onError){
+                  print("$onError ERROR");
                 });
+
               }
             }
         ).catchError((onError){

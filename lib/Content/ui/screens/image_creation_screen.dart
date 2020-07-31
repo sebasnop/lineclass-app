@@ -27,8 +27,7 @@ class _ImageCreationScreen extends State<ImageCreationScreen> {
   Widget build(BuildContext context) {
 
     AppBloc bloc = BlocProvider.of <AppBloc> (context);
-    String imageName = widget.content.file.path.split("/").last;
-
+    String imageName = "Imagen ${widget.content.file.lastAccessedSync().toString().split(".").first ?? ""}";
 
     ///Get´s device's width of screen
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -40,7 +39,7 @@ class _ImageCreationScreen extends State<ImageCreationScreen> {
         );
 
         StorageReference storageReference = FirebaseStorage.instance.ref()
-            .child("${widget.user.uid}/local_files/${imageName.trim()}-${widget.content.file.lastAccessedSync() ?? ""}");
+            .child("${widget.user.uid}/local_files/$imageName");
 
         StorageUploadTask uploadTask = storageReference.putFile(widget.content.file);
 

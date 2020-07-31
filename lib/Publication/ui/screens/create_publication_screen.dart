@@ -33,7 +33,8 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
   /// We create a state for control the Form
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   /// And a Contents List
-  List <Content> contents = [];
+  List <Content> _contents = [];
+  List <Content> _contentsState = [];
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,13 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       ) ?? "";
 
       if(selectedContent != "") {
-        contents.add(selectedContent);
+
+        _contents.add(selectedContent);
+
+        setState(() {
+          _contentsState = _contents;
+        });
+
       }
 
     }
@@ -232,7 +239,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
             height: screenHeight*0.4,
             child: ListView(
               shrinkWrap: true,
-              children: contentsList(contents)
+              children: contentsList(_contentsState)
               ),
           ),
           ],
