@@ -3,7 +3,6 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:lineclass/Content/model/content.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/screens/joined_course_screen.dart';
 import 'package:lineclass/User/model/user.dart';
@@ -47,6 +46,51 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
           color: Colors.black87,
           fontSize: 23,
           fontFamily: "Comfortaa",
+        ),
+      ),
+    );
+
+    Widget form = Container(
+      child: FormBuilder(
+        key: _fbKey,
+        child: Container(
+          margin: EdgeInsets.only(
+              top: paddingField
+          ),
+          padding: EdgeInsets.only(
+            top: 20, bottom: 20, right: 15,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: <BoxShadow>[ BoxShadow(color: Colors.black12,blurRadius: 1, offset: Offset(0,0))],
+            //border: Border.all(color: Colors.black12, width: 0.4)
+          ),
+          child: FormBuilderTextField(
+            keyboardType: TextInputType.text,
+            autofocus: true,
+            attribute: "code",
+            cursorColor: Color(0xFF666666),
+            style: TextStyle(
+                fontFamily: "Comfortaa"
+            ),
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.vpn_key, color: Colors.black38,),
+              alignLabelWithHint: true,
+              hintText: " Escribe el código :D",
+              helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
+              enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
+              focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
+              errorBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
+              errorStyle: TextStyle(
+                  fontFamily: "Comfortaa",
+                  color: Colors.black38
+              ),
+            ),
+            validators: [
+              FormBuilderValidators.required(errorText: "Escribe un código"),
+            ],
+          ),
         ),
       ),
     );
@@ -130,58 +174,13 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
 
     };
 
-    Widget form = Container(
-      child: FormBuilder(
-          key: _fbKey,
-          child: Container(
-              margin: EdgeInsets.only(
-                  top: paddingField
-              ),
-              padding: EdgeInsets.only(
-                top: 20, bottom: 20, right: 15,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: <BoxShadow>[ BoxShadow(color: Colors.black12,blurRadius: 1)],
-                //border: Border.all(color: Colors.black12, width: 0.4)
-              ),
-              child: FormBuilderTextField(
-                keyboardType: TextInputType.text,
-                autofocus: true,
-                attribute: "code",
-                cursorColor: Color(0xFF666666),
-                style: TextStyle(
-                    fontFamily: "Comfortaa"
-                ),
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.vpn_key, color: Colors.black38,),
-                    alignLabelWithHint: true,
-                    hintText: " Escribe el código :D",
-                    helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-                    errorBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-                    errorStyle: TextStyle(
-                      fontFamily: "Comfortaa",
-                      color: Colors.black38
-                    ),
-                ),
-                validators: [
-                  FormBuilderValidators.required(errorText: "Escribe un código"),
-                ],
-              ),
-              ),
-          ),
-        );
-
     void _exit (){
       Navigator.pop(context);
     }
 
     return Scaffold(
       appBar: OwnAppbar(title: "Ingresar a Curso", actionName: "Entrar", backFunction: _exit,
-          actionFunction: submit),
+          actionFunction: submit, ),
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       body: ListView(

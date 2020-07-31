@@ -27,7 +27,7 @@ class OwnAppbar extends StatelessWidget  with PreferredSizeWidget {
           ),
           onTap: backFunction ?? (){}
       ),
-      actions: <Widget>[
+      actions: actions ?? <Widget>[
         InkWell(
           child: Container(
             alignment: Alignment.center,
@@ -50,4 +50,5 @@ class OwnAppbar extends StatelessWidget  with PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
+
 }

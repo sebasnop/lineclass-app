@@ -14,6 +14,7 @@ import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
 import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/gray_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
+import 'package:lineclass/widgets/own_appbar.dart';
 import 'package:lineclass/widgets/title_input.dart';
 import 'package:toast/toast.dart';
 
@@ -200,37 +201,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Color(0xFFf6f6f6),
-          elevation: 2,
-          title: Text("Agregar Publicación", style: TextStyle(fontFamily: "Comfortaa", fontSize: 16, color: Colors.black,)),
-          leading: InkWell(
-            child: Icon(
-              Icons.close,
-              size: 24,
-              color: Colors.black,
-            ),
-            onTap: _confirmExit
-          ),
-          actions: <Widget>[
-            InkWell(
-              child: Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(right: 10),
-                  child: Text(
-                    "Publicar",
-                    style: TextStyle(
-                        fontFamily: "Comfortaa",
-                        fontSize: 16,
-                        color: Color(0xFF1E56A0),
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-              ),
-              onTap: _submit,
-            ),
-          ],
-        ),
+        appBar: OwnAppbar(title: "Agregar Publicación", backFunction: _confirmExit, actionName: "Publicar",actionFunction: _submit,),
         body: Column(
           children: <Widget>[
             form,
