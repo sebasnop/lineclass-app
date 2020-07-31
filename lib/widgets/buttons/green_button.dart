@@ -44,8 +44,8 @@ class _GreenButtonState extends State<GreenButton> {
               borderRadius: BorderRadius.circular(12),
               gradient: LinearGradient(
                   colors: [
-                    Color(0xFF36C186),
-                    Color(0xFF158A8C)
+                          Color(0xFF1E56A0),
+                          Color(0xFF4EC2E0)
                   ]
               ),
               boxShadow: <BoxShadow>[

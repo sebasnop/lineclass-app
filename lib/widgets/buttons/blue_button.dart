@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 
+// ignore: must_be_immutable
 class BlueButton extends StatelessWidget {
 
   final String buttonText;
@@ -38,7 +39,7 @@ class BlueButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(30.0),
               gradient: LinearGradient(
                   colors: [
-                    Color(0xFF49CCB9),
+                    Color(0xFF1E56A0),
                     Color(0xFF4EC2E0)
                   ]
               )

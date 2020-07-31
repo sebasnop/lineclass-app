@@ -3,16 +3,19 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:lineclass/Content/model/content.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Course/ui/screens/joined_course_screen.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
-import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/blue_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
-import 'package:lineclass/widgets/own_back_button.dart';
+import 'package:lineclass/widgets/own_appbar.dart';
 import 'package:toast/toast.dart';
 
 class JoinCourseScreen extends StatefulWidget {
+
+  /// This screen is for a User that wants to join to a Course
+  ///
 
   final User user;
 
@@ -32,21 +35,17 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
     AppBloc bloc = BlocProvider.of <AppBloc> (context);
 
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double backButtonWidth = screenWidth*0.2;
 
     double paddingField = screenWidth*0.09;
 
     Widget text = Container(
-      margin: EdgeInsets.only(top: screenHeight*0.2),
-      alignment: Alignment.centerLeft,
-      padding: EdgeInsets.only(left: paddingField, right: paddingField),
+      margin: EdgeInsets.only(top: paddingField*0.5),
       child: Text(
-        "El código del curso es",
+        "El código del curso es...",
         textAlign: TextAlign.left,
         style: TextStyle(
-          color: Colors.black54,
-          fontSize: 40,
+          color: Colors.black87,
+          fontSize: 23,
           fontFamily: "Comfortaa",
         ),
       ),
@@ -106,13 +105,9 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
                   } else {
 
                     List <DocumentReference> currentMembers;
-
                     currentMembers = course.members;
-
                     currentMembers.add(userReference);
-
                     course.members = currentMembers;
-
                     bloc.course.updateCourseMembers(course);
 
                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
@@ -121,9 +116,7 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
                     Toast.show("¡Curso Añadido con éxito!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
 
                   }
-
                 }
-
               }
           );
 
@@ -132,7 +125,7 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
         }
 
       } else if (!internetConexion){
-        Toast.show("Verifica tu conexión a internet :)", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
+        Toast.show("Verifica tu conexión a internet :(", context, duration: Toast.LENGTH_LONG, gravity:  Toast.CENTER);
       }
 
     };
@@ -140,67 +133,60 @@ class _JoinCourseScreenState extends State<JoinCourseScreen> {
     Widget form = Container(
       child: FormBuilder(
           key: _fbKey,
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(
-                    left: paddingField,
-                    right: paddingField,
-                    bottom: paddingField*1,
-                    top: paddingField*5
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: <BoxShadow>[ BoxShadow(color: Colors.black12,blurRadius: 2)],
-                  border: Border.all(color: Colors.black54, width: 0.4)
-                ),
-                child: FormBuilderTextField(
-                  keyboardType: TextInputType.text,
-                  autofocus: true,
-                  attribute: "code",
-                  cursorColor: Color(0xff686868),
-                  style: TextStyle(
-                      fontFamily: "Comfortaa"
-                  ),
-                  decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.code),
-                      alignLabelWithHint: true,
-                      hintText: "",
-                      labelText: "Ingresa el código : )",
-                      helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
-                      labelStyle: TextStyle(color:Colors.black38),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
-                      errorStyle: TextStyle(
-                          fontFamily: "Comfortaa"
-                      ),
-                      contentPadding: EdgeInsets.only(
-                          left: paddingField/2,
-                          right: paddingField/2
-                      )
-                  ),
-                  validators: [
-                    FormBuilderValidators.required(errorText: "Escribe un código"),
-                  ],
-                ),
+          child: Container(
+              margin: EdgeInsets.only(
+                  top: paddingField
               ),
-              BlueButton(
-                buttonText: "¡Entrar!",
-                topMargin: 0,
-                bottomMargin: 0,
-                onPressed: submit
-                )
-            ],
+              padding: EdgeInsets.only(
+                top: 20, bottom: 20, right: 15,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: <BoxShadow>[ BoxShadow(color: Colors.black12,blurRadius: 1)],
+                //border: Border.all(color: Colors.black12, width: 0.4)
+              ),
+              child: FormBuilderTextField(
+                keyboardType: TextInputType.text,
+                autofocus: true,
+                attribute: "code",
+                cursorColor: Color(0xFF666666),
+                style: TextStyle(
+                    fontFamily: "Comfortaa"
+                ),
+                decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.vpn_key, color: Colors.black38,),
+                    alignLabelWithHint: true,
+                    hintText: " Escribe el código :D",
+                    helperStyle: TextStyle(color:Colors.black38, fontFamily: "Comfortaa",),
+                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
+                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
+                    errorBorder: UnderlineInputBorder(borderSide: BorderSide (color: Colors.transparent)),
+                    errorStyle: TextStyle(
+                      fontFamily: "Comfortaa",
+                      color: Colors.black38
+                    ),
+                ),
+                validators: [
+                  FormBuilderValidators.required(errorText: "Escribe un código"),
+                ],
+              ),
+              ),
           ),
-        )
-    );
+        );
+
+    void _exit (){
+      Navigator.pop(context);
+    }
 
     return Scaffold(
+      appBar: OwnAppbar(title: "Ingresar a Curso", actionName: "Entrar", backFunction: _exit,
+          actionFunction: submit),
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Colors.white,
       body: ListView(
-        padding: EdgeInsets.only(bottom:40),
+        padding: EdgeInsets.all(paddingField),
         children: <Widget>[
-          OwnBackButton(width: backButtonWidth, height: backButtonWidth, backText: "Volver"),
           text,
           form
         ],
