@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Content/model/content.dart';
-import 'package:lineclass/Content/ui/widgets/type_selection_button.dart';
+import 'package:lineclass/Content/ui/widgets/content_type_button.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
@@ -24,6 +24,8 @@ class LocalFileCreationScreen extends StatefulWidget {
 
 class _LocalFileCreationScreen extends State<LocalFileCreationScreen> {
 
+  String successMessage = "¡Archivo añadido correctamente!";
+  String errorMessage = "Carga fallida :c\nPrueba más tarde.";
   String _uploadedFileURL;
 
   @override
@@ -85,12 +87,19 @@ class _LocalFileCreationScreen extends State<LocalFileCreationScreen> {
           widget.content.urlFile = _uploadedFileURL;
           widget.content.title = title;
 
-          print (widget.content.urlFile);
+          bloc.content.createContentReference(widget.content).then((documentReference) {
 
-          bloc.content.createContent(widget.content).whenComplete( () {
+            widget.content.documentReference = documentReference;
+            widget.content.id = documentReference.documentID;
+            bloc.content.setContentId(documentReference);
+
             Navigator.pop(context, widget.content);
             Navigator.pop(context, widget.content);
-            Toast.show("¡Archivo añadido correctamente!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+            Toast.show(successMessage, context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+
+          }).catchError((onError){
+            print("$onError ERROR on uploadFile");
+            Toast.show(errorMessage, context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
           });
 
         });
@@ -139,7 +148,7 @@ class _LocalFileCreationScreen extends State<LocalFileCreationScreen> {
         body: Column(
           children: <Widget>[
             form,
-            TypeSelectionButton(function: (){}, type: "localFile", typeName: fileName, description: fileDescription,)
+            ContentTypeButton(function: (){}, type: "localFile", typeName: fileName, description: fileDescription,)
           ],
         ),
       ),

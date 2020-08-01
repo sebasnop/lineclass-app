@@ -279,7 +279,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
 
                                     DocumentReference courseOwner = bloc.user.getUserReference(widget.user.uid);
 
-                                    List <DocumentReference> guaco = [];
+                                    List <DocumentReference> emptyMembersList = [];
 
                                     bloc.course.createCourse(Course(
                                       id: "",
@@ -289,7 +289,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                                       thematic: courseThematic,
                                       creationDate: Timestamp.now(),
                                       courseOwner: courseOwner,
-                                      members: guaco
+                                      members: emptyMembersList
                                     )).whenComplete( () {
 
                                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>

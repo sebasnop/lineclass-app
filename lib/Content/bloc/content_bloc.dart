@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Content/model/content.dart';
@@ -18,7 +19,8 @@ class ContentBloc implements Bloc{
   /// FIREBASE FIRESTORE
   final _contentsFirestoreRepository = ContentsFirestoreRepository();
 
-  Future <void> createContent(Content content) => _contentsFirestoreRepository.createContent(content);
+  Future <DocumentReference> createContentReference(Content content) => _contentsFirestoreRepository.createContentReference(content);
+  Future <void> setContentId(DocumentReference contentReference) => _contentsFirestoreRepository.setContentId(contentReference);
 
   @override
   void dispose() {

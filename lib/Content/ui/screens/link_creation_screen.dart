@@ -11,6 +11,9 @@ import 'package:toast/toast.dart';
 // ignore: must_be_immutable
 class LinkCreationScreen extends StatelessWidget {
 
+  String successMessage = "¡Web añadida!";
+  String errorMessage = "Carga fallida :c\nPrueba más tarde.";
+
   Content content;
   final User user;
 
@@ -97,13 +100,18 @@ class LinkCreationScreen extends StatelessWidget {
           content.title = title;
           content.description = link;
 
-          bloc.content.createContent(content).whenComplete( () {
+          bloc.content.createContentReference(content).then((documentReference) {
+
+            content.documentReference = documentReference;
+            content.id = documentReference.documentID;
+            bloc.content.setContentId(documentReference);
+
             Navigator.pop(context, content);
-            Toast.show("¡Web añadida!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
-          }
-          ).catchError((onError){
+            Toast.show(successMessage, context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+
+          }).catchError((onError){
             print("$onError ERROR on uploadFile");
-            Toast.show("Carga fallida :c\nPrueba más tarde.", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+            Toast.show(errorMessage, context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
           });
 
         } else {

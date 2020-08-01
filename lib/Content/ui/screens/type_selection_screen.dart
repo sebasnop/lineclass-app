@@ -7,7 +7,7 @@ import 'package:lineclass/Content/model/content.dart';
 import 'package:lineclass/Content/ui/screens/text_creation_screen.dart';
 import 'package:lineclass/Content/ui/screens/link_creation_screen.dart';
 import 'package:lineclass/Content/ui/screens/youtube_video_creation_screen.dart';
-import 'package:lineclass/Content/ui/widgets/type_selection_button.dart';
+import 'package:lineclass/Content/ui/widgets/content_type_button.dart';
 import 'package:lineclass/User/model/user.dart';
 
 import 'image_creation_screen.dart';
@@ -259,12 +259,12 @@ class _TypeSelectionScreen extends State<TypeSelectionScreen> {
         child: ListView(
           padding: EdgeInsets.only(bottom:8, top:8),
           children: <Widget>[
-            TypeSelectionButton(type: text["type"], typeName: text["typeName"], description: text["description"], function: _textCreation,),
-            TypeSelectionButton(type: localFile["type"], typeName: localFile["typeName"], description: localFile["description"], function: _localFileCreation,),
-            TypeSelectionButton(type: photo["type"], typeName: photo["typeName"], description: photo["description"], function: _photoCreation,),
-            TypeSelectionButton(type: image["type"], typeName: image["typeName"], description: image["description"], function: _imageCreation,),
-            TypeSelectionButton(type: link["type"], typeName: link["typeName"], description: link["description"], function: _linkCreation,),
-            TypeSelectionButton(type: youtubeVideo["type"], typeName: youtubeVideo["typeName"],
+            ContentTypeButton(type: text["type"], typeName: text["typeName"], description: text["description"], function: _textCreation,),
+            ContentTypeButton(type: localFile["type"], typeName: localFile["typeName"], description: localFile["description"], function: _localFileCreation,),
+            ContentTypeButton(type: photo["type"], typeName: photo["typeName"], description: photo["description"], function: _photoCreation,),
+            ContentTypeButton(type: image["type"], typeName: image["typeName"], description: image["description"], function: _imageCreation,),
+            ContentTypeButton(type: link["type"], typeName: link["typeName"], description: link["description"], function: _linkCreation,),
+            ContentTypeButton(type: youtubeVideo["type"], typeName: youtubeVideo["typeName"],
                 description: youtubeVideo["description"], function: _youtubeVideoCreation)
           ],
         ),

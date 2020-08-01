@@ -21,6 +21,9 @@ class ImageCreationScreen extends StatefulWidget {
 
 class _ImageCreationScreen extends State<ImageCreationScreen> {
 
+  String successMessage = "¡Imagen añadida correctamente!";
+  String errorMessage = "Carga fallida :c\nPrueba más tarde.";
+
   String _uploadedFileURL;
 
   @override
@@ -53,12 +56,19 @@ class _ImageCreationScreen extends State<ImageCreationScreen> {
           widget.content.urlFile = _uploadedFileURL;
           widget.content.title = imageName;
 
-          print (widget.content.urlFile);
+          bloc.content.createContentReference(widget.content).then((documentReference) {
 
-          bloc.content.createContent(widget.content).whenComplete( () {
+            widget.content.documentReference = documentReference;
+            widget.content.id = documentReference.documentID;
+            bloc.content.setContentId(documentReference);
+
             Navigator.pop(context, widget.content);
             Navigator.pop(context, widget.content);
-            Toast.show("¡Imagen añadida correctamente!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+            Toast.show(successMessage, context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+
+          }).catchError((onError){
+            print("$onError ERROR on uploadFile");
+            Toast.show(errorMessage, context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
           });
 
         });

@@ -23,6 +23,10 @@ class TextCreationScreen extends StatefulWidget {
 }
 
 class _TextCreationScreenState extends State<TextCreationScreen> {
+
+  String successMessage = "¡Texto añadido!";
+  String errorMessage = "Carga fallida :c\nPrueba más tarde.";
+
   @override
   Widget build(BuildContext context) {
 
@@ -102,13 +106,18 @@ class _TextCreationScreenState extends State<TextCreationScreen> {
           widget.content.title = title;
           widget.content.description = text;
 
-          bloc.content.createContent(widget.content).whenComplete( () {
+          bloc.content.createContentReference(widget.content).then((documentReference) {
+
+            widget.content.documentReference = documentReference;
+            widget.content.id = documentReference.documentID;
+            bloc.content.setContentId(documentReference);
+
             Navigator.pop(context, widget.content);
-            Toast.show("¡Texto añadido!", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
-          }
-          ).catchError((onError){
+            Toast.show(successMessage, context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+
+          }).catchError((onError){
             print("$onError ERROR on uploadFile");
-            Toast.show("Carga fallida :c\nPrueba más tarde.", context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+            Toast.show(errorMessage, context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
           });
 
         } else {

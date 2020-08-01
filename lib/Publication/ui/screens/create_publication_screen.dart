@@ -6,16 +6,16 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:lineclass/Content/model/content.dart';
 import 'package:lineclass/Content/ui/screens/type_selection_screen.dart';
-import 'package:lineclass/Content/ui/widgets/create_content_card.dart';
 import 'package:lineclass/Course/model/course.dart';
 import 'package:lineclass/Publication/model/publication.dart';
 import 'package:lineclass/Publication/ui/widgets/description_input_publication.dart';
 import 'package:lineclass/User/model/user.dart';
 import 'package:lineclass/bloc.dart';
-import 'file:///C:/Users/Programacion/Documents/lineclass/lib/widgets/buttons/gray_button.dart';
+import 'package:lineclass/widgets/buttons/gray_button.dart';
 import 'package:lineclass/widgets/loading_screen.dart';
 import 'package:lineclass/widgets/own_appbar.dart';
 import 'package:lineclass/widgets/title_input.dart';
+import 'package:lineclass/Content/ui/widgets/content_type_button.dart';
 import 'package:toast/toast.dart';
 
 class CreatePublicationScreen extends StatefulWidget {
@@ -114,34 +114,11 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
       List<Widget> contentsInsideList = [];
 
-      contentsInsideList.add(Divider());
+      contentsInsideList.add(Divider(thickness: 0.9, height: 1,));
 
         contents.forEach((content) {
-
-          IconData icon;
-
-          switch(content.type){
-            case "youtubeVideo" : icon = Icons.ondemand_video;
-              break;
-            case "localFile" : icon = Icons.description;
-              break;
-            case "image" : icon = Icons.burst_mode;
-              break;
-            case "link" : icon = Icons.share;
-              break;
-            case "text" : icon = Icons.title;
-              break;
-            case "drive_file" : icon = Icons.cloud_download;
-              break;
-            case "audio" : icon = Icons.keyboard_voice;
-              break;
-            default: icon = Icons.all_inclusive;
-          }
-
-          Widget oneContent = CreateContentCard(screenWidth: screenWidth, content: content, iconData: icon,);
+          Widget oneContent = ContentTypeButton(function: (){}, type: content.type, typeName: content.title, description: "",);
           contentsInsideList.add(oneContent);
-          contentsInsideList.add(Divider());
-
         });
 
       return contentsInsideList;

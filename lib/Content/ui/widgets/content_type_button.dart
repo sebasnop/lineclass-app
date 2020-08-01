@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lineclass/widgets/cards/two_line_list_card.dart';
 
-class TypeSelectionButton extends StatelessWidget {
+class ContentTypeButton extends StatelessWidget {
 
   final VoidCallback function;
   final String typeName;
   final String description;
   final String type;
 
-  const TypeSelectionButton({Key key, @required this.function, this.typeName, this.type, this.description}) : super(key: key);
+  const ContentTypeButton({Key key, @required this.function, this.typeName, this.type, this.description}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,6 @@ class TypeSelectionButton extends StatelessWidget {
       case "link" : icon = Icon(Icons.share, color: iconColor, size: iconSize,);
       break;
       case "text" : icon = Icon(Icons.title, color: iconColor, size: iconSize,);
-      break;
-      case "drive_file" : icon = Icon(Icons.cloud_download, color: iconColor, size: iconSize,);
       break;
       case "photo" : icon = Icon(Icons.camera_alt, color: iconColor, size: iconSize,);
       break;

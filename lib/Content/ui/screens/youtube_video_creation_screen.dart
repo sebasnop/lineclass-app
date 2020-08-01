@@ -11,6 +11,9 @@ import 'package:youtube_video_validator/youtube_video_validator.dart';
 // ignore: must_be_immutable
 class YoutubeVideoCreationScreen extends StatelessWidget {
 
+  String successMessage = "¡Video añadido!";
+  String errorMessage = "Carga fallida :c\nPrueba más tarde.";
+
   Content content;
   final User user;
 
@@ -102,16 +105,18 @@ class YoutubeVideoCreationScreen extends StatelessWidget {
             content.title = "Video de Youtube";
             content.description = link;
 
-            bloc.content.createContent(content).whenComplete(() {
+            bloc.content.createContentReference(content).then((documentReference) {
+
+              content.documentReference = documentReference;
+              content.id = documentReference.documentID;
+              bloc.content.setContentId(documentReference);
+
               Navigator.pop(context, content);
-              Toast.show(
-                  "¡Video añadido!", context, duration: Toast.LENGTH_LONG,
-                  gravity: Toast.TOP);
-            }
-            ).catchError((onError) {
+              Toast.show(successMessage, context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
+
+            }).catchError((onError){
               print("$onError ERROR on uploadFile");
-              Toast.show("Carga fallida :c\nPrueba más tarde.", context,
-                  duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+              Toast.show(errorMessage, context, duration: Toast.LENGTH_LONG, gravity:  Toast.TOP);
             });
 
           } else {
