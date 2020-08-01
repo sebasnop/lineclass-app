@@ -33,9 +33,13 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
 
   /// We create a state for control the Form
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+
   /// And a Contents List
   List <Content> _contents = [];
   List <Content> _contentsState = [];
+
+  List <DocumentReference> _contentsReferences = [];
+  List <DocumentReference> _contentsReferencesState = [];
 
   @override
   Widget build(BuildContext context) {
@@ -81,9 +85,11 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       if(selectedContent != "") {
 
         _contents.add(selectedContent);
+        _contentsReferences.add(selectedContent.documentReference);
 
         setState(() {
           _contentsState = _contents;
+          _contentsReferencesState = _contentsReferences;
         });
 
       }
@@ -103,11 +109,14 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       iconData: Icons.add,
     );
 
-    Widget headerContents = Row(
-      children: <Widget>[
-        contentsTitle,
-        addContent
-      ],
+    Widget headerContents = Container(
+      margin: EdgeInsets.only(bottom: 20),
+        child: Row(
+          children: <Widget>[
+            contentsTitle,
+            addContent
+          ],
+        )
     );
 
     List<Widget> contentsList (List <Content> contents) {
@@ -117,7 +126,7 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
       contentsInsideList.add(Divider(thickness: 0.9, height: 1,));
 
         contents.forEach((content) {
-          Widget oneContent = ContentTypeButton(function: (){}, type: content.type, typeName: content.title, description: "",);
+          Widget oneContent = ContentTypeButton(function: (){}, type: content.type, typeName: content.title);
           contentsInsideList.add(oneContent);
         });
 
@@ -151,7 +160,8 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
             description: description,
             course: courseReference,
             publisher: userReference,
-            publicationDate: publicationDate
+            publicationDate: publicationDate,
+            contents: _contentsReferencesState
           );
 
           bloc.publication.createPublication(publication).whenComplete( () {

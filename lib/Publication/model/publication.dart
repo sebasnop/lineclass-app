@@ -9,15 +9,17 @@ class Publication {
   DocumentReference publisher;
   DocumentReference course;
   Timestamp publicationDate;
+  List <DocumentReference> contents;
 
   Publication({
     Key key,
     @required this.id,
     @required this.title,
-    @required this.description,
+    this.description,
     @required this.publisher,
     @required this.course,
-    @required this.publicationDate
+    @required this.publicationDate,
+    this.contents
   });
 
 }

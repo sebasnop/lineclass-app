@@ -19,7 +19,8 @@ class PublicationsFirestoreAPI {
       'description': publication.description,
       'publisher': publication.publisher,
       'course': publication.course,
-      'publicationDate': publication.publicationDate
+      'publicationDate': publication.publicationDate,
+      'contents': publication.contents
     }).then( (DocumentReference dr) {
 
       String getId = dr.documentID;
